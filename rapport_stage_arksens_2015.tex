@@ -1,24 +1,48 @@
-\documentclass[a4paper,10pt]{report}
+\documentclass[a4paper,10pt, twoside]{report}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{titlesec, blindtext, color}
+\usepackage{setspace}
 
 \usepackage[hidelinks]{hyperref}
 
 \usepackage{float}
+\usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage[top=2cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
 
 \usepackage[french]{babel}
 
-\begin{document}
+\pagestyle{fancy}
+\setlength{\headheight}{49pt}
+\setlength{\footskip}{17pt}
+% header
+\fancyhead[R]{\includegraphics[width=5cm]{logo_sciences.png}}
+\fancyhead[L]{\includegraphics[width=5cm]{logo_arksens.png}}
 
+% footer
+\fancyfoot[C]{Rapport de stage --- Master 2 FSIL\\Ludovic Lubeigt}
+\fancyfoot[RO, LE] {\thepage}
+
+\definecolor{gray73}{gray}{0.73}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}
+{\thechapter\hsp\textcolor{gray73}{|}\hsp}{0pt}{\Huge\bfseries}
+
+\graphicspath{{images/}}
+
+\begin{document}
+\begin{spacing}{1.2}
+ 
 % Page de garde
 \begin{titlepage}
+  \newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+  
   \begin{center}
-    \includegraphics[width=9cm]{images/logo_sciences.png}\\[2cm]
+    \includegraphics[width=9cm]{logo_sciences.png}\\[2cm]
     
     \textsc{\bfseries\Large Rapport de stage\\[0.3cm]
-    Master 2 -- Fiabilit\'e et S\'ecurit\'e et
+    Master 2 -- Fiabilit\'e, S\'ecurit\'e et
     Int\'egration Logicielle\\[0.3cm]
         Parcours Fiabilit\'e et S\'ecurit\'e Informatique}\\[0.3cm]
 
@@ -34,11 +58,11 @@
     \begin{figure}[H]
       \begin{minipage}[t]{8cm}
         \centering
-        \includegraphics[scale=0.50]{images/logo_adhara.png}
+        \includegraphics[scale=0.50]{logo_adhara.png}
       \end{minipage}
       \begin{minipage}[t]{8cm}
         \centering
-        \includegraphics[width=7cm]{images/logo_arksens.png}
+        \includegraphics[width=7cm]{logo_arksens.png}
       \end{minipage}\\[1.3cm]
     \end{figure}
       
@@ -64,6 +88,74 @@
 \end{titlepage}
 
 \begin{abstract}
+
+Ce document pr\'esente le travail r\'ealis\'e lors du stage de fin d'\'etude
+\`a Arksens Ltd. \`a l'\^Ile Maurice entre le premier avril 2015 et le 25
+septembre 2015 dans le cadre du Master 2 Fiabilit\'e et S\'ecurit\'e
+Informatique \`a l'Universit\'e d'Aix-Marseille.
+
+Le rapport est d\'ecoup\'e en deux parties. Une premi\`ere servant de rapport
+de synth\`ese et pr\'esentant l'entreprise, le sujet de stage, le
+travail effectu\'e de m\^eme que l'environnement de travail et les \'eventuelles
+difficult\'es rencontr\'ees.
+La seconde partie apporte un aspect technique au rapport et permet de 
+pr\'esenter le travail r\'ealis\'e plus en d\'etail.
 \end{abstract}
 
+\newpage
+\hfill
+\section*{Remerciements}
+Je tiens tout d'abord \`a remercier l'\'equipe p\'edagogique de la facult\'e des
+sciences de l'universit\'e d'Aix-Marseille qui m'a permis d'avoir les
+connaissances et les aptitudes n\'ecessaires au bon d\'eroulement de ce stage.
+
+Je remercie \'egalement la soci\'et\'e Arksens pour m'avoir permis de faire mon
+stage chez eux. Tout particuli\`erement, je remercie David Terranova et Ga\"etan
+van Diemen qui m'ont accueilli \`a l'\^Ile Maurice et suivi au jour le jour
+durant ces six mois. Je n'oublie \'evidemment pas Micha\"el Colaone et le reste
+de l'\'equipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
+
+Enfin je remercie toute les personnes que je peux oublier mais qui m'ont aid\'e,
+dans l'\'ecriture de ce rapport, dans le cadre du stage ou qui m'ont tout
+simplement fait d\'ecouvrir l'\^Ile Maurice.
+
+Je tiens tout particuli\`erement \`a remercier Sir Daniel Brands of House Brands,
+the first of His Name, King of the Dutch, King of the flatlands and the first
+Men, Breaker of Cars and Father of the Bikers.
+
+\hfill
+\tableofcontents
+\thispagestyle{fancy}
+
+\chapter*{Introduction}
+\thispagestyle{fancy}
+Dans le cadre du Master professionnel \textit{Fiabilit\'e, S\'ecurit\'e et
+Int\'egration logicielle}, parcours \textit{Fiabilit\'e et S\'ecurit\'e
+Informatique} \`a l'\textit{Universit\'e d'Aix-Marseille}, un stage de fin
+d'\'etude doit \^etre effectu\'e en entreprise pour valider les acquis et
+rentrer dans le monde professionnel.\\
+
+J'ai r\'ealis\'e ce stage entre le 1\up{er} avril et le 25 septembre 2015, soit
+une p\'eriode de six mois, \`a \textit{Adhara Cyber Security}, renomm\'ee 
+\textit{Arksens} au 1\up{er} juillet.\\
+
+Ce stage fut donc l'occasion pour moi de mettre en pratique mes connaissances,
+acquises tout au long de mon parcours universitaire, dans un environnement
+professionnel et de m'en servir pour mener au mieux la mission qui m'a
+\'et\'e confi\'ee. En outre, j'ai d\^u cr\'eer \`a partir de rien un syst\`eme
+de backup incr\'ementale et s\'ecuris\'e, offrant une encryption en local des
+donn\'ees des utilisateurs. Ainsi m'a-t-il \'et\'e demand\'e de faire la
+conception de ce projet dans un premier temps puis son d\'eveloppement dans un
+second temps et ainsi voir le processus de cr\'eation, jusqu'\`a un stade
+avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.\\
+
+Ce rapport vient donc pr\'esenter le d\'eroulement du stage ainsi que le
+travail accompli au sein de l'entreprise durant ces six mois.
+
+
+\chapter{Rapport de synth\`ese}
+\thispagestyle{fancy}
+\section{Pr\'esentation de l'entreprise}
+
+\end{spacing}
 \end{document}          
