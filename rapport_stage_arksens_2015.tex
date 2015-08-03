@@ -49,7 +49,7 @@
     \rule{\linewidth}{1mm} \\[1cm]
 
     \textsc{\bfseries\huge Conception \&  d\'eveloppement syst\`eme de backup
-    chiffr\'e et incr\'eémental en C/C++}\\[1cm]
+    chiffr\'e et incr\'emental en C/C++}\\[1cm]
 
     \rule{\linewidth}{1mm}\\[1.5cm]
 
@@ -133,11 +133,11 @@ Dans le cadre du Master professionnel \textit{Fiabilit\'e, S\'ecurit\'e et
 Int\'egration logicielle}, parcours \textit{Fiabilit\'e et S\'ecurit\'e
 Informatique} \`a l'\textit{Universit\'e d'Aix-Marseille}, un stage de fin
 d'\'etude doit \^etre effectu\'e en entreprise pour valider les acquis et
-rentrer dans le monde professionnel.\\
+rentrer dans le monde professionnel.
 
 J'ai r\'ealis\'e ce stage entre le 1\up{er} avril et le 25 septembre 2015, soit
 une p\'eriode de six mois, \`a \textit{Adhara Cyber Security}, renomm\'ee 
-\textit{Arksens} au 1\up{er} juillet.\\
+\textit{Arksens} au 1\up{er} juillet.
 
 Ce stage fut donc l'occasion pour moi de mettre en pratique mes connaissances,
 acquises tout au long de mon parcours universitaire, dans un environnement
@@ -147,7 +147,7 @@ de backup incr\'ementale et s\'ecuris\'e, offrant une encryption en local des
 donn\'ees des utilisateurs. Ainsi m'a-t-il \'et\'e demand\'e de faire la
 conception de ce projet dans un premier temps puis son d\'eveloppement dans un
 second temps et ainsi voir le processus de cr\'eation, jusqu'\`a un stade
-avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.\\
+avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.
 
 Ce rapport vient donc pr\'esenter le d\'eroulement du stage ainsi que le
 travail accompli au sein de l'entreprise durant ces six mois.
@@ -156,39 +156,62 @@ travail accompli au sein de l'entreprise durant ces six mois.
 \chapter{Rapport de synth\`ese}
 \thispagestyle{fancy}
 \section{Pr\'esentation de l'entreprise}
-Cr\'e\'ee en 2013 et nomm\'ee alors \textit{Adhara Cyber Security}, l'entreprise
-se d\'eveloppe sur trois continents gr\^ace \`a une approche novatrice et
-r\'epondant aux besoins des entreprises et administrations de toutes tailles.
+Cr\'e\'ee en 2013 et nomm\'ee alors \textit{Adhara Cyber Security} avant
+d'\^etre renomm\'ee \textit{Arksens} au 1\up{er} juillet 2015, l'entreprise 
+dans laquelle j'ai effectu\'e mon stage est sp\'ecialis\'ee en s\'ecurit\'e
+informatique. se d\'eveloppe sur trois continents gr\^ace \`a une approche
+novatrice et r\'epondant aux besoins des entreprises et administrations de
+toutes tailles.
 
-Au 1\up{er} juillet 2015, la soci\'et\'e a chang\'e de nom pour devenir
-\textit{Arksens}. Ce changement de nom fait suite \`a une \'evolution des
-clients puisque l'entreprise, bien que principalement 
+Le changement de nom a fait suite \`a une \'evolution des clients puisque
+l'entreprise, bien que principalement prestataire de service pour des PME
+s'est ouverte aux entreprises de taille plus importante. Revoyant leur
+strat\'egie de commercialisation et de communication, l'entreprise se devait
+donc de changer de nom.
 
-ARKSENS met sur le march\'e des technologies d\'evelopp\'ees par ses \'equipes
-de sp\'ecialistes en s\'ecurit\'e informatique. ARKSENS d\'eveloppe aussi un
-savoir-faire d’int\'egrateur afin d’apporter le meilleur du march\'e actuel \`a
-ses utilisateurs.
-
-ARKSENS travaille \`a la construction d’un Cloud r\'eellement s\'ecuris\'e.
-Pour cela, nous r\'eunissons de multiples talents.
-
-Notre expertise en s\'ecurit\'e informatique reste notre seul et unique
-m\'etier. Notre appartenance au groupe Constellation Capital House nous
-conf\`ere une visibilit\'e et une stabilit\'e sur le long terme. Nous
-b\'en\'eficions des multiples comp\'etences pr\'esentes à
-l’int\'erieur du groupe.
-
-Notre organisation s’appuie sur trois hubs r\'egionaux :
+Aujourd'hui \textit{Arksens} est donc pr\'esent dans trois pays se trouvant
+chacun sur un continent diff\'erent (voir figure~\ref{mapArksens}). On retrouve
+ainsi :
 \begin{itemize}
-  \item Abu Dhabi aux Emirats Arabes Unis pour les activit\'es au Moyen Orient.
+  \item Abu Dhabi aux \'Emirats Arabes Unis pour les activit\'es au Moyen
+  Orient.
   \item Pamplemousses à l’\^ile Maurice pour les activit\'es africaines.
   \item Paris en France pour les activit\'es européennes.
-
 \end{itemize}
 
-Nous offrons ainsi \`a nos utilisateurs un service client de qualit\'e
-et de proximit\'e.
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.30]{map_arksens.png}
+  \caption{\label{mapArksens} O\`u trouver Arksens}
+\end{figure}
+      
+L'entreprise offre ainsi aux utilisateurs un service client de proximit\'e.
+Pour ma part, c'est l'\^ile Maurice qui m'int\'eresse puisque c'est l\`a o\`u
+j'ai pass\'e ces six mois de stage. Pamplemousses se trouve \`a proximit\'e
+de Port Louis. Les locaux se trouvent au Business Park de Beau Plan
+(figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au nord de l'\^ile,
+\`a proximit\'e de Port Louis. Les locaux accueillent donc le centre de
+recherche et d\'eveloppement de l'entreprise.
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=15cm]{beau_plan_soir.jpg}
+  \caption{\label{beauPlan} Beau Plan Business Park}
+\end{figure}
+
+L'\'equipe a beaucoup \'evolu\'ee entre mon arriv\'ee et mon d\'epart puisque
+seulement trois personnes en plus du PDG, Micha\"el Colaone, \'etaient
+pr\'esentent au 1\up{er} avril, date de d\'ebut du stage : David Terranova,
+directeur des op\'erations, Ga\"etan van Diemen, chef de projet ainsi que
+Daniel Brands, d\'eveloppeur web arriv\'e quelques jours auparavant.
+
+L'\'equipe s'est agrandie par deux fois. D'abord \`a la mi-avril avec
+l'arriv\'ee de deux autres stagiaire, Didier Mannone et
+Yves Colin de Verdi\`ere, puis au 1\up{er} mai avec l'arriv\'ee d'Aymeric
+Tabourin, ing\'enieur s\'ecurit\'e.
+
+L'int\'egration dans l'\'equipe fut donc facile et rapide et c'est donc dans
+une bonne ambiance qu'a p\^u se d\'erouler ce stage de fin d'\'etude.
 
 \end{spacing}
 \end{document}          
