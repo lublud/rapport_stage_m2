@@ -24,10 +24,12 @@
 \fancyfoot[C]{Rapport de stage --- Master 2 FSIL\\Ludovic Lubeigt}
 \fancyfoot[RO, LE] {\thepage}
 
+% commands
 \definecolor{gray73}{gray}{0.73}
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\chapter}[hang]{\Huge\bfseries}
 {\thechapter\hsp\textcolor{gray73}{|}\hsp}{0pt}{\Huge\bfseries}
+\titleformat{\subsubsection}{}{}{}{\textbullet~}
 
 \graphicspath{{images/}}
 
@@ -211,7 +213,166 @@ Yves Colin de Verdi\`ere, puis au 1\up{er} mai avec l'arriv\'ee d'Aymeric
 Tabourin, ing\'enieur s\'ecurit\'e.
 
 L'int\'egration dans l'\'equipe fut donc facile et rapide et c'est donc dans
-une bonne ambiance qu'a p\^u se d\'erouler ce stage de fin d'\'etude.
+une bonne ambiance qu'\`a p\^u se d\'erouler ce stage de fin d'\'etude.
+
+\section{Sujet de stage}
+\subsection{Contexte}
+L'entreprise \'etant encore jeune et de petite taille, plusieurs des services
+existant \'etaient bas\'e sur des produits open source qui avaient \'et\'e
+int\'egr\'e au \textit{manager}. Ce \textit{manager} est un environnement web
+permettant aux utilisateurs de g\'erer les services auxquels ils ont souscrit
+\`a partir d'un unique endroit et ainsi faciliter l'utilisation de ces derniers.
+
+L'objectif de ce recrutement important \'etait pour l'entreprise de petit \`a
+petit d\'evelopper ses propre logiciels et services afin de proposer aux
+utilisateurs des produits adapt\'e et r\'epondant \`a leurs besoins sans passer
+par des logiciels tiers.
+
+C'est donc dans ce cadre que je suis arriv\'e et qu'il m'a \'et\'e demand\'e
+de cr\'eer la prochaine g\'en\'eration de backup pour \textit{Arksens}.
+
+\subsection{Le sujet}
+Ma mission pour ce stage \'etait donc de faire la conception et le
+d\'eveloppement d'un syst\`eme de backup incr\'emental et dont les donn\'ees
+sauvegard\'ees sont chiffr\'ees en local, sur la machine client avant d'\^etre
+envoy\'e sur des serveurs distant. Il me fallait donc d\'evelopper un
+client/serveur multi plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
+la probl\'ematique suivante : combiner le chiffrement local avec la sauvegarde
+incr\'ementale.
+
+\`A mon arriv\'ee, David et Ga\"etan avait d\'ej\`a des id\'ees sur la
+mani\`ere de r\'ealiser ce syst\`eme de sauvegarde, id\'ees que nous verrons
+plus loin dans ce rapport. Et c'est \`a partir de celles-ci que j'ai pu
+d\'emarrer mon travail, travail qui s'est divis\'e en trois grandes phases.
+
+\begin{itemize}
+ \item Phase de documentation et de r\'eflexion sur la probl\'ematique
+ \item Conception logicielle
+ \item D\'eveloppement
+\end{itemize}
+
+La premi\`ere phase, de documentation et de r\'eflexion, m'a permis de me
+documenter dans un premier temps sur les diff\'erentes solution qui existe
+d\'ej\`a puis de trouver un algorithme r\'epondant \`a la probl\'ematique.
+
+La conception s'est faite en prenant en compte les contraintes existantes
+et en se basant sur un travail de r\'eflexion d\'ej\`a effectu\'e par David et
+Ga\"etan avant mon arriv\'ee.
+
+Enfin, en ce qui concerne le d\'eveloppement, la contrainte que j'avais \'etait
+d'utiliser le C++ et de d\'evelopper de mani\`ere orient\'e objet tout en
+faisant en sorte que le code puisse \^etre robuste, lisible, testable, et donc
+facilement maintenable.
+
+Pour mener cette mission \`a bien, il avait \'et\'e d\'ecid\'e qu'une r\'eunion
+hebdomadaire devait \^etre r\'ealis\'ee afin que David et Ga\"etan puissent
+suivre l'avancement du projet mais aussi pour voir le travail effectu\'e la
+semaine pr\'ec\'edente, essayer de r\'esoudre tout probl\`eme qui aurait pu
+survenir et planifier la semaine suivante.
+C'est en tout cas dans cette optique l\`a que nous avions commenc\'e. Dans les
+fait, le retour des clients lors de mises \`a jour d'un produit ou des
+r\'eunions avec les potentiels futur clients pouvait prendre la priorit\'e et
+ainsi retarder ou annuler les r\'eunions hebdomadaire.
+
+\section{D\'eroulement du stage}
+\subsection{Travail de recherche}
+\subsubsection{Documentation}
+Mon travail de recherche s'est fait \`a partir d'une liste de mot cl\'e que
+l'on m'a donn\'e afin quoi l'on parle tous le m\^eme langage. Entre autre,
+certaines d\'efinitions li\'ees au backup et au chiffrement :
+\begin{itemize}
+ \item Backup incr\'emental
+ \item Backup diff\'erentiel
+ \item Transchiffrement
+\end{itemize}
+
+Mais aussi des logiciels d\'ej\`a existant, de backup ou de synchronisation de
+fichiers et \`a partir desquels il peut \^etre int\'eressant de s'inspirer :
+\begin{itemize}
+ \item Syncthing~\cite{refSyncthing}
+ \item RSync~\cite{refRsync}
+\end{itemize}
+
+\paragraph{Syncthing\\}
+\textit{Syncthing} est un logiciel permettant la synchronisation des donn\'ees
+entre plusieurs appareils de mani\`ere s\'ecuris\'ee gr\^ace \`a une
+communication s\'ecuris\'ee via TLS. Les donn\'ees ne sont jamais stock\'ee
+sur un serveur tiers, uniquement sur les diff\'erents ordinateurs utilis\'es.
+
+Ce qui est int\'eressant dans \textit{Syncthing} est donc le protocole de
+communication, qui a \'et\'e cr\'ee pour cela : Block Exchange Protocol (BEP)
+~\cite{refBEP}. Ce protocole sous Creative Commons~\cite{refCC4.0}, est donc
+une bonne source d'inspiration afin de faire la liaison entre notre client et
+notre serveur.
+
+\paragraph{ rsync\\}
+\textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
+Unix. Le c\oe ur du pro\\amme est son algorithme :
+\textit{\flqq rsync algorithm \frqq}~\cite{refRsyncAlgo}.
+
+Celui-ci va d\'ecouper un fichier en plusieurs blocs de taille identique et
+calculer, pour chacun, un \texttt{checksum} ainsi qu'un \texttt{hash}. Ainsi,
+pour n'envoyer que les parties modifi\'ees d'un ficher, l'algorithme va cr\'eer
+une fen\^etre de la taille des blocs et la faire parcourir l'int\'egralit\'e du
+fichier. Pour chaque position de la fen\^etre, si le \texttt{checksum} --- est
+rapide \`a calculer mais dont le risque de collision est \'elev\'e ---
+correspond au \texttt{checksum} d\'ej\`a calcul\'e d'un bloc, les \texttt{hash}
+--- plus lent \`a calculer mais un risque de collision beaucoup plus faible, 
+selon l'algorithme utilis\'e --- sont alors comparer. Si ceux-ci sont
+identiques, la fen\^etre correspond \`a un bloc et tout ce qui pr\'ec\`ede ce
+dernier, et jusqu'au pr\'ec\'edent bloc trouv\'e est une partie du fichier qui
+a \'et\'e modifi\'e (ajout/modification/suppression) et est donc \`a
+synchroniser.
+
+C'est en grande partie cet algorithme qui m'a permis d'en trouver un qui me
+permet de r\'epondre \`a ma probl\'ematique. Probl\'ematique \`a la fois
+similaire puisqu'il fallait comparer deux fichiers distant pour ne trouver que
+les diff\'erences mais diff\'erent dans la mesure o\`u il n'est pas possible
+de maintenir dans mon cas une liste de bloc de m\^eme taille.
+
+\subsubsection{R\'eflexion}
+Une fois cette phase de documentation r\'ealis\'ee, il \'etait temps de trouver
+un algorithme permettant d'identifier les parties d'un fichier ayant \'et\'e
+modifi\'ee depuis le pr\'ec\'edent backup. Pour ce faire, et comme indiqu\'e
+dans la partie documentation, je me suis bas\'e sur l'algorithme \textit{rsync}
+pour, petit \`a petit, cr\'eer un algorithme qui permettait de r\'epondre \`a ma
+probl\'ematique.
+
+\paragraph{Chiffrement homomorphe\\}
+Dans un premier temps, j'ai \'etudi\'e la question de l'homomorphisme. Ce type
+de chiffrement permet de r\'ealiser des op\'erations sur des fichiers chiffr\'es
+et de retourner le r\'esultat chiffr\'e. Ceci permet de faire des op\'erations
+sans avoir \`a conna\^itre le contenu d'un fichier.
+
+\begin{description}
+ \item [Fonctionnement :] Dans notre cas, il nous aurait permis de concatener
+ sur le serveur l'ensemble des morceaux d'un fichier avant de le re-d\'ecouper
+ en bloc de taille \'egale puis de calculer pour chacun le \texttt{checksum}
+ ainsi que le \texttt{hash}. Ceci aurait permis d'utiliser directement
+ l'algorithme \textit{rsync} pour identifier les modifications faites sur un
+ fichier.
+
+ \item [Avantage et inconv\'enients :] En utilisant le chiffrement homomorphe,
+ le plus gros du calcul se fait sur le serveur entre deux backup, et ceux pour
+ chaque fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
+ demandeur de ressource du c\^ot\'e du serveur pour que le programme fonctionne
+ correctement.
+
+ \item [Probl\`eme :] Le chiffrement homomorphe est un domaine de recherche
+ tr\`es prometteur mais pas encore assez avanc\'e pour pouvoir \^etre utilis\'e
+ en production. De plus le temps de calcul est extr\^emement \'elev\'e. Cette
+ solution ne peut donc pas \^etre utilis\'ee aujourd'hui mais pourra peut-\^etre
+ un jour \^etre envisag\'ee dans une prochaine version du backup.
+\end{description}
+
+
+
+\subsection{Conception}
+\subsection{D\'eveloppement}
+
+\newpage
+\bibliographystyle{abbrv-fr}
+\bibliography{rapport_stage_arksens_2015}
 
 \end{spacing}
 \end{document}          
