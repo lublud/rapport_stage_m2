@@ -6,6 +6,10 @@
 
 \usepackage[hidelinks]{hyperref}
 
+\usepackage[export]{adjustbox}
+\usepackage{array}
+\usepackage{color, colortbl}
+
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
@@ -24,8 +28,11 @@
 \fancyfoot[C]{Rapport de stage --- Master 2 FSIL\\Ludovic Lubeigt}
 \fancyfoot[RO, LE] {\thepage}
 
-% commands
+% colors
 \definecolor{gray73}{gray}{0.73}
+\definecolor{arkred}{rgb}{0.592, 0.145, 0.168}
+
+% commands
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\chapter}[hang]{\Huge\bfseries}
 {\thechapter\hsp\textcolor{gray73}{|}\hsp}{0pt}{\Huge\bfseries}
@@ -171,9 +178,10 @@ s'est ouverte aux entreprises de taille plus importante. Revoyant leur
 strat\'egie de commercialisation et de communication, l'entreprise se devait
 donc de changer de nom.
 
-Aujourd'hui \textit{Arksens} est donc pr\'esent dans trois pays se trouvant
-chacun sur un continent diff\'erent (voir figure~\ref{mapArksens}). On retrouve
-ainsi :
+\subsection{Pr\'esence dans le monde}
+Aujourd'hui \textit{Arksens} est donc pr\'esent dans trois pays chacun sur
+un continent diff\'erent (voir figure~\ref{mapArksens}) offrant ainsi aux
+utilisateurs un service de proximit\'e :
 \begin{itemize}
   \item Abu Dhabi aux \'Emirats Arabes Unis pour les activit\'es au Moyen
   Orient.
@@ -187,13 +195,54 @@ ainsi :
   \caption{\label{mapArksens} O\`u trouver Arksens}
 \end{figure}
       
-L'entreprise offre ainsi aux utilisateurs un service client de proximit\'e.
+\subsection{Produits}
+\textit{Arksens} propose aux entreprises 6 produits et solutions autour de la
+s\'ecurit\'e informatique. Une rapide description de ces produits se trouve
+table~\ref{tabProduits} :
+\begin{table}[h!]
+  \centering
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{m{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    \color{white} \textbf{Produit} & \color{white} \textbf{Description} \\
+    \includegraphics[width=5cm, fbox]{produits/mail.png} & Prot\'eger l'information
+    transitant par les mails. H\'ebergement de serveur email s\'ecuris\'e dans
+    un cloud d\'edi\'e.\\
+    \hline
+    \includegraphics[width=5cm, fbox]{produits/whisper.png} & Communications voix
+    et images s\'ecuris\'es et anonymes.\\
+    \hline
+    \includegraphics[width=5cm, fbox]{produits/backup.png} & Syst\`eme de
+    chiffrement et de sauvegarde des donn\'ees dans un cloud d\'edi\'e.\\
+    \hline
+    \includegraphics[width=5cm, fbox]{produits/gateway.png} & S\'ecuriser et
+    rendre anonyme la navigation sur internet.\\
+    \hline
+    \includegraphics[width=5cm, fbox]{produits/endpoint.png} & S\'ecuriser les
+    postes utilisateurs en locales. C'est une ligne de d\'efense pour palier
+    \`a la diffusion d'\'eventuels logiciels malveillants (virus, chevaux de
+    Troie, vers, logiciels espions,\ldots{}) sur les ordinateurs et les
+    serveurs.\\
+    \hline
+    \includegraphics[width=5cm, fbox]{produits/nomad.png} & S\'ecuriser les
+    donn\'ees personnelles sur appareils mobiles.\\
+    \hline
+  \end{tabular}
+  \caption{\label{tabProduits} Produits et solutions par \textit{Arksens}}
+\end{table}
+
+L'ensemble des produits et solutions propos\'es par l'entreprise sont d\'ecrit
+de mani\`ere plus compl\`ete sur leur site web~\cite{refArksens}.
+
+\subsection{\^Ile Maurice}
 Pour ma part, c'est l'\^ile Maurice qui m'int\'eresse puisque c'est l\`a o\`u
-j'ai pass\'e ces six mois de stage. Pamplemousses se trouve \`a proximit\'e
-de Port Louis. Les locaux se trouvent au Business Park de Beau Plan
-(figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au nord de l'\^ile,
-\`a proximit\'e de Port Louis. Les locaux accueillent donc le centre de
-recherche et d\'eveloppement de l'entreprise.
+j'ai pass\'e ces six mois de stage. Les locaux, accueillant le centre de
+recherche et d\'eveloppement de l'entreprise, se trouvent au Business Park de
+Beau Plan (figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au
+nord-ouest de l'\^ile, \`a proximit\'e de Port Louis.
 
 \begin{figure}[h!]
   \centering
@@ -212,8 +261,13 @@ l'arriv\'ee de deux autres stagiaire, Didier Mannone et
 Yves Colin de Verdi\`ere, puis au 1\up{er} mai avec l'arriv\'ee d'Aymeric
 Tabourin, ing\'enieur s\'ecurit\'e.
 
+Bien que majoritairement francophone, la pr\'esence de personne d'origine
+n\'eerlandaise a permis la cr\'eation d'un environnement international. Afin
+de pouvoir communiquer avec l'ensemble des personnes de l'\'equipe,
+l'utilisation de l'anglais au quotidien \'etait donc une n\'ecessit\'e.
+
 L'int\'egration dans l'\'equipe fut donc facile et rapide et c'est donc dans
-une bonne ambiance qu'\`a p\^u se d\'erouler ce stage de fin d'\'etude.
+une bonne ambiance qu'\`a pu se d\'erouler ce stage de fin d'\'etude.
 
 \section{Sujet de stage}
 \subsection{Contexte}
@@ -259,10 +313,11 @@ La conception s'est faite en prenant en compte les contraintes existantes
 et en se basant sur un travail de r\'eflexion d\'ej\`a effectu\'e par David et
 Ga\"etan avant mon arriv\'ee.
 
-Enfin, en ce qui concerne le d\'eveloppement, la contrainte que j'avais \'etait
-d'utiliser le C++ et de d\'evelopper de mani\`ere orient\'e objet tout en
-faisant en sorte que le code puisse \^etre robuste, lisible, testable, et donc
-facilement maintenable.
+Enfin, en ce qui concerne le d\'eveloppement, une des contraintes que j'avais
+\'etait d'utiliser le C++ et de d\'evelopper de mani\`ere orient\'e objet tout
+en faisant en sorte que le code puisse \^etre robuste, lisible, testable, et
+donc facilement maintenable. De plus les librairies et framework utilis\'es
+devaient \^etre sous licence libre.
 
 Pour mener cette mission \`a bien, il avait \'et\'e d\'ecid\'e qu'une r\'eunion
 hebdomadaire devait \^etre r\'ealis\'ee afin que David et Ga\"etan puissent
@@ -290,7 +345,7 @@ Mais aussi des logiciels d\'ej\`a existant, de backup ou de synchronisation de
 fichiers et \`a partir desquels il peut \^etre int\'eressant de s'inspirer :
 \begin{itemize}
  \item Syncthing~\cite{refSyncthing}
- \item RSync~\cite{refRsync}
+ \item rsync~\cite{refRsync}
 \end{itemize}
 
 \paragraph{Syncthing\\}
@@ -305,9 +360,9 @@ communication, qui a \'et\'e cr\'ee pour cela : Block Exchange Protocol (BEP)
 une bonne source d'inspiration afin de faire la liaison entre notre client et
 notre serveur.
 
-\paragraph{ rsync\\}
+\paragraph{rsync\\}
 \textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
-Unix. Le c\oe ur du pro\\amme est son algorithme :
+Unix. Le c\oe ur du programme est son algorithme :
 \textit{\flqq rsync algorithm \frqq}~\cite{refRsyncAlgo}.
 
 Celui-ci va d\'ecouper un fichier en plusieurs blocs de taille identique et
@@ -352,9 +407,12 @@ sans avoir \`a conna\^itre le contenu d'un fichier.
  l'algorithme \textit{rsync} pour identifier les modifications faites sur un
  fichier.
 
- \item [Avantage et inconv\'enients :] En utilisant le chiffrement homomorphe,
- le plus gros du calcul se fait sur le serveur entre deux backup, et ceux pour
- chaque fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
+ \item [Avantage :] Consommation de ressource et temps de calcul r\'eduit sur
+ la machine client.
+ 
+ \item [Inconv\'enient :] En utilisant le chiffrement homomorphe, le plus gros
+ du calcul se fait sur le serveur entre deux backup, et ceux pour chaque
+ fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
  demandeur de ressource du c\^ot\'e du serveur pour que le programme fonctionne
  correctement.
 
@@ -371,6 +429,8 @@ sans avoir \`a conna\^itre le contenu d'un fichier.
 \subsection{D\'eveloppement}
 
 \newpage
+\listoffigures
+\listoftables
 \bibliographystyle{abbrv-fr}
 \bibliography{rapport_stage_arksens_2015}
 
