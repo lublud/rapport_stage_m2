@@ -195,7 +195,7 @@ utilisateurs un service de proximit\'e :
   \caption{\label{mapArksens} O\`u trouver Arksens}
 \end{figure}
       
-\subsection{Produits}
+\subsection{Produits et solutions}
 \textit{Arksens} propose aux entreprises 6 produits et solutions autour de la
 s\'ecurit\'e informatique. Une rapide description de ces produits se trouve
 table~\ref{tabProduits} :
@@ -423,6 +423,42 @@ sans avoir \`a conna\^itre le contenu d'un fichier.
  un jour \^etre envisag\'ee dans une prochaine version du backup.
 \end{description}
 
+\paragraph{rsync revisit\'e\\}
+Ne pouvant rien faire du c\^ot\'e serveur, il fallait trouver un algorithme
+qui permette de d'analyser un fichier en un temps fini. Pour cela, j'ai
+travaill\'e \`a partir de l'id\'ee de fen\^etr glissante utilis\'ee pour
+\textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de taille
+identique, il a fallu modifier l'algorithme pour prendre ceci en compte. Ainsi
+avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
+
+\begin{description}
+ \item [Fonctionnement :] L'algorithme utilise une fen\^etre dynamique,
+ parcourant l'int\'egralit\'e du fichier et adaptant sa taille en fonction
+ des longueurs des morceaux de fichier que nous avons.
+ 
+ \item [Avantage :] Fait c\^ot\'e client, il n'y a pas une sur-utilisation
+ des ressources serveurs qui est alors utilis\'e uniquement pour stocker
+ les donn\'ees une fois chiffr\'ees.
+ 
+ \item [Inconv\'enient :] Temps de calcul potentiellement grand, d\'ependant
+ de la taille des fichiers \`a analyser ainsi que de ressources disponible sur
+ la machine client.
+\end{description}
+
+C'est donc sur cette base que j'ai commenc\'e l'\'etape suivante. \'Etape 
+consistant \`a \'ecrire un prototype permettant de v\'erifier la faisabilit\'e,
+notamment en ce qui concerne le temps d'ex\'ecution du programme.
+
+\subsubsection{Prototypage}
+La v\'erification pratique de la th\'eorie \'etait n\'ecessaire avant de
+pouvoir penser \`a la conception du produit. Pour cela, le passage par une
+phase de prototypage semblait in\'evitable.
+
+Dans ce cadre, j'ai \'ecrit l'algorithme en \textit{C++} afin de v\'erifier
+le temps d'ex\'ecution de celui-ci. Plusieurs essai ont \'et\'e fait afin de
+r\'eduire toujours plus la dur\'ee d'ex\'ecution de l'algorithme. C'est donc
+principalement de l'optimisation, \`a la fois au niveau algorithmique ainsi
+qu'au niveau de l'\'ecriture du code en lui-m\^eme, 
 
 
 \subsection{Conception}
