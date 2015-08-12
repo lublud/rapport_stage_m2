@@ -164,6 +164,7 @@ travail accompli au sein de l'entreprise durant ces six mois.
 
 \chapter{Rapport de synth\`ese}
 \thispagestyle{fancy}
+\label{rapportSynthese}
 \section{Pr\'esentation de l'entreprise}
 Cr\'e\'ee en 2013 et nomm\'ee alors \textit{Adhara Cyber Security} avant
 d'\^etre renomm\'ee \textit{Arksens} au 1\up{er} juillet 2015, l'entreprise 
@@ -282,22 +283,35 @@ petit d\'evelopper ses propre logiciels et services afin de proposer aux
 utilisateurs des produits adapt\'e et r\'epondant \`a leurs besoins sans passer
 par des logiciels tiers.
 
+De plus les syst\`emes de backup ne sont souvent pas consid\'erer par les
+entreprises avant qu'une perte de donn\'ees, plus ou moins importante,
+ne survienne. Cons\'equences financi\`eres, temps pass\'e \`a reconstituer le
+savoir \'evapor\'e ou encore impact sur la r\'eputation de l'entreprise ne sont
+que des exemples de ce qui peut arriver dans une telle situation. Pour
+pr\'evenir ce probl\`eme un syst\`eme de backup est non seulement n\'ecessaire
+mais presque obligatoire.
+
+Pour cela, \textit{Arksens} voulait offrir aux clients un syst\`eme de backup
+fiable, s\'ecuris\'e et optimis\'e afin de prendre en compte les ordinateurs
+les moins performant ainsi que les connexion internet qui peuvent \^etre
+parfois tr\`es lente.
+
 C'est donc dans ce cadre que je suis arriv\'e et qu'il m'a \'et\'e demand\'e
 de cr\'eer la prochaine g\'en\'eration de backup pour \textit{Arksens}.
 
 \subsection{Le sujet}
 Ma mission pour ce stage \'etait donc de faire la conception et le
 d\'eveloppement d'un syst\`eme de backup incr\'emental et dont les donn\'ees
-sauvegard\'ees sont chiffr\'ees en local, sur la machine client avant d'\^etre
-envoy\'e sur des serveurs distant. Il me fallait donc d\'evelopper un
-client/serveur multi plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
+sauvegard\'ees sont chiffr\'ees en local, sur la machine client, avant d'\^etre
+envoy\'ees sur des serveurs distant. Il me fallait donc d\'evelopper un
+client/serveur multi-plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
 la probl\'ematique suivante : combiner le chiffrement local avec la sauvegarde
 incr\'ementale.
 
 \`A mon arriv\'ee, David et Ga\"etan avait d\'ej\`a des id\'ees sur la
 mani\`ere de r\'ealiser ce syst\`eme de sauvegarde, id\'ees que nous verrons
 plus loin dans ce rapport. Et c'est \`a partir de celles-ci que j'ai pu
-d\'emarrer mon travail, travail qui s'est divis\'e en trois grandes phases.
+d\'emarrer mon travail, qui sera alors divis\'e en trois grandes phases :
 
 \begin{itemize}
  \item Phase de documentation et de r\'eflexion sur la probl\'ematique
@@ -331,6 +345,13 @@ ainsi retarder ou annuler les r\'eunions hebdomadaire.
 
 \section{D\'eroulement du stage}
 \subsection{Travail de recherche}
+Cette premi\`ere est divis\'ee en trois sous-\'etapes :
+\begin{itemize}
+ \item Documentation
+ \item R\'eflexion
+ \item Prototypage
+\end{itemize}
+
 \subsubsection{Documentation}
 Mon travail de recherche s'est fait \`a partir d'une liste de mot cl\'e que
 l'on m'a donn\'e afin quoi l'on parle tous le m\^eme langage. Entre autre,
@@ -388,7 +409,7 @@ de maintenir dans mon cas une liste de bloc de m\^eme taille.
 \subsubsection{R\'eflexion}
 Une fois cette phase de documentation r\'ealis\'ee, il \'etait temps de trouver
 un algorithme permettant d'identifier les parties d'un fichier ayant \'et\'e
-modifi\'ee depuis le pr\'ec\'edent backup. Pour ce faire, et comme indiqu\'e
+modifi\'e depuis le pr\'ec\'edent backup. Pour ce faire, et comme indiqu\'e
 dans la partie documentation, je me suis bas\'e sur l'algorithme \textit{rsync}
 pour, petit \`a petit, cr\'eer un algorithme qui permettait de r\'epondre \`a ma
 probl\'ematique.
@@ -452,17 +473,37 @@ notamment en ce qui concerne le temps d'ex\'ecution du programme.
 \subsubsection{Prototypage}
 La v\'erification pratique de la th\'eorie \'etait n\'ecessaire avant de
 pouvoir penser \`a la conception du produit. Pour cela, le passage par une
-phase de prototypage semblait in\'evitable.
+\'etape de prototypage semblait in\'evitable.
 
 Dans ce cadre, j'ai \'ecrit l'algorithme en \textit{C++} afin de v\'erifier
-le temps d'ex\'ecution de celui-ci. Plusieurs essai ont \'et\'e fait afin de
+le temps d'ex\'ecution de celui-ci. Plusieurs essais ont \'et\'e fait afin de
 r\'eduire toujours plus la dur\'ee d'ex\'ecution de l'algorithme. C'est donc
 principalement de l'optimisation, \`a la fois au niveau algorithmique ainsi
-qu'au niveau de l'\'ecriture du code en lui-m\^eme, 
+qu'au niveau de l'\'ecriture du code en lui-m\^eme, que j'ai effectu\'e  au
+course de cette \'etape.
+
+Plusieurs version ont donc vu le jour au cours de cette \'etape afin d'obtenir
+un algorithme qui puisse \^etre utilisable pour le syst\`eme de backup.
+
+Plus de d\'etails sur ces diff\'erentes versions de l'algorithme peuvent \^etre
+trouv\'es dans la partie~\nameref{rapportTechnique}.
 
 
 \subsection{Conception}
 \subsection{D\'eveloppement}
+
+\chapter{Rapport technique}
+\thispagestyle{fancy}
+\label{rapportTechnique}
+\subsection{Travail de recherche}
+\subsubsection{Prototypage}
+Comme expliqu\'e dans le~\nameref{rapportSynthese}, une v\'erification pratique
+de la faisabilit\'e de l'algorithme choisi \'etait n\'ecessaire avant de
+pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
+
+\paragraph{Premi\`ere version}
+
+
 
 \newpage
 \listoffigures
