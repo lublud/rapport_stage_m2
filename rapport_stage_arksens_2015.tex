@@ -17,9 +17,11 @@
 
 \usepackage[french]{babel}
 
+% page style
 \pagestyle{fancy}
 \setlength{\headheight}{49pt}
 \setlength{\footskip}{17pt}
+
 % header
 \fancyhead[R]{\includegraphics[width=5cm]{logo_sciences.png}}
 \fancyhead[L]{\includegraphics[width=5cm]{logo_arksens.png}}
@@ -333,7 +335,7 @@ suivants :
 
 \subsection{\^Ile Maurice}
 Pour ma part, c'est l'\^ile Maurice qui m'int\'eresse puisque c'est l\`a o\`u
-j'ai pass\'e ces six mois de stage. Les locaux, accueillant le centre de
+j'ai pass\'e mes six mois de stage. Les locaux, accueillant le centre de
 recherche et d\'eveloppement de l'entreprise, se trouvent au Business Park de
 Beau Plan (figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au
 nord-ouest de l'\^ile, \`a proximit\'e de Port Louis.
@@ -370,19 +372,27 @@ international, bien que fortement francophone. Afin de pouvoir communiquer avec
 l'ensemble des personnes de l'\'equipe, l'utilisation de l'anglais au quotidien
 \'etait donc une n\'ecessit\'e.
 
-L'int\'egration dans l'\'equipe fut donc facile et rapide et c'est donc dans
-une bonne ambiance qu'\`a pu se d\'erouler ce stage de fin d'\'etude.
+L'int\'egration dans l'\'equipe s'est donc faite assez facilement et rapidement
+et c'est ainsi dans une ambiance g\'en\'eralement bonne, bien que quelque peu
+d\'et\'erior\'ee sur la fin d\^u \`a la restructuration de l'entreprise qu'\`a
+pu se d\'erouler ce stage de fin d'\'etude.
 
 \section{Sujet de stage}
 \subsection{Contexte}
 L'entreprise \'etant encore jeune et de petite taille, plusieurs des services
 existant \'etaient bas\'e sur des produits open source qui avaient \'et\'e
-int\'egr\'e au \textit{manager}.
+int\'egr\'e au \textit{manager} (voir figure~\ref{managerFront}).
 
 Ce \textit{manager} est un environnement web d\'evelopp\'e et maintenu par
 \textit{Arksens}. Il permet aux utilisateurs de g\'erer les services auxquels
 ils ont souscrit \`a partir d'un unique endroit, centralis\'e, et ainsi
 faciliter l'utilisation de ces derniers.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=15cm]{produits/manager.png}
+  \caption{\label{managerFront} Page d'accueil du \textit{manager}}
+\end{figure}
 
 L'objectif de ce recrutement important \'etait pour l'entreprise de petit \`a
 petit d\'evelopper ses propre solutions afin de proposer aux utilisateurs des
@@ -417,6 +427,10 @@ client/serveur multi-plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
 la probl\'ematique suivante : combiner le chiffrement local avec la sauvegarde
 incr\'ementale.
 
+Ce backup permettrait donc, au premier lancement, de sauvegarder l'ensemble
+d'un ou plusieurs dossier. \`A partir de la seconde sauvegarde, il ne faudrait
+n\'eanmoins sauvegarder que les changements sur les fichiers.
+
 \`A mon arriv\'ee, David et Ga\"etan avait d\'ej\`a des id\'ees sur la
 mani\`ere de r\'ealiser ce syst\`eme de sauvegarde, id\'ees que nous verrons
 plus loin dans ce rapport. Et c'est \`a partir de celles-ci que j'ai pu
@@ -429,8 +443,8 @@ d\'emarrer mon travail, qui sera alors divis\'e en trois grandes phases :
 \end{itemize}
 
 La premi\`ere phase, de documentation et de r\'eflexion, m'a permis de me
-documenter dans un premier temps sur les diff\'erentes solution qui existe
-d\'ej\`a puis de trouver un algorithme r\'epondant \`a la probl\'ematique.
+documenter dans un premier temps sur les diff\'erentes solution qui existent
+d\'ej\`a avant de trouver un algorithme r\'epondant \`a la probl\'ematique.
 
 La conception s'est faite en prenant en compte les contraintes existantes
 et en se basant sur un travail de r\'eflexion d\'ej\`a effectu\'e par David et
@@ -453,17 +467,63 @@ r\'eunions avec les potentiels futur clients pouvait prendre la priorit\'e et
 ainsi retarder ou annuler les r\'eunions hebdomadaire.
 
 \section{D\'eroulement du stage}
-\subsection{Travail de recherche}
-Cette premi\`ere est divis\'ee en trois sous-\'etapes :
+Avant de commencer le projet en lui-m\^eme, David et Ga\"etan m'ont fait part
+de leur r\'eflexion sur le possible fonctionnement du syst\`eme de sauvegarde.
+
+\begin{figure}[h!]
+    \hspace{-4.5em}
+    \includegraphics[width=19cm]{algo/schemaInitial.png}
+    \caption{\label{schemaInitial} Sch\'ema initial du fonctionnement du backup}
+\end{figure}
+
+Le syst\`eme a deux comportement diff\'erent lors de la sauvegarde d'un fichier.
+D'abord pour la premi\`ere connexion, o\`u une sauvegarde int\'egrale est
+n\'ecessaire, puis lors des connexions suivantes o\`u seulement les
+modifications doivent \^etre envoy\'ees.
+
+Dans le premier cas, le fichier est d\'ecoup\'e en blocs de taille \'egale
+avant d'\^etre chiffr\'e puis envoy\'e accompagn\'e des signatures calcul\'es
+pour chaque bloc ainsi que pour le fichier en lui m\^eme. Les signatures
+permettant de v\'erifier l'int\'egrit\'e des fichiers.
+
+Le second cas est un peu plus complexe et d\'ecrit comme suit :
 \begin{itemize}
- \item Documentation
- \item R\'eflexion
- \item Prototypage
+ \item Calculer \textit{signature\_toto.txt} \`a \(N + 1\)
+ \item T\'el\'echager \textit{signature\_toto.txt} \`a \(N\))
+ \item Comparer les deux signatures : si elles ne sont pas diff\'erentes, les
+ fichiers n'ont pas \`a \^etre compar\'e et on peut passer au fichier suivant
+ sinon on continue
+ \item D\'ecouper toto en bloc
+ \item Calculer la signature de chaque bloc (\(N + 1\))
+ \item T\'el\'echarger la signature de chaque bloc (\(N\))
+ \item Comparer les chaque signatures
+ \item Pour chaque signature diff\'erente, envoyer sur le serveur le bloc
+ chiffr\'e correspondant accompagn\'e de sa signature (\(N + 1\))
 \end{itemize}
 
+Dans le cas de la figure~\ref{schemaInitial}, le bloc 1 \'etant modifi\'e, sa
+signature, \`a \(N + 1\), ne correspond pas \`a la signature pr\'ec\'edemment
+calcul\'ee (\(N\)). Le bloc est donc chiffr\'e avant d'\^etre envoy\'e sur le
+serveur avec sa signature \textit{signature\_bloc1.txt}.
+
+\paragraph{}
+L'id\'ee bien qu'int\'eressante dans un premier temps ne peut fonctionner que
+dans un cas tr\`es particulier de fonctionnement et ne peut donc pas \^etre
+utilis\'e en tant que tel :
+\begin{itemize}
+ \item Si les modifications n'affecte pas la taille d'un bloc et donc
+ uniquement son contenu et que l'ordre des blocs est rest\'e inchang\'e
+\end{itemize}
+
+Pour tout les autres cas (ajout, suppression, d\'eplacement de tout ou partie
+d'un bloc, etc.), l'algorithme ne pourrait pas fonctionner. Pour palier \`a
+cela, j'ai donc d\^u imaginer un algorithme r\'epondant \`a la probl\'ematique
+et fonctionnant dans tout les cas possible.
+
+\subsection{Travail de recherche}
 \subsubsection{Documentation}
-Mon travail de recherche s'est fait \`a partir d'une liste de mot cl\'e que
-l'on m'a donn\'e afin quoi l'on parle tous le m\^eme langage. Entre autre,
+Mon travail de recherche s'est fait \`a partir d'une liste de mots-cl\'es qui
+m'a \'et\'e donn\'e afin que l'on parle tous le m\^eme langage. Entre autre,
 certaines d\'efinitions li\'ees au backup et au chiffrement :
 \begin{itemize}
  \item Backup incr\'emental
@@ -472,7 +532,7 @@ certaines d\'efinitions li\'ees au backup et au chiffrement :
 \end{itemize}
 
 Mais aussi des logiciels d\'ej\`a existant, de backup ou de synchronisation de
-fichiers et \`a partir desquels il peut \^etre int\'eressant de s'inspirer :
+fichiers et \`a partir desquels il pouvait \^etre int\'eressant de s'inspirer :
 \begin{itemize}
  \item Syncthing~\cite{refSyncthing}
  \item rsync~\cite{refRsync}
@@ -480,40 +540,47 @@ fichiers et \`a partir desquels il peut \^etre int\'eressant de s'inspirer :
 
 \paragraph{Syncthing\\}
 \textit{Syncthing} est un logiciel permettant la synchronisation des donn\'ees
-entre plusieurs appareils de mani\`ere s\'ecuris\'ee gr\^ace \`a une
-communication s\'ecuris\'ee via TLS. Les donn\'ees ne sont jamais stock\'ee
-sur un serveur tiers, uniquement sur les diff\'erents ordinateurs utilis\'es.
+entre plusieurs appareils au travers d'une communication s\'ecuris\'ee via TLS.
+Les donn\'ees n'\'etant jamais stock\'ees sur un serveur tiers, uniquement les
+diff\'erents ordinateurs utilis\'es y ont donc acc\`es.
 
-Ce qui est int\'eressant dans \textit{Syncthing} est donc le protocole de
-communication, qui a \'et\'e cr\'ee pour cela : Block Exchange Protocol (BEP)
-~\cite{refBEP}. Ce protocole sous Creative Commons~\cite{refCC4.0}, est donc
-une bonne source d'inspiration afin de faire la liaison entre notre client et
-notre serveur.
+Ce qui est int\'eressant dans \textit{Syncthing} est pour nous le protocole de
+communication, qui a \'et\'e cr\'ee \`a l'occasion : Block Exchange Protocol
+(BEP)~\cite{refBEP}. Ce protocole sous Creative Commons~\cite{refCC4.0}, est
+donc une bonne source d'inspiration afin de faire la liaison entre notre client
+et notre serveur.
 
 \paragraph{rsync\\}
 \textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
 Unix. Le c\oe ur du programme est son algorithme :
 \textit{\flqq rsync algorithm \frqq}~\cite{refRsyncAlgo}.
 
-Celui-ci va d\'ecouper un fichier en plusieurs blocs de taille identique et
-calculer, pour chacun, un \texttt{checksum} ainsi qu'un \texttt{hash}. Ainsi,
-pour n'envoyer que les parties modifi\'ees d'un ficher, l'algorithme va cr\'eer
-une fen\^etre de la taille des blocs et la faire parcourir l'int\'egralit\'e du
-fichier. Pour chaque position de la fen\^etre, si le \texttt{checksum} --- est
-rapide \`a calculer mais dont le risque de collision est \'elev\'e ---
-correspond au \texttt{checksum} d\'ej\`a calcul\'e d'un bloc, les \texttt{hash}
---- plus lent \`a calculer mais un risque de collision beaucoup plus faible, 
-selon l'algorithme utilis\'e --- sont alors comparer. Si ceux-ci sont
-identiques, la fen\^etre correspond \`a un bloc et tout ce qui pr\'ec\`ede ce
-dernier, et jusqu'au pr\'ec\'edent bloc trouv\'e est une partie du fichier qui
-a \'et\'e modifi\'e (ajout/modification/suppression) et est donc \`a
-synchroniser.
+Celui-ci va d\'ecouper un fichier en plusieurs blocs de taille identique avant
+de calculer, pour chacun, un \texttt{checksum} ainsi qu'un \texttt{hash}.
 
-C'est en grande partie cet algorithme qui m'a permis d'en trouver un qui me
-permet de r\'epondre \`a ma probl\'ematique. Probl\'ematique \`a la fois
-similaire puisqu'il fallait comparer deux fichiers distant pour ne trouver que
-les diff\'erences mais diff\'erent dans la mesure o\`u il n'est pas possible
-de maintenir dans mon cas une liste de bloc de m\^eme taille.
+Pour n'envoyer que les parties modifi\'ees d'un ficher, l'algorithme va cr\'eer
+une fen\^etre de la taille des blocs. Celle-ci va parcourir l'int\'egralit\'e
+du fichier octet par octet.
+
+Pour chaque position de la fen\^etre, le \texttt{checksum} --- rapide \`a
+calculer mais dont le risque de collision est \'elev\'e --- est calcul\'e et
+compar\'e au \texttt{checksum} d\'ej\`a calcul\'e au pr\'ec\'edent backup de
+chaque bloc composant le fichier. Si un \textit{checksum} correspond, le
+\texttt{hash} --- plus lent \`a calculer mais un risque de collision beaucoup
+plus faible, selon l'algorithme utilis\'e --- du bloc correspondant est alors
+comparer. Si celui-ci est identique, la fen\^etre correspond \`a un bloc non
+modifi\'e du fichier.
+
+Ainsi, tout ce qui pr\'ec\`ede la fen\^etre, et jusqu'au pr\'ec\'edent bloc
+trouv\'e, correspondant \`a une partie du fichier modifi\'ee
+(ajout/modification/suppression) et doit donc \^etre synchronis\'e.
+
+C'est en grande partie cet algorithme qui m'a permis d'en trouver me permettant
+de r\'epondre \`a ma probl\'ematique. Probl\'ematique \`a la fois similaire au
+probl\`eme de \textit{rsync} puisqu'il fallait comparer deux fichiers distant
+pour n'envoyer les changements mais diff\'erent dans la mesure o\`u il n'est
+pas possible dans mon cas de maintenir une liste de bloc de m\^eme taille au
+del\`a du premier backup.
 
 \subsubsection{R\'eflexion}
 Une fois cette phase de documentation r\'ealis\'ee, il \'etait temps de trouver
