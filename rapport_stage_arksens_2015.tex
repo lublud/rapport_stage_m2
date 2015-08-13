@@ -147,33 +147,33 @@ d'\'etude doit \^etre effectu\'e en entreprise pour valider les acquis et
 rentrer dans le monde professionnel.
 
 J'ai r\'ealis\'e ce stage entre le 1\up{er} avril et le 25 septembre 2015, soit
-une p\'eriode de six mois, \`a \textit{Adhara Cyber Security}, renomm\'ee 
-\textit{Arksens} au 1\up{er} juillet.
+une p\'eriode de six mois, dans l'entreprise \textit{Adhara Cyber Security},
+renomm\'ee \textit{Arksens} au 1\up{er} juillet.
 
 Ce stage fut donc l'occasion pour moi de mettre en pratique mes connaissances,
 acquises tout au long de mon parcours universitaire, dans un environnement
 professionnel et de m'en servir pour mener au mieux la mission qui m'a
-\'et\'e confi\'ee. En outre, j'ai d\^u cr\'eer \`a partir de rien un syst\`eme
-de backup incr\'ementale et s\'ecuris\'e, offrant une encryption en local des
-donn\'ees des utilisateurs. Ainsi m'a-t-il \'et\'e demand\'e de faire la
-conception de ce projet dans un premier temps puis son d\'eveloppement dans un
-second temps et ainsi voir le processus de cr\'eation, jusqu'\`a un stade
-avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.
+\'et\'e confi\'ee. Ma mission, durant ce stage, a \'et\'e de concevoir et
+d\'ev\'elopper un syst\`eme de backup incr\'ementale et s\'ecuris\'e, offrant
+une encryption en local des donn\'ees des utilisateurs. J'ai ainsi proc\'ed\'e
+\`a la r\'edaction du plan de d\'eveloppement puis \`a l'impl\'ementation de
+celui-ci, et j'ai ainsi particip\'e au processus de cr\'eation, jusqu'\`a un
+stade avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.
 
-Ce rapport vient donc pr\'esenter le d\'eroulement du stage ainsi que le
-travail accompli au sein de l'entreprise durant ces six mois.
+Ce rapport pr\'esente donc le d\'eroulement du stage ainsi que le travail
+accompli au sein de l'entreprise durant ces six mois.
 
 
 \chapter{Rapport de synth\`ese}
 \thispagestyle{fancy}
 \label{rapportSynthese}
 \section{Pr\'esentation de l'entreprise}
-Cr\'e\'ee en 2013 et nomm\'ee alors \textit{Adhara Cyber Security} avant
+Cr\'e\'ee en 2013 sous le nom d'\textit{Adhara Cyber Security} avant
 d'\^etre renomm\'ee \textit{Arksens} au 1\up{er} juillet 2015, l'entreprise 
 dans laquelle j'ai effectu\'e mon stage est sp\'ecialis\'ee en s\'ecurit\'e
-informatique. se d\'eveloppe sur trois continents gr\^ace \`a une approche
-novatrice et r\'epondant aux besoins des entreprises et administrations de
-toutes tailles.
+informatique. L'entreprise se d\'eveloppe sur trois continents gr\^ace \`a une
+approche novatrice et r\'epondant aux besoins des entreprises et
+administrations de toutes tailles.
 
 Le changement de nom a fait suite \`a une \'evolution des clients puisque
 l'entreprise, bien que principalement prestataire de service pour des PME
@@ -241,6 +241,9 @@ L'ensemble des produits et solutions propos\'es par l'entreprise sont d\'ecrit
 de mani\`ere plus compl\`ete sur leur site web~\cite{refArksens}.
 
 \subsubsection{Les offres de cloud}
+L'entreprise propose \'egalement des offres autour du Cloud\footnote{
+Exploitation de la puissance de calcul ou de stockage de serveurs distants
+par l'interm\'ediaire d'un r\'eseau, g\'en\'eralement l'internet.}
 
 \begin{itemize}
   \item Offre 1 - Pure cloud
@@ -276,6 +279,7 @@ Avec 3 offres de cloud comportant l'ensemble des solutions de s\'ecurit\'e
 cité pr\'ec\'edemment, \textit{Arksens} peut répondre à l'ensemble des besoins
 de ses clients actuels.
 
+\subsection{L'id\'eologie de l'entreprise}
 \subsubsection{La politique des centres de données}
 
 Pour chaque service, \textit{Arksens} fournit le mat\'eriel (centres de
@@ -311,7 +315,7 @@ Initiative~\cite{refOSI}, \`a savoir :
 \begin{itemize}
   \item Possibilit\'e de redistribution
   \item Accès au code source
-  \item Cr\'eation de travaux dérivés
+  \item Cr\'eation de travaux d\'eériv\'eés
 \end{itemize}
 
 Ce choix permet notamment d'accentuer la confiance avec les clients et
@@ -334,11 +338,11 @@ suivants :
 \end{itemize}
 
 \subsection{\^Ile Maurice}
-Pour ma part, c'est l'\^ile Maurice qui m'int\'eresse puisque c'est l\`a o\`u
-j'ai pass\'e mes six mois de stage. Les locaux, accueillant le centre de
-recherche et d\'eveloppement de l'entreprise, se trouvent au Business Park de
+L'\^ile Maurice abrite es locaux accueillant le centre de recherche et
+d\'eveloppement de l'entreprise. Les locaux se trouvent au Business Park de
 Beau Plan (figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au
-nord-ouest de l'\^ile, \`a proximit\'e de Port Louis.
+nord-ouest de l'\^ile, \`a proximit\'e de Port Louis. C'est donc l\`a que
+j'ai effectu\'e mon stage.
 
 \begin{figure}[h!]
   \centering
@@ -357,25 +361,26 @@ l'arriv\'ee de deux autres stagiaire, Didier Mannone et
 Yves Colin de Verdi\`ere, puis au 1\up{er} mai avec l'arriv\'ee d'Aymeric
 Tabourin, ing\'enieur s\'ecurit\'e.
 
-\`A mon d\'epart, une restructuration \'etait en cours et seulement Aymeric
-allait rester dans l'entreprise apr\`es la mi-septembre.
+\`A mon d\'epart, une restructuration \'etait en cours et plusieurs changements
+allait \^etre apport\'es au niveau de l'\'equipe en place avec notamment le
+d\'epart de certains collaborateurs.
 
 Ces changements montrent que la vie d'une startup peut rapidement \'evoluer,
 que ce soit dans un sens ou dans l'autre. En l'espace de six mois seulement
 une p\'eriode de recrutement s'en \'etait donc suivi d'une restructuration
-importante impliquant le d\'epart de plusieurs employ\'es, incluant les
-fondateurs d'\textit{Arksens}.
+importante impliquant le d\'epart de plusieurs employ\'es.
 
 N\'eanmoins, au cours de mon passage dans l'entreprise, la pr\'esence de
-personne d'origine n\'eerlandaise a permis la cr\'eation d'un environnement
+Durant mon stage dans l'entreprise, la pr\'esence de collaborateurs
+N\'eerlandais et Mauriciens a permis la cr\'eation d'un environnement
 international, bien que fortement francophone. Afin de pouvoir communiquer avec
 l'ensemble des personnes de l'\'equipe, l'utilisation de l'anglais au quotidien
 \'etait donc une n\'ecessit\'e.
 
 L'int\'egration dans l'\'equipe s'est donc faite assez facilement et rapidement
 et c'est ainsi dans une ambiance g\'en\'eralement bonne, bien que quelque peu
-d\'et\'erior\'ee sur la fin d\^u \`a la restructuration de l'entreprise qu'\`a
-pu se d\'erouler ce stage de fin d'\'etude.
+compliqu\'ee sur la fin d\^u \`a la restructuration de l'entreprise s'est
+d\'eroul\'e ce stage de fin d'\'etude.
 
 \section{Sujet de stage}
 \subsection{Contexte}
@@ -442,9 +447,9 @@ d\'emarrer mon travail, qui sera alors divis\'e en trois grandes phases :
  \item D\'eveloppement
 \end{itemize}
 
-La premi\`ere phase, de documentation et de r\'eflexion, m'a permis de me
-documenter dans un premier temps sur les diff\'erentes solution qui existent
-d\'ej\`a avant de trouver un algorithme r\'epondant \`a la probl\'ematique.
+La premi\`ere phase de documentation et de r\'eflexion consistait \`a
+rechercher diff\'erentes solutions d\'ej\`a existantes et potentiellement
+exploitable avant de proc\'eder \`a toute phase de conception.
 
 La conception s'est faite en prenant en compte les contraintes existantes
 et en se basant sur un travail de r\'eflexion d\'ej\`a effectu\'e par David et
@@ -454,7 +459,8 @@ Enfin, en ce qui concerne le d\'eveloppement, une des contraintes que j'avais
 \'etait d'utiliser le C++ et de d\'evelopper de mani\`ere orient\'e objet tout
 en faisant en sorte que le code puisse \^etre robuste, lisible, testable, et
 donc facilement maintenable. De plus les librairies et framework utilis\'es
-devaient \^etre sous licence libre.
+devaient \^etre sous licence libre afin d'\^etre en droit de publier l'ouvrage
+sous licence libre.
 
 Pour mener cette mission \`a bien, il avait \'et\'e d\'ecid\'e qu'une r\'eunion
 hebdomadaire devait \^etre r\'ealis\'ee afin que David et Ga\"etan puissent
@@ -544,7 +550,7 @@ entre plusieurs appareils au travers d'une communication s\'ecuris\'ee via TLS.
 Les donn\'ees n'\'etant jamais stock\'ees sur un serveur tiers, uniquement les
 diff\'erents ordinateurs utilis\'es y ont donc acc\`es.
 
-Ce qui est int\'eressant dans \textit{Syncthing} est pour nous le protocole de
+L'aspect int\'eressant de \textit{Syncthing} est pour nous le protocole de
 communication, qui a \'et\'e cr\'ee \`a l'occasion : Block Exchange Protocol
 (BEP)~\cite{refBEP}. Ce protocole sous Creative Commons~\cite{refCC4.0}, est
 donc une bonne source d'inspiration afin de faire la liaison entre notre client
@@ -596,29 +602,29 @@ de chiffrement permet de r\'ealiser des op\'erations sur des fichiers chiffr\'es
 et de retourner le r\'esultat chiffr\'e. Ceci permet de faire des op\'erations
 sans avoir \`a conna\^itre le contenu d'un fichier.
 
-\begin{description}
- \item [Fonctionnement :] Dans notre cas, il nous aurait permis de concatener
+\begin{itemize}
+ \item \textbf{Fonctionnement :} Dans notre cas, il nous aurait permis de concatener
  sur le serveur l'ensemble des morceaux d'un fichier avant de le re-d\'ecouper
  en bloc de taille \'egale puis de calculer pour chacun le \texttt{checksum}
  ainsi que le \texttt{hash}. Ceci aurait permis d'utiliser directement
  l'algorithme \textit{rsync} pour identifier les modifications faites sur un
  fichier.
 
- \item [Avantage :] Consommation de ressource et temps de calcul r\'eduit sur
+ \item \textbf{Avantage :} Consommation de ressource et temps de calcul r\'eduit sur
  la machine client.
  
- \item [Inconv\'enient :] En utilisant le chiffrement homomorphe, le plus gros
+ \item \textbf{Inconv\'enient :} En utilisant le chiffrement homomorphe, le plus gros
  du calcul se fait sur le serveur entre deux backup, et ceux pour chaque
  fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
  demandeur de ressource du c\^ot\'e du serveur pour que le programme fonctionne
  correctement.
 
- \item [Probl\`eme :] Le chiffrement homomorphe est un domaine de recherche
+ \item \textbf{Probl\`eme :} Le chiffrement homomorphe est un domaine de recherche
  tr\`es prometteur mais pas encore assez avanc\'e pour pouvoir \^etre utilis\'e
  en production. De plus le temps de calcul est extr\^emement \'elev\'e. Cette
  solution ne peut donc pas \^etre utilis\'ee aujourd'hui mais pourra peut-\^etre
  un jour \^etre envisag\'ee dans une prochaine version du backup.
-\end{description}
+\end{itemize}
 
 \paragraph{rsync revisit\'e\\}
 Ne pouvant rien faire du c\^ot\'e serveur, il fallait trouver un algorithme
@@ -628,19 +634,19 @@ travaill\'e \`a partir de l'id\'ee de fen\^etr glissante utilis\'ee pour
 identique, il a fallu modifier l'algorithme pour prendre ceci en compte. Ainsi
 avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
 
-\begin{description}
- \item [Fonctionnement :] L'algorithme utilise une fen\^etre dynamique,
+\begin{itemize}
+ \item \textbf{Fonctionnement :} L'algorithme utilise une fen\^etre dynamique,
  parcourant l'int\'egralit\'e du fichier et adaptant sa taille en fonction
  des longueurs des morceaux de fichier que nous avons.
  
- \item [Avantage :] Fait c\^ot\'e client, il n'y a pas une sur-utilisation
+ \item \textbf{Avantage :} Fait c\^ot\'e client, il n'y a pas une sur-utilisation
  des ressources serveurs qui est alors utilis\'e uniquement pour stocker
  les donn\'ees une fois chiffr\'ees.
  
- \item [Inconv\'enient :] Temps de calcul potentiellement grand, d\'ependant
+ \item \textbf{Inconv\'enient :} Temps de calcul potentiellement grand, d\'ependant
  de la taille des fichiers \`a analyser ainsi que de ressources disponible sur
  la machine client.
-\end{description}
+\end{itemize}
 
 C'est donc sur cette base que j'ai commenc\'e l'\'etape suivante. \'Etape 
 consistant \`a \'ecrire un prototype permettant de v\'erifier la faisabilit\'e,
