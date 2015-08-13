@@ -558,8 +558,16 @@ et notre serveur.
 
 \paragraph{rsync\\}
 \textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
-Unix. Le c\oe ur du programme est son algorithme :
+Unix. Le c\oe ur du programme est son algorithme sch\'ematis\'e
+figure~\ref{rsyncAlgo} :
 \textit{\flqq rsync algorithm \frqq}~\cite{refRsyncAlgo}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=15cm]{algo/rsyncalgo.png}
+    \caption{\label{rsyncAlgo} Sch\'ema montrant bri\`evement
+    l'algorithme \textit{rsync}}
+\end{figure}
 
 Celui-ci va d\'ecouper un fichier en plusieurs blocs de taille identique avant
 de calculer, pour chacun, un \texttt{checksum} ainsi qu'un \texttt{hash}.
