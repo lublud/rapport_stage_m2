@@ -1,5 +1,5 @@
 \documentclass[a4paper,10pt, twoside]{report}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{titlesec, blindtext, color}
 \usepackage{setspace}
@@ -126,9 +126,9 @@ van Diemen qui m'ont accueilli \`a l'\^ile Maurice et suivi au jour le jour
 durant ces six mois. Je n'oublie \'evidemment pas Micha\"el Colaone et le reste
 de l'\'equipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
 
-Enfin je remercie toute les personnes que je peux oublier mais qui m'ont aid\'e,
-dans l'\'ecriture de ce rapport, dans le cadre du stage ou qui m'ont tout
-simplement fait d\'ecouvrir l'\^ile Maurice.
+Enfin je remercie toutes les personnes que je peux oublier mais qui m'ont
+aid\'e, dans l'\'ecriture de ce rapport, dans le cadre du stage ou qui m'ont
+tout simplement fait d\'ecouvrir l'\^ile Maurice.
 
 Je tiens tout particuli\`erement \`a remercier Sir Daniel Brands of House Brands,
 the first of His Name, King of the Dutch, King of the flatlands and the first
@@ -370,7 +370,6 @@ que ce soit dans un sens ou dans l'autre. En l'espace de six mois seulement
 une p\'eriode de recrutement s'en \'etait donc suivi d'une restructuration
 importante impliquant le d\'epart de plusieurs employ\'es.
 
-N\'eanmoins, au cours de mon passage dans l'entreprise, la pr\'esence de
 Durant mon stage dans l'entreprise, la pr\'esence de collaborateurs
 N\'eerlandais et Mauriciens a permis la cr\'eation d'un environnement
 international, bien que fortement francophone. Afin de pouvoir communiquer avec
@@ -431,6 +430,10 @@ envoy\'ees sur des serveurs distant. Il me fallait donc d\'evelopper un
 client/serveur multi-plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
 la probl\'ematique suivante : combiner le chiffrement local avec la sauvegarde
 incr\'ementale.
+
+De plus le programme devra \^etre multi-thread\'e pour pouvoir optimiser la
+sauvegarde des donn\'ees. Entre autre, cela permettra de chiffrer des blocs,
+constituant les fichiers, tout en envoyant au serveur ceux d\'ej\`a chiffr\'es.
 
 Ce backup permettrait donc, au premier lancement, de sauvegarder l'ensemble
 d'un ou plusieurs dossier. \`A partir de la seconde sauvegarde, il ne faudrait
@@ -494,8 +497,8 @@ permettant de v\'erifier l'int\'egrit\'e des fichiers.
 
 Le second cas est un peu plus complexe et d\'ecrit comme suit :
 \begin{itemize}
- \item Calculer \textit{signature\_toto.txt} \`a \(N + 1\)
- \item T\'el\'echager \textit{signature\_toto.txt} \`a \(N\))
+ \item Calculer \textit{signature\_toto.txt} (\(N + 1\))
+ \item T\'el\'echager \textit{signature\_toto.txt} (\(N\))
  \item Comparer les deux signatures : si elles ne sont pas diff\'erentes, les
  fichiers n'ont pas \`a \^etre compar\'e et on peut passer au fichier suivant
  sinon on continue
@@ -513,9 +516,9 @@ calcul\'ee (\(N\)). Le bloc est donc chiffr\'e avant d'\^etre envoy\'e sur le
 serveur avec sa signature \textit{signature\_bloc1.txt}.
 
 \paragraph{}
-L'id\'ee bien qu'int\'eressante dans un premier temps ne peut fonctionner que
-dans un cas tr\`es particulier de fonctionnement et ne peut donc pas \^etre
-utilis\'e en tant que tel :
+L'id\'ee bien qu'int\'eressante dans un premier temps ne peut \^etre
+appliqu\'ee que dans un cas tr\`es particulier de fonctionnement et ne peut
+donc pas \^etre utilis\'e en tant que tel :
 \begin{itemize}
  \item Si les modifications n'affecte pas la taille d'un bloc et donc
  uniquement son contenu et que l'ordre des blocs est rest\'e inchang\'e
@@ -668,18 +671,60 @@ pouvoir penser \`a la conception du produit. Pour cela, le passage par une
 Dans ce cadre, j'ai \'ecrit l'algorithme en \textit{C++} afin de v\'erifier
 le temps d'ex\'ecution de celui-ci. Plusieurs essais ont \'et\'e fait afin de
 r\'eduire toujours plus la dur\'ee d'ex\'ecution de l'algorithme. C'est donc
-principalement de l'optimisation, \`a la fois au niveau algorithmique ainsi
+principalement de l'optimisation, \`a la fois au niveau algorithmique et
 qu'au niveau de l'\'ecriture du code en lui-m\^eme, que j'ai effectu\'e  au
 course de cette \'etape.
 
 Plusieurs version ont donc vu le jour au cours de cette \'etape afin d'obtenir
-un algorithme qui puisse \^etre utilisable pour le syst\`eme de backup.
+un algorithme qui puisse \^etre utilisable pour le syst\`eme de backup. Dans
+le cas \'ech\'eant il aurait fallu chercher un algorithme diff\'erent pour
+atteindre notre objectif. N\'eanmoins cela n'a pas \'et\'e le cas. Le
+prototype \'ecrit ayant permis de valider l'algorithme trouv\'e, j'ai pu passer
+\`a l'\'etape suivante et commencer ainsi la conception.
 
 Plus de d\'etails sur ces diff\'erentes versions de l'algorithme peuvent \^etre
 trouv\'es dans la partie~\nameref{rapportTechnique}.
 
-
 \subsection{Conception}
+La conception a commenc\'e avec le d\'ecoupage du projet en diff\'erents
+modules. Avant de penser \`a la partie serveur, c'est le client qui, dans un
+premier temps, va \^etre la priorit\'e.
+
+Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
+\begin{itemize}
+ \item \textbf{organizer :} module central qui va cr\'eer plus ou moins de
+ thread et lancer les diff\'erents modules n\'ecessaires \`a la sauvegarde
+ ou \`a la r\'ecup\'eration des donn\'ees.
+ \item \textbf{information :} ce module contient les informations
+ (m\'eta-informations) n\'ecessaires sur les morceaux de fichiers ainsi que
+ sur les fichiers en eux-m\^eme.
+ \item \textbf{filer :} ce module r\'ecup\`ere la liste des fichiers \`a
+ partir du r\'epertoire d'entr\'ee. Il cr\'ee les objets correspondants
+ (module information) et les transmets au module suivant.
+ \item \textbf{spconc :} ce module coupe (\textit{split}) ou concat\`ene ce
+ qui lui est envoy\'e selon qu'il s'agisse d'une sauvegarde ou d'une
+ r\'ecup\'eration de donn\'ees.
+ \item \textbf{scanFile :} dans le cas o\`u un fichier a d\'ej\`a \'et\'e
+ sauvegard\'e, ce module va scanner l'int\'egralit\'e du fichier pour trouver
+ les parties qui ont \'et\'e modifi\'ees et qui doivent \^etre chiffr\'ees et
+ envoy\'ees au serveur.
+ \item \textbf{hasher :} ce module fournit des fonction de hash permettant de
+ v\'erifier l'int\'egralit\'e des fichiers.
+ \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
+ d\'echiffrement des donn\'ees.
+ \item \textbf{communication :} ce module s'occupe de la communication avec
+ le serveur.
+ \item \textbf{dbcomm :} ce module contient les fonctions utilis\'ees pour la
+ communication avec la base de donn\'ees
+ \item \textbf{misc :} ce module contient divers outils (\textit{miscellaneous})
+ pouvant \^etre utile dans le programme. Entre autre il contient le syst\`eme
+ de notification permettant la communication entre les diff\'erents modules
+ \item \textbf{logger :} ce module permet de garder une trace lors de
+ l'ex\'ecution du programme, notamment utile lors du d\'eboguage ou si une
+ erreur provoque l'arr\^et pr\'ematur\'e du programme.
+\end{itemize}
+
+
 \subsection{D\'eveloppement}
 
 \chapter{Rapport technique}
