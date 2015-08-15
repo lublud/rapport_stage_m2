@@ -123,8 +123,8 @@ connaissances et les aptitudes n\'ecessaires au bon d\'eroulement de ce stage.
 Je remercie \'egalement la soci\'et\'e Arksens pour m'avoir permis de faire mon
 stage chez eux. Tout particuli\`erement, je remercie David Terranova et Ga\"etan
 van Diemen qui m'ont accueilli \`a l'\^ile Maurice et suivi au jour le jour
-durant ces six mois. Je n'oublie \'evidemment pas Micha\"el Colaone et le reste
-de l'\'equipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
+durant ces six mois, mais \'egalement Micha\"el Colaone et le reste de
+l'\'equipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
 
 Enfin je remercie toutes les personnes que je peux oublier mais qui m'ont
 aid\'e, dans l'\'ecriture de ce rapport, dans le cadre du stage ou qui m'ont
@@ -686,43 +686,57 @@ Plus de d\'etails sur ces diff\'erentes versions de l'algorithme peuvent \^etre
 trouv\'es dans la partie~\nameref{rapportTechnique}.
 
 \subsection{Conception}
+\subsubsection{Un programme modulaire}
 La conception a commenc\'e avec le d\'ecoupage du projet en diff\'erents
 modules. Avant de penser \`a la partie serveur, c'est le client qui, dans un
 premier temps, va \^etre la priorit\'e.
 
 Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
 \begin{itemize}
- \item \textbf{organizer :} module central qui va cr\'eer plus ou moins de
- thread et lancer les diff\'erents modules n\'ecessaires \`a la sauvegarde
- ou \`a la r\'ecup\'eration des donn\'ees.
- \item \textbf{information :} ce module contient les informations
- (m\'eta-informations) n\'ecessaires sur les morceaux de fichiers ainsi que
- sur les fichiers en eux-m\^eme.
- \item \textbf{filer :} ce module r\'ecup\`ere la liste des fichiers \`a
- partir du r\'epertoire d'entr\'ee. Il cr\'ee les objets correspondants
- (module information) et les transmets au module suivant.
- \item \textbf{spconc :} ce module coupe (\textit{split}) ou concat\`ene ce
- qui lui est envoy\'e selon qu'il s'agisse d'une sauvegarde ou d'une
- r\'ecup\'eration de donn\'ees.
- \item \textbf{scanFile :} dans le cas o\`u un fichier a d\'ej\`a \'et\'e
- sauvegard\'e, ce module va scanner l'int\'egralit\'e du fichier pour trouver
- les parties qui ont \'et\'e modifi\'ees et qui doivent \^etre chiffr\'ees et
- envoy\'ees au serveur.
- \item \textbf{hasher :} ce module fournit des fonction de hash permettant de
- v\'erifier l'int\'egralit\'e des fichiers.
- \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
- d\'echiffrement des donn\'ees.
- \item \textbf{communication :} ce module s'occupe de la communication avec
- le serveur.
- \item \textbf{dbcomm :} ce module contient les fonctions utilis\'ees pour la
- communication avec la base de donn\'ees
- \item \textbf{misc :} ce module contient divers outils (\textit{miscellaneous})
- pouvant \^etre utile dans le programme. Entre autre il contient le syst\`eme
- de notification permettant la communication entre les diff\'erents modules
- \item \textbf{logger :} ce module permet de garder une trace lors de
- l'ex\'ecution du programme, notamment utile lors du d\'eboguage ou si une
- erreur provoque l'arr\^et pr\'ematur\'e du programme.
+  \item \textbf{organizer :} module central qui va cr\'eer plus ou moins de
+  thread et lancer les diff\'erents modules n\'ecessaires \`a la sauvegarde
+  ou \`a la r\'ecup\'eration des donn\'ees.
+  \item \textbf{information :} ce module contient les informations
+  (m\'eta-informations) n\'ecessaires sur les morceaux de fichiers ainsi que
+  sur les fichiers en eux-m\^eme.
+  \item \textbf{filer :} ce module r\'ecup\`ere la liste des fichiers \`a
+  partir du r\'epertoire d'entr\'ee. Il cr\'ee les objets correspondants
+  (module information) et les transmets au module suivant.
+  \item \textbf{spconc :} ce module coupe (\textit{split}) ou concat\`ene ce
+  qui lui est envoy\'e selon qu'il s'agisse d'une sauvegarde ou d'une
+  r\'ecup\'eration de donn\'ees.
+  \item \textbf{scanFile :} dans le cas o\`u un fichier a d\'ej\`a \'et\'e
+  sauvegard\'e, ce module va scanner l'int\'egralit\'e du fichier pour trouver
+  les parties qui ont \'et\'e modifi\'ees et qui doivent \^etre chiffr\'ees et
+  envoy\'ees au serveur.
+  \item \textbf{hasher :} ce module fournit des fonction de hash permettant de
+  v\'erifier l'int\'egralit\'e des fichiers.
+  \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
+  d\'echiffrement des donn\'ees.
+  \item \textbf{communication :} ce module s'occupe de la communication avec
+  le serveur.
+  \item \textbf{dbcomm :} ce module contient les fonctions utilis\'ees pour la
+  communication avec la base de donn\'ees
+  \item \textbf{misc :} ce module contient divers outils (\textit{miscellaneous})
+  pouvant \^etre utile dans le programme. Entre autre il contient le syst\`eme
+   de notification permettant la communication entre les diff\'erents modules
+  \item \textbf{logger :} ce module permet de garder une trace lors de
+  l'ex\'ecution du programme, notamment utile lors du d\'eboguage ou si une
+  erreur provoque l'arr\^et pr\'ematur\'e du programme.
 \end{itemize}
+
+\paragraph{}
+L'utilisation de modules doit permettre une modification facile du programe,
+sans avoir \`a modifier tout le code. Pour changer un algorithme, il ne doit
+donc \^etre n\'ecessaire que d'\'ecrire le code de celui-ci, sans modifier
+celui en place, et de ne changer que la cr\'eation d'un objet \`a partir
+du module en sp\'ecifiant un diff\'erent algorithme utilis\'e.
+
+Un autre objectif de la programmation modulaire est la facilit\'e que cela
+apporte pour maintenir le code efficacement.
+
+Dans ce but, j'utiliserai les sp\'ecificit\'es de la programmation orient\'ee
+objet.
 
 
 \subsection{D\'eveloppement}
