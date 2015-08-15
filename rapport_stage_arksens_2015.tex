@@ -614,27 +614,28 @@ et de retourner le r\'esultat chiffr\'e. Ceci permet de faire des op\'erations
 sans avoir \`a conna\^itre le contenu d'un fichier.
 
 \begin{itemize}
- \item \textbf{Fonctionnement :} Dans notre cas, il nous aurait permis de concatener
- sur le serveur l'ensemble des morceaux d'un fichier avant de le re-d\'ecouper
- en bloc de taille \'egale puis de calculer pour chacun le \texttt{checksum}
- ainsi que le \texttt{hash}. Ceci aurait permis d'utiliser directement
- l'algorithme \textit{rsync} pour identifier les modifications faites sur un
- fichier.
+ \item \textbf{Fonctionnement :} Dans notre cas, il nous aurait permis de
+ concatener sur le serveur l'ensemble des morceaux d'un fichier avant de le
+ re-d\'ecouper en bloc de taille \'egale puis de calculer pour chacun le
+ \texttt{checksum} ainsi que le \texttt{hash}. Ceci aurait permis d'utiliser
+ directement l'algorithme \textit{rsync} pour identifier les modifications
+ faites sur un fichier.
 
- \item \textbf{Avantage :} Consommation de ressource et temps de calcul r\'eduit sur
- la machine client.
+ \item \textbf{Avantage :} Consommation de ressource et temps de calcul
+ r\'eduit sur la machine client.
  
- \item \textbf{Inconv\'enient :} En utilisant le chiffrement homomorphe, le plus gros
- du calcul se fait sur le serveur entre deux backup, et ceux pour chaque
- fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
+ \item \textbf{Inconv\'enient :} En utilisant le chiffrement homomorphe, le
+ plus gros du calcul se fait sur le serveur entre deux backup, et ceux pour
+ chaque fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
  demandeur de ressource du c\^ot\'e du serveur pour que le programme fonctionne
  correctement.
 
- \item \textbf{Probl\`eme :} Le chiffrement homomorphe est un domaine de recherche
- tr\`es prometteur mais pas encore assez avanc\'e pour pouvoir \^etre utilis\'e
- en production. De plus le temps de calcul est extr\^emement \'elev\'e. Cette
- solution ne peut donc pas \^etre utilis\'ee aujourd'hui mais pourra peut-\^etre
- un jour \^etre envisag\'ee dans une prochaine version du backup.
+ \item \textbf{Probl\`eme :} Le chiffrement homomorphe est un domaine de
+ recherche tr\`es prometteur mais pas encore assez avanc\'e pour pouvoir
+ \^etre utilis\'e en production. De plus le temps de calcul est extr\^emement
+ \'elev\'e. Cette solution ne peut donc pas \^etre utilis\'ee aujourd'hui mais
+ pourra peut-\^etre un jour \^etre envisag\'ee dans une prochaine version du
+backup.
 \end{itemize}
 
 \paragraph{rsync revisit\'e\\}
@@ -650,13 +651,13 @@ avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
  parcourant l'int\'egralit\'e du fichier et adaptant sa taille en fonction
  des longueurs des morceaux de fichier que nous avons.
  
- \item \textbf{Avantage :} Fait c\^ot\'e client, il n'y a pas une sur-utilisation
- des ressources serveurs qui est alors utilis\'e uniquement pour stocker
- les donn\'ees une fois chiffr\'ees.
+ \item \textbf{Avantage :} Fait c\^ot\'e client, il n'y a pas une
+ sur-utilisation des ressources serveurs qui est alors utilis\'e uniquement
+ pour stocker les donn\'ees une fois chiffr\'ees.
  
- \item \textbf{Inconv\'enient :} Temps de calcul potentiellement grand, d\'ependant
- de la taille des fichiers \`a analyser ainsi que de ressources disponible sur
- la machine client.
+ \item \textbf{Inconv\'enient :} Temps de calcul potentiellement grand,
+ d\'ependant de la taille des fichiers \`a analyser ainsi que de ressources
+ disponible sur la machine client.
 \end{itemize}
 
 C'est donc sur cette base que j'ai commenc\'e l'\'etape suivante. \'Etape 
@@ -717,26 +718,59 @@ Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
   le serveur.
   \item \textbf{dbcomm :} ce module contient les fonctions utilis\'ees pour la
   communication avec la base de donn\'ees
-  \item \textbf{misc :} ce module contient divers outils (\textit{miscellaneous})
-  pouvant \^etre utile dans le programme. Entre autre il contient le syst\`eme
-   de notification permettant la communication entre les diff\'erents modules
+  \item \textbf{misc :} ce module contient divers outils
+  (\textit{miscellaneous}) pouvant \^etre utile dans le programme. Entre autre
+  il contient le syst\`eme de notification permettant la communication entre
+  les diff\'erents modules
   \item \textbf{logger :} ce module permet de garder une trace lors de
   l'ex\'ecution du programme, notamment utile lors du d\'eboguage ou si une
   erreur provoque l'arr\^et pr\'ematur\'e du programme.
 \end{itemize}
 
 \paragraph{}
-L'utilisation de modules doit permettre une modification facile du programe,
-sans avoir \`a modifier tout le code. Pour changer un algorithme, il ne doit
-donc \^etre n\'ecessaire que d'\'ecrire le code de celui-ci, sans modifier
-celui en place, et de ne changer que la cr\'eation d'un objet \`a partir
-du module en sp\'ecifiant un diff\'erent algorithme utilis\'e.
+L'utilisation de modules doit permettre une modification facile du programme,
+sans avoir \`a modifier tout le code. Par exemple, pour changer un algorithme,
+il ne doit donc \^etre n\'ecessaire que d'\'ecrire le code de celui-ci, sans
+modifier celui en place, et de ne changer que la cr\'eation d'un objet \`a
+partir du module en sp\'ecifiant un diff\'erent algorithme utilis\'e.
 
-Un autre objectif de la programmation modulaire est la facilit\'e que cela
+Un autre avantage de la programmation modulaire est la facilit\'e que cela
 apporte pour maintenir le code efficacement.
 
-Dans ce but, j'utiliserai les sp\'ecificit\'es de la programmation orient\'ee
-objet.
+Dans ce but, j'utiliserai et profiterai des sp\'ecificit\'es qu'offre la
+programmation orient\'ee objet.
+
+\subsubsection{Interaction entre modules}
+L'utilisation de threads pour ex\'ecuter les diff\'erents modules complexifie
+l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es successivement
+pour pouvoir traiter un fichier, de la lecture depuis le disque jusqu'\ \`a
+l'envoie des blocs, chiffr\'es, le constituant. Dans ce sens, les modules
+doivent communiquer entre eux. Un lien est n\'ecessaire pour que deux threads
+puisse s'envoyer les donn\'ees li\'ees \`a un fichier.
+
+Pour faire ce lien, nous avons dans un premier temps penser au design pattern
+\textit{observer}, donnant la possibilit\'e \`a un module d'envoyer les
+informations relative \`a un fichier, ainsi qu'un \textit{pipe} servant de
+tunnel pour faire passer le fichier en lui-m\^eme d'une thread \`a une autre.
+N\'eanmoins, cette solution ne fut pas retenue puisqu'elle impliquait qu'un
+module ait connaissances de celui \`a qui envoyer les informations.
+
+Pour palier \`a cela, un syst\`eme de notification a donc \'et\'e
+impl\'ement\'e. Le principe de ce syst\`eme est relativement simple \`a
+comprendre. On peut d'ailleurs trouver le m\^eme syst\`eme dans la vie de
+tous les jours. Par exemple un journal publie r\'eguli\`erement des nouvelles
+ayant un certain libell\'e (\flqq alertes\frqq, \flqq national\frqq, \flqq
+sport\frqq, etc.). D'un autre c\^ot\'e, nous avons les utilisateurs qui
+peuvent, ou non, s'inscrire \`a un ou plusieurs type de nouvelle. Ainsi, 
+quelqu'un inscrit aux nouvelles de type \flqq alertes\frqq va recevoir une
+notification lorsqu'une nouvelle de ce type appara\^it. Le principe utilis\'e
+dans notre cas est exactement le m\^eme des modules lances des notifications
+que d'autres re\c{c}oivent s'ils se sont inscrits \`a celles-ci. Pour que cela
+fonctionne correctement, un centre de notification est n\'ecessaire. Ainsi, et
+contrairement \`a un syst\`eme d'\flqq observer\frqq, les modules n'ont pas
+\`a avoir connaissance les uns des autres.
+
+% Insert schema!!
 
 
 \subsection{D\'eveloppement}
