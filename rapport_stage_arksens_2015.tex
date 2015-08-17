@@ -741,6 +741,13 @@ Dans ce but, j'utiliserai et profiterai des sp\'ecificit\'es qu'offre la
 programmation orient\'ee objet.
 
 \subsubsection{Interaction entre modules}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=17cm]{softwareDesign/moduleInteraction.png}
+    \caption{\label{interactModule} Interaction entre modules}
+\end{figure}
+
 L'utilisation de threads pour ex\'ecuter les diff\'erents modules complexifie
 l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es successivement
 pour pouvoir traiter un fichier, de la lecture depuis le disque jusqu'\ \`a
@@ -770,8 +777,21 @@ fonctionne correctement, un centre de notification est n\'ecessaire. Ainsi, et
 contrairement \`a un syst\`eme d'\flqq observer\frqq, les modules n'ont pas
 \`a avoir connaissance les uns des autres.
 
-% Insert schema!!
-
+\paragraph{}
+La figure~\ref{interactModule} montre comment le programme fonctionne dans le
+cas d'une premi\`ere sauvegarde sur le serveur. Chaque noeud \`a l'int\'erieur
+du client est un module tournant sur une thread diff\'erente. Ainsi avons-nous :
+\begin{itemize}
+ \item une seule instance de \textit{Filer} est ex\'ecut\'ee. Le module
+ communique avec une des instances libre du module \textit{Split}, i.e.~qui
+ n'est pas d\'ej\`a en train de travailler sur un fichier
+ \item \`A son tour, le module \textit{Split} communique avec n'importe quelle
+ thread ex\'ecutant le module \textit{Crypto} en lui envoyant les donn\'ees \`a
+ chiffrer.
+ \item Enfin, celui-ci envoie les donn\'ees chiffr\'ees au module
+ \textit{Communication} qui va simplement s'occuper de les envoyer sur le
+ serveur.
+\end{itemize}
 
 \subsection{D\'eveloppement}
 
