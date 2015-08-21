@@ -38,7 +38,11 @@
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\chapter}[hang]{\Huge\bfseries}
 {\thechapter\hsp\textcolor{gray73}{|}\hsp}{0pt}{\Huge\bfseries}
-\titleformat{\subsubsection}{}{}{}{\textbullet~}
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+\titleformat{\subsubsection}{\large\bfseries}{}{}
+{\refstepcounter{subsubsection}~\thesubsubsection~}
+\titleformat*{\paragraph}{\bfseries\itshape}
 
 \graphicspath{{images/}}
 
@@ -413,8 +417,8 @@ mais presque obligatoire.
 
 Pour cela, \textit{Arksens} voulait offrir \`a ses clients un syst\`eme de
 sauvegarde fiable, s\'ecuris\'e et optimis\'e afin de pouvoir \^etre
-ex\'ecut\'e sur ordinateurs les moins performant. De plus la prise en compte de
-connexion internet pouvant \^etre parfois tr\`es lente \'etait une
+ex\'ecut\'e sur les ordinateurs les moins performants. De plus la prise en
+compte de connexions internet pouvant \^etre parfois tr\`es lentes \'etait une
 obligation. En particulier, une partie du march\'e vis\'e par \textit{Arksens}
 se trouve en Afrique o\`u l'acc\`es \`a un internet rapide n'est pas toujours
 aussi facile que ce qu'il peut y avoir en Europe.
@@ -431,9 +435,10 @@ client/serveur multi-plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
 la probl\'ematique suivante : combiner le chiffrement local avec la sauvegarde
 incr\'ementale.
 
-De plus le programme devra \^etre multi-thread\'e pour pouvoir optimiser la
-sauvegarde des donn\'ees. Entre autre, cela permettra de chiffrer des blocs,
-constituant les fichiers, tout en envoyant au serveur ceux d\'ej\`a chiffr\'es.
+De plus le programme devra \^etre \textit{multi-thread\'e} pour pouvoir
+optimiser la sauvegarde des donn\'ees. Entre autre, cela permettra de chiffrer
+des blocs, constituant les fichiers, tout en envoyant au serveur ceux d\'ej\`a
+chiffr\'es.
 
 Ce backup permettrait donc, au premier lancement, de sauvegarder l'ensemble
 d'un ou plusieurs dossier. \`A partir de la seconde sauvegarde, il ne faudrait
@@ -516,7 +521,7 @@ calcul\'ee (\(N\)). Le bloc est donc chiffr\'e avant d'\^etre envoy\'e sur le
 serveur avec sa signature \textit{signature\_bloc1.txt}.
 
 \paragraph{}
-L'id\'ee bien qu'int\'eressante dans un premier temps ne peut \^etre
+L'id\'ee, bien qu'int\'eressante dans un premier temps, ne peut \^etre
 appliqu\'ee que dans un cas tr\`es particulier de fonctionnement et ne peut
 donc pas \^etre utilis\'e en tant que tel :
 \begin{itemize}
@@ -535,9 +540,15 @@ Mon travail de recherche s'est fait \`a partir d'une liste de mots-cl\'es qui
 m'a \'et\'e donn\'e afin que l'on parle tous le m\^eme langage. Entre autre,
 certaines d\'efinitions li\'ees au backup et au chiffrement :
 \begin{itemize}
- \item Backup incr\'emental
- \item Backup diff\'erentiel
- \item Transchiffrement
+ \item Backup incr\'emental\footnote{Sauvegarde de fichiers dont le principe est
+ d'envoyer uniquement les fichiers modifi\'es depuis la derni\`ere sauvegarde
+ effectu\'ee}
+ \item Backup diff\'erentiel\footnote{Sauvegarde de fichiers dont le principe
+ est d'envoyer uniquement les fichiers modifi\'es depuis la derni\`ere
+ sauvegarde compl\`ete effectu\'ee}
+ \item Transchiffrement\footnote{Technique consistant, lors d'un changement
+ de cl\'e de chiffrement, \`a d\'echiffrer l'ensemble des donn\'ees avec la
+ pr\'ec\'edente cl\'e puis \`a les re-chiffrer avec la nouvelle}
 \end{itemize}
 
 Mais aussi des logiciels d\'ej\`a existant, de backup ou de synchronisation de
@@ -547,7 +558,7 @@ fichiers et \`a partir desquels il pouvait \^etre int\'eressant de s'inspirer :
  \item rsync~\cite{refRsync}
 \end{itemize}
 
-\paragraph{Syncthing\\}
+\paragraph{Syncthing}
 \textit{Syncthing} est un logiciel permettant la synchronisation des donn\'ees
 entre plusieurs appareils au travers d'une communication s\'ecuris\'ee via TLS.
 Les donn\'ees n'\'etant jamais stock\'ees sur un serveur tiers, uniquement les
@@ -559,7 +570,7 @@ communication, qui a \'et\'e cr\'ee \`a l'occasion : Block Exchange Protocol
 donc une bonne source d'inspiration afin de faire la liaison entre notre client
 et notre serveur.
 
-\paragraph{rsync\\}
+\paragraph{rsync}
 \textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
 Unix. Le c\oe ur du programme est son algorithme sch\'ematis\'e
 figure~\ref{rsyncAlgo} :
@@ -607,7 +618,7 @@ dans la partie documentation, je me suis bas\'e sur l'algorithme \textit{rsync}
 pour, petit \`a petit, cr\'eer un algorithme qui permettait de r\'epondre \`a ma
 probl\'ematique.
 
-\paragraph{Chiffrement homomorphe\\}
+\paragraph{Chiffrement homomorphe}
 Dans un premier temps, j'ai \'etudi\'e la question de l'homomorphisme. Ce type
 de chiffrement permet de r\'ealiser des op\'erations sur des fichiers chiffr\'es
 et de retourner le r\'esultat chiffr\'e. Ceci permet de faire des op\'erations
@@ -638,7 +649,7 @@ sans avoir \`a conna\^itre le contenu d'un fichier.
 backup.
 \end{itemize}
 
-\paragraph{rsync revisit\'e\\}
+\paragraph{rsync revisit\'e}
 Ne pouvant rien faire du c\^ot\'e serveur, il fallait trouver un algorithme
 qui permette de d'analyser un fichier en un temps fini. Pour cela, j'ai
 travaill\'e \`a partir de l'id\'ee de fen\^etr glissante utilis\'ee pour
@@ -692,11 +703,17 @@ La conception a commenc\'e avec le d\'ecoupage du projet en diff\'erents
 modules. Avant de penser \`a la partie serveur, c'est le client qui, dans un
 premier temps, va \^etre la priorit\'e.
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.51]{softwareDesign/overviewModule.png}
+  \caption{\label{overviewModule} Vue d'ensemble des modules}
+\end{figure}
+
 Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
 \begin{itemize}
   \item \textbf{organizer :} module central qui va cr\'eer plus ou moins de
-  thread et lancer les diff\'erents modules n\'ecessaires \`a la sauvegarde
-  ou \`a la r\'ecup\'eration des donn\'ees.
+  \textit{thread} et lancer les diff\'erents modules n\'ecessaires \`a la
+  sauvegarde ou \`a la r\'ecup\'eration des donn\'ees.
   \item \textbf{information :} ce module contient les informations
   (m\'eta-informations) n\'ecessaires sur les morceaux de fichiers ainsi que
   sur les fichiers en eux-m\^eme.
@@ -742,52 +759,74 @@ programmation orient\'ee objet.
 
 \subsubsection{Interaction entre modules}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=17cm]{softwareDesign/moduleInteraction.png}
-    \caption{\label{interactModule} Interaction entre modules}
-\end{figure}
+L'utilisation de \textit{threads} pour ex\'ecuter les diff\'erents modules
+complexifie l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es
+successivement pour pouvoir traiter un fichier, de la lecture depuis le disque
+jusqu'\ \`a l'envoie des blocs, chiffr\'es, le constituant (dans le cas d'une
+sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un lien
+est donc n\'ecessaire pour que deux \textit{threads} puisse s'envoyer les
+donn\'ees li\'ees \`a un fichier.
 
-L'utilisation de threads pour ex\'ecuter les diff\'erents modules complexifie
-l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es successivement
-pour pouvoir traiter un fichier, de la lecture depuis le disque jusqu'\ \`a
-l'envoie des blocs, chiffr\'es, le constituant. Dans ce sens, les modules
-doivent communiquer entre eux. Un lien est n\'ecessaire pour que deux threads
-puisse s'envoyer les donn\'ees li\'ees \`a un fichier.
+\paragraph{Design pattern}
+\subparagraph{Observer\\}
+Pour faire ce lien, nous avons dans un premier temps pens\'e au design pattern
+\textit{observer}, dont le principe est que lors du changement d'\'etat d'un
+module, les autres module l'observant sont avertis et peuvent, ou non, agir en
+cons\'equence. Cela donne \'egalement la possibilit\'e \`a un module d'envoyer
+des informations en passant dans un certain \'etat \`a des moments cl\'es. Dans
+notre cas, elles auraient correspondu aux m\'eta-donn\'ees d'un fichier,
+accompagn\'e d'un \textit{pipe} servant de tunnel pour faire transiter le
+fichier en lui-m\^eme d'un \textit{thread} \`a un autre.
 
-Pour faire ce lien, nous avons dans un premier temps penser au design pattern
-\textit{observer}, donnant la possibilit\'e \`a un module d'envoyer les
-informations relative \`a un fichier, ainsi qu'un \textit{pipe} servant de
-tunnel pour faire passer le fichier en lui-m\^eme d'une thread \`a une autre.
-N\'eanmoins, cette solution ne fut pas retenue puisqu'elle impliquait qu'un
-module ait connaissances de celui \`a qui envoyer les informations.
+Cette solution ne fut n\'eanmoins pas retenue puisqu'elle impliquait qu'un
+module ait connaissances de celui \`a qui envoyer les informations. Ceci
+n'\'etait pas voulu afin de laisser les modules aussi ind\'ependant que
+possible.
 
+\subparagraph{Event Notifier\\}
 Pour palier \`a cela, un syst\`eme de notification a donc \'et\'e
 impl\'ement\'e. Le principe de ce syst\`eme est relativement simple \`a
 comprendre. On peut d'ailleurs trouver le m\^eme syst\`eme dans la vie de
 tous les jours. Par exemple un journal publie r\'eguli\`erement des nouvelles
 ayant un certain libell\'e (\flqq alertes\frqq, \flqq national\frqq, \flqq
-sport\frqq, etc.). D'un autre c\^ot\'e, nous avons les utilisateurs qui
-peuvent, ou non, s'inscrire \`a un ou plusieurs type de nouvelle. Ainsi, 
-quelqu'un inscrit aux nouvelles de type \flqq alertes\frqq va recevoir une
-notification lorsqu'une nouvelle de ce type appara\^it. Le principe utilis\'e
-dans notre cas est exactement le m\^eme des modules lances des notifications
-que d'autres re\c{c}oivent s'ils se sont inscrits \`a celles-ci. Pour que cela
-fonctionne correctement, un centre de notification est n\'ecessaire. Ainsi, et
-contrairement \`a un syst\`eme d'\flqq observer\frqq, les modules n'ont pas
-\`a avoir connaissance les uns des autres.
+sport\frqq, etc.). En face, il existe des utilisateurs qui peuvent, ou non,
+s'inscrire \`a un ou plusieurs type de nouvelle. Ainsi, quelqu'un inscrit aux
+nouvelles de type \flqq alertes\frqq va recevoir une notification lorsqu'une
+nouvelle de ce type appara\^it.
+
+Le principe utilis\'e dans notre cas est exactement le m\^eme : des modules
+lancent des notifications que d'autres re\c{c}oivent s'ils se sont inscrits \`a
+celles-ci.
+
+Pour que cela fonctionne correctement, un centre de notification est
+n\'ecessaire. Ainsi, et contrairement \`a un syst\`eme d'\flqq observer\frqq,
+les modules n'ont pas \`a avoir connaissance les uns des autres puisque chacun
+passe par ce centre.
+
+\begin{figure}[h!]
+  \hspace{-4.5em}
+  \includegraphics[width=19cm]{softwareDesign/classDiagramNotif.png}
+  \caption{\label{classDiagramNotif} Diagramme de classe --- notifications}
+\end{figure}
 
 \paragraph{}
+\begin{figure}[h!]
+  \hspace{-1.5em}
+  \includegraphics[width=17cm]{softwareDesign/moduleInteraction.png}
+  \caption{\label{interactModule} Interaction entre modules}
+\end{figure}
+
 La figure~\ref{interactModule} montre comment le programme fonctionne dans le
 cas d'une premi\`ere sauvegarde sur le serveur. Chaque noeud \`a l'int\'erieur
-du client est un module tournant sur une thread diff\'erente. Ainsi avons-nous :
+du client est un module tournant sur un \textit{thread} diff\'erent. Ainsi
+avons-nous :
 \begin{itemize}
  \item une seule instance de \textit{Filer} est ex\'ecut\'ee. Le module
  communique avec une des instances libre du module \textit{Split}, i.e.~qui
  n'est pas d\'ej\`a en train de travailler sur un fichier
- \item \`A son tour, le module \textit{Split} communique avec n'importe quelle
- thread ex\'ecutant le module \textit{Crypto} en lui envoyant les donn\'ees \`a
- chiffrer.
+ \item \`A son tour, le module \textit{Split} communique avec n'importe quel
+ \textit{thread} ex\'ecutant le module \textit{Crypto} en lui envoyant les
+ donn\'ees \`a chiffrer.
  \item Enfin, celui-ci envoie les donn\'ees chiffr\'ees au module
  \textit{Communication} qui va simplement s'occuper de les envoyer sur le
  serveur.
@@ -795,9 +834,11 @@ du client est un module tournant sur une thread diff\'erente. Ainsi avons-nous :
 
 \subsection{D\'eveloppement}
 
+
 \chapter{Rapport technique}
 \thispagestyle{fancy}
 \label{rapportTechnique}
+\section{D\'eroulement du stage}
 \subsection{Travail de recherche}
 \subsubsection{Prototypage}
 Comme expliqu\'e dans le~\nameref{rapportSynthese}, une v\'erification pratique
