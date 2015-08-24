@@ -833,6 +833,21 @@ avons-nous :
  serveur.
 \end{itemize}
 
+\subsubsection{Base de donn\'ees}
+Que ce soit du c\^ot\'e client ou du c\^ot\'e serveur, l'utilisation d'une
+base de donn\'ees semblait obligatoire afin de garder les m\'eta-donn\'ees
+des fichiers sauvegard\'es et \'egalement pouvoir garder en m\'emoire une trace
+de chaque sauvegarde effectu\'ee. Ceci dans le but d'avoir la possibilit\'e
+de restaurer la version d'un fichier \`a un jour donn\'e. L'utilisation
+d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente. Le choix d'en
+avoir une \'egalement sur la machine cliente s'est fait naturellement puisque
+cela \'evite d'avoir \`a effectuer une connexion au serveur. N\'eanmoins, et
+contrairement \`a la base de donn\'ee sur le serveur, celle du client ne
+permettrait de garder en m\'emoire que les informations li\'ees \`a la
+derni\`ere sauvegarde puisque ce sont ces informations qui sont alors
+int\'eressante lors d'une nouvelle sauvegarde. On gagne ainsi en temps mais
+aussi en quantit\'e de donn\'ees transmises \`a travers le r\'eseau internet.
+
 \subsection{D\'eveloppement}
 
 
