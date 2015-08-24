@@ -42,7 +42,7 @@
 \titleformat*{\subsection}{\Large\bfseries}
 \titleformat{\subsubsection}{\large\bfseries}{}{}
 {\refstepcounter{subsubsection}~\thesubsubsection~}
-\titleformat*{\paragraph}{\bfseries\itshape}
+\titleformat{\paragraph}{\bfseries\itshape}{}{}{\\}
 
 \graphicspath{{images/}}
 
@@ -834,19 +834,74 @@ avons-nous :
 \end{itemize}
 
 \subsubsection{Base de donn\'ees}
-Que ce soit du c\^ot\'e client ou du c\^ot\'e serveur, l'utilisation d'une
+\`A la fois du c\^ot\'e client et du c\^ot\'e serveur, l'utilisation d'une
 base de donn\'ees semblait obligatoire afin de garder les m\'eta-donn\'ees
-des fichiers sauvegard\'es et \'egalement pouvoir garder en m\'emoire une trace
-de chaque sauvegarde effectu\'ee. Ceci dans le but d'avoir la possibilit\'e
-de restaurer la version d'un fichier \`a un jour donn\'e. L'utilisation
-d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente. Le choix d'en
-avoir une \'egalement sur la machine cliente s'est fait naturellement puisque
-cela \'evite d'avoir \`a effectuer une connexion au serveur. N\'eanmoins, et
-contrairement \`a la base de donn\'ee sur le serveur, celle du client ne
-permettrait de garder en m\'emoire que les informations li\'ees \`a la
-derni\`ere sauvegarde puisque ce sont ces informations qui sont alors
-int\'eressante lors d'une nouvelle sauvegarde. On gagne ainsi en temps mais
-aussi en quantit\'e de donn\'ees transmises \`a travers le r\'eseau internet.
+des fichiers sauvegard\'es mais \'egalement pouvoir garder en m\'emoire une
+trace de chaque sauvegarde effectu\'ee. Cela donnerait la possibilit\'e
+de restaurer n'importe quelle version d'un ou plusieurs fichier(s). En effet,
+on aurait alors l'ensemble des informations n\'ecessaires pour chacune des
+versions.
+
+L'utilisation d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente.
+Le choix d'en avoir une \'egalement sur la machine cliente s'est fait
+naturellement dans la mesure o\`u cela \'evite d'avoir \`a effectuer une
+connexion au serveur. N\'eanmoins, et contrairement \`a la base de donn\'ee
+pr\'esente sur le serveur, celle du client permettrait de ne stocker que lesases also support automatic re
+informations li\'ees \`a la derni\`ere sauvegarde. Ce sont en effet ces
+informations qui sont utiles lors d'une nouvelle sauvegarde. On gagne ainsi en
+temps mais aussi en quantit\'e de donn\'ees transmises \`a travers le r\'eseau
+internet.
+
+\paragraph{SQL vs NoSQL}
+Il s'agissait donc de trouver quelle type(s) de base de donn\'ees pourrai(en)t
+\^etre utilis\'e(s) avec d'un c\^ot\'e les bases de donn\'ees relationnelle
+\textit{SQL} et d'un autre les bases de donn\'ees \textit{NoSQL}. Les
+principales diff\'erences sont expos\'ee table~\ref{tabSQLNoSQL}.
+
+\begin{table}[h!]
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{lm{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    & \color{white} \textbf{\textit{SQL}} &
+    \color{white} \textbf{\textit{NoSQL}}\\
+    Stockage des donn\'ees & Utilisation d'un mod\`ele relationnel avec les
+    traditionnelles lignes et colonnes contenant les diff\'erentes entr\'ee de
+    la base de donn\'ees avec l'ensemble des informations correspondantes. &
+    Il existe plusieurs mod\`ele de stockage parmi lesquels : documents,
+    cl\'e-valeur, graphe, etc.\\
+    \hline
+    Sch\'ema et flexibilit\'e & Chaque table correspond \`a un sch\'ema
+    particulier. Les colonnes doivent donc \^etre choisie \`a l'avance, selon
+    les donn\'ees \`a rentrer dans la table. & Les sch\'ema sont dynamiques.
+    Deux entr\'ee d'une m\^eme table peuvent contenir diff\'erentes
+    informations. On peut donc en ajouter \flqq \`a la vol\'ee\frqq\\
+    \hline
+    Adaptabilit\'e & L'\'evolutivit\'e est verticale. C'est-\`a-dire que plus
+    la quantit\'e de donn\'ees augmente, plus le serveur sur lequel se trouvent
+    les donn\'ees doit \^etre important. Ce qui peut engendrer d'important
+    co\^uts & L'\'evolutivit\'e est horizontale. C'est-\`a-dire que les
+    donn\'ees peuvent \^etre r\'eparties \`a travers plusieurs serveurs. Ceux-ci
+    sont beaucoup moins on\'ereux que d'investir dans un tr\`es gros serveur.\\
+    \hline
+    Propri\'et\'es ACID\footnote{Atomicit\'e, Coh\'erence, Isolation,
+    Durabilit\'e} & La grande majorit\'e des bases de donn\'ees relationnelle
+    ont ces propri\'et\'es & D\'epend de la technologie utilis\'ee. Plusieurs
+    solution NoSQL sacrifie certaines propri\'et\'es pour de meilleurs
+    performances et une meilleure adaptabilit\'e.\\
+  \end{tabular}
+  \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
+  \textit{NoSQl}}
+\end{table}
+
+
+Un des principaux point qui nous int\'eresse sont l'adaptabilit\'e. En effet, la
+quantit\'e de donn\'ees pouvant augmenter tr\`es rapidement il peut \^etre
+tr\`es rapidement co\^uteux d'utiliser une base de donn\'ees relationnelle.
+
+
 
 \subsection{D\'eveloppement}
 
