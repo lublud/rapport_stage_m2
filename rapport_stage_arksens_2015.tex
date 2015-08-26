@@ -368,7 +368,8 @@ Tabourin, ing\'enieur s\'ecurit\'e.
 
 \`A mon d\'epart, une restructuration \'etait en cours et plusieurs changements
 allait \^etre apport\'es au niveau de l'\'equipe en place avec notamment le
-d\'epart de certains collaborateurs.
+d\'epart de certains collaborateurs (licenciement, d\'emission ou tout
+simplement fin de stage).
 
 Ces changements montrent que la vie d'une startup peut rapidement \'evoluer,
 que ce soit dans un sens ou dans l'autre. En l'espace de six mois seulement
@@ -876,8 +877,9 @@ internet.
 Il s'agissait donc de trouver quelle type(s) de base de donn\'ees pourrai(en)t
 \^etre utilis\'e(s) avec d'un c\^ot\'e les bases de donn\'ees relationnelle
 \textit{SQL} et d'un autre les bases de donn\'ees \textit{NoSQL}. Les
-principales diff\'erences sont expos\'ee table~\ref{tabSQLNoSQL}.
+principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
 
+\begin{savenotes}
 \begin{table}[h!]
   \def\arraystretch{1.5}
   \setlength{\fboxsep}{13pt} % padding
@@ -915,6 +917,7 @@ principales diff\'erences sont expos\'ee table~\ref{tabSQLNoSQL}.
   \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
   \textit{NoSQl}}
 \end{table}
+\end{savenotes}
 
 
 \paragraph{Sur le serveur}
@@ -991,9 +994,50 @@ jamais utilis\'e \textit{MongoDB} auparavant il \'etait int\'eressant, bien que
 pas forc\'ement n\'ecessaire, de pouvoir assez facilement acc\'eder \`a une
 possible aide si un probl\`eme arrivait.
 
+Le mod\`ele de stockage dans \textit{MongoDB} est de type documents. La
+table~\ref{tabMappSQLMongoTerms} pr\'esente l'\'equivalence entre les termes
+utilis\'e pour une base de donn\'ees \textit{SQL} avec ceux utilis\'es dans
+\textit{MongoDB}. Plus de pr\'ecisions sont disponible sur le site
+\textit{MongoDB}~\cite{refMappingSQLMDB}.
+
+\begin{table}[h!]
+  \centering
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{lm{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    \color{white} \textbf{\textit{SQL}} &
+    \color{white} \textbf{\textit{MongoDB}}\\
+    \hline
+    Table & Collection\\
+    \hline
+    Ligne & Document\\
+    \hline
+    Colonne & Champ\\
+    \hline
+    Index & Index\\
+    \hline
+    Jointure entre tables & Documents int\'egr\'es et li\'es
+  \end{tabular}
+  \caption{\label{tabMappSQLMongoTerms} \'Equivalent des termes \textit{SQL}
+  avec les termes \textit{MongoDB}}
+\end{table}
+
 \paragraph{Sch\'emas}
+Bien que quelque peu diff\'erent, le sch\'ema des bases de donn\'ees
+pr\'esentent sur le serveur et le client ressemble \`a celui pr\'esent
+figure~\ref{dbRelClient}.
 
+L'absence de relations entre les diff\'erentes collections a donc oblig\'e une
+modification des sch\'emas. De plus, le serveur doit prendre en compte qu'un
+utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
+de la machine sur laquelle il est install\'e.
 
+$$User: \{\_id, username, email, admin\_email,
+
+\{id\_machine, name, home\_directory, quota\_available, quota\_left, CPU, RAM, OS\}\}$$
 
 
 \subsection{D\'eveloppement}
