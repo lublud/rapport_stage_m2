@@ -8,6 +8,8 @@
 \usepackage[export]{adjustbox}
 \usepackage{array}
 \usepackage{color, colortbl}
+\usepackage{listings}
+\usepackage{xcolor}
 
 \usepackage{float}
 \usepackage{fancyhdr}
@@ -34,6 +36,10 @@
 % colors
 \definecolor{gray73}{gray}{0.73}
 \definecolor{arkred}{rgb}{0.592, 0.145, 0.168}
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
 
 % commands
 \newcommand{\hsp}{\hspace{20pt}}
@@ -46,6 +52,36 @@
 \titleformat{\paragraph}{\bfseries\itshape}{}{}{\\}
 
 \graphicspath{{images/}}
+
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+%     numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single, % line
+%     backgroundcolor=\color{background},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+}
 
 \begin{document}
 \begin{spacing}{1.2}
@@ -1035,9 +1071,25 @@ modification des sch\'emas. De plus, le serveur doit prendre en compte qu'un
 utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
 de la machine sur laquelle il est install\'e.
 
-$$User: \{\_id, username, email, admin\_email,
-
-\{id\_machine, name, home\_directory, quota\_available, quota\_left, CPU, RAM, OS\}\}$$
+\subparagraph{User}
+\noindent
+\begin{lstlisting}[language=json]
+{ "_id",
+  username",
+  "email",
+  "admin_email",
+  "machine" :
+    { "id_machine",
+      "name",
+      "home_directory",
+      "quota_available",
+      "quota_left",
+      "CPU",
+      "RAM",
+      "OS"
+    }
+}
+\end{lstlisting}
 
 
 \subsection{D\'eveloppement}
