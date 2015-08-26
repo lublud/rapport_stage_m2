@@ -393,7 +393,7 @@ j'ai effectu\'e mon stage.
 
 L'\'equipe a beaucoup \'evolu\'ee entre mon arriv\'ee et mon d\'epart puisque
 seulement trois personnes en plus du PDG, Micha\"el Colaone, \'etaient
-pr\'esentent au 1\up{er} avril, date de d\'ebut du stage : David Terranova,
+pr\'esentes au 1\up{er} avril, date de d\'ebut du stage : David Terranova,
 directeur des op\'erations, Ga\"etan van Diemen, chef de projet ainsi que
 Daniel Brands, d\'eveloppeur web arriv\'e quelques jours auparavant.
 
@@ -1063,7 +1063,7 @@ utilis\'e pour une base de donn\'ees \textit{SQL} avec ceux utilis\'es dans
 
 \paragraph{Sch\'emas}
 Bien que quelque peu diff\'erent, le sch\'ema des bases de donn\'ees
-pr\'esentent sur le serveur et le client ressemble \`a celui pr\'esent
+pr\'esentes sur le serveur et le client ressemble \`a celui pr\'esent
 figure~\ref{dbRelClient}.
 
 L'absence de relations entre les diff\'erentes collections a donc oblig\'e une
@@ -1071,9 +1071,10 @@ modification des sch\'emas. De plus, le serveur doit prendre en compte qu'un
 utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
 de la machine sur laquelle il est install\'e.
 
-\subparagraph{User}
+\subparagraph{Client}
 \noindent
 \begin{lstlisting}[language=json]
+User :
 { "_id",
   username",
   "email",
@@ -1090,6 +1091,13 @@ de la machine sur laquelle il est install\'e.
     }
 }
 \end{lstlisting}
+
+On voit ici que l'ancienne table \textit{Machine} a \'et\'e int\'egr\'ee dans
+la collection \textit{User}. Ce choix s'est fait puisque, sur la machine
+client, il n'y a que la machine sur laquelle le logiciel est install\'e qui
+est pr\'esente en base de donn\'ees. De plus, l'acc\`es aux donn\'ees eest
+plus simple et plus rapide en utilisant une collection regroupant l'utilisateur
+et sa machine plut\^ot qu'en en utilisant deux.
 
 
 \subsection{D\'eveloppement}
