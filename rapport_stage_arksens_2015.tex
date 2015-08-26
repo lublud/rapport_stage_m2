@@ -996,8 +996,8 @@ serveur, sur une base de donn\'ees \textit{NoSQL}.
   \caption{\label{dbRelClient} Base de donn\'ees relationnelle --- client}
 \end{figure}
 
-La signification des diff\'erents champs pr\'esents figure~\ref{dbRelClient} se
-trouve en annexe~\ref{annBDR}.
+La signification des diff\'erentes colonnes pr\'esentes figure~\ref{dbRelClient}
+se trouve en annexe~\ref{annBDR}.
 
 \paragraph{Choix de la base de donn\'ees}
 En plus des m\'eta-donn\'ees des diff\'erents fichiers sauvegard\'es, le
@@ -1071,12 +1071,14 @@ modification des sch\'emas. De plus, le serveur doit prendre en compte qu'un
 utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
 de la machine sur laquelle il est install\'e.
 
-\subparagraph{Client}
-\noindent
+\subparagraph{Client\\}
+Les structures suivantes repr\'esentent les collections de la base de donn\'ees
+install\'ee sur les machines clientes.
+
 \begin{lstlisting}[language=json]
 User :
 { "_id",
-  username",
+  "username",
   "email",
   "admin_email",
   "machine" :
@@ -1093,11 +1095,149 @@ User :
 \end{lstlisting}
 
 On voit ici que l'ancienne table \textit{Machine} a \'et\'e int\'egr\'ee dans
-la collection \textit{User}. Ce choix s'est fait puisque, sur la machine
-client, il n'y a que la machine sur laquelle le logiciel est install\'e qui
-est pr\'esente en base de donn\'ees. De plus, l'acc\`es aux donn\'ees eest
-plus simple et plus rapide en utilisant une collection regroupant l'utilisateur
-et sa machine plut\^ot qu'en en utilisant deux.
+la collection \textit{User}. Ce choix s'est fait puisque, sur le client
+il n'y a que la machine sur laquelle le logiciel est install\'e qui est
+pr\'esente en base de donn\'ees. De plus, l'acc\`es aux donn\'ees est \`a la
+fois plus simple et plus rapide en utilisant une collection regroupant
+l'utilisateur et sa machine plut\^ot qu'en en utilisant deux.
+
+\begin{lstlisting}[language=json]
+File :
+{ "_id",
+  "filename",
+  "filepath",
+  "filetype",
+  "filesize",
+  "modification_date",
+  "creation_date",
+  "signature",
+  "number_chunk"
+}
+\end{lstlisting}
+
+N'ayant que les informations d'un seul utilisateur et d'une seule machine,
+il n'est pas utile de lier d'une quelconque mani\`ere que ce soit la
+collection \textit{File} avec la collection \textit{User}.
+
+\begin{lstlisting}[language=json]
+Chunk :
+{ "_id",
+  "id_file"
+  "index",
+  "size",
+  "creation_date",
+  "checksum",
+  "signature",
+  "TLSBFB",
+  "init_vector",
+  "cipher_length"
+}
+\end{lstlisting}
+
+Le lien entre la collection \textit{Chunk} et la collection \textit{File} est
+repr\'esent\'e par le champ \textit{id\_file} contenant l'identifiant d'un
+fichier auquel appartient un morceau.
+
+\subparagraph{Serveur\\}
+Bien que similaire, la base de donn\'ees est l\'eg\`erement diff\'erente
+sur le serveur par rapport au client. Les changements prennent en compte
+qu'il peut exister plusieurs machines pour un utilisateur mais aussi que
+plusieurs utilisateurs existent au sein d'une compagnie.
+\begin{lstlisting}[language=json]
+User :
+{ "_id",
+  "id_admin",
+  "is_admin",
+  "username",
+  "email",
+  "admin_email",
+  "machine" :
+    [
+      { "id_machine",
+	"name",
+	"home_directory",
+	"quota_available",
+	"quota_left",
+	"CPU",
+	"RAM",
+	"OS"
+      },
+      { "id_machine",
+	"name",
+	"home_directory",
+	"quota_available",
+	"quota_left",
+	"CPU",
+	"RAM",
+	"OS"
+      },
+      ...
+    ]
+}
+\end{lstlisting}
+Un utilisateur pouvant avoir plusieurs machines, on cr\'ee simplement une
+liste  avec l'ensemble des machines qui est int\'egr\'ee dans la collection
+\textit{User}. De plus, un utilisateur pouvant \^etre un administrateur, et
+celui-ci pouvant g\'erer plusieurs utilisateurs, on ajoute un lien \`a l'aide
+du champ \textit{id\_admin}. Ainsi si le champ n'existe pas, l'utilisateur n'a
+pas d'administrateur au-dessus de lui. Aussi \textit{is\_admin} permet de
+conna\^itre les privil\`ege d'un utilisateur. L'utilisation de ces deux champs
+permet donc de prendre compte qu'un administrateur peut lui-m\^eme avoir un
+autre administrateur au-dessus de lui. Cas que l'on peut imaginer possible dans
+le cadre de l'utilisation du logiciel au sein d'une grosse soci\'et\'e.
+
+\begin{lstlisting}[language=json]
+File :
+{ "_id",
+  "id_machine",
+  "filename",
+  "filepath",
+  "filetype",
+  "filesize",
+  "modification_date",
+  "creation_date",
+  "signature",
+  "number_chunk"
+}
+\end{lstlisting}
+Comme plusieurs machines peuvent exister pour un seul utilisateur, on ajoute
+le champ \textit{id\_machine} pour pouvoir faire correspondre un fichier \`a
+une seule machine.
+
+\begin{lstlisting}[language=json]
+Chunk :
+{ "_id",
+  "id_file"
+  "index",
+  "size",
+  "creation_date",
+  "checksum",
+  "signature",
+  "TLSBFB",
+  "init_vector",
+  "cipher_length"
+}
+\end{lstlisting}
+
+\subsubsection{Stockage des fichiers}
+Comme nous l'avons vu pr\'ec\'edemment, \textit{MongoDB} avec \textit{GridFS}
+permet de stocker des fichiers. N\'eanmoins nous avons d\'ecid\'e d'utiliser,
+au moins dans un premier temps, le syst\`eme de fichier disponible sur le
+serveur : celui-ci ayant de meilleurs performances en lecture et \'ecriture.
+
+La figure~\ref{fileSystemServer} pr\'esente comment les donn\'ees seront
+stock\'ee sur le serveur une fois sauvegard\'ees. Ainsi chaque fichier
+correspond \`a un dossier contenant un plusieurs sous-dossier : un par version.
+La version d'un fichier correspondant \`a une sauvegarde, un dossier contient
+les diff\'erents morceaux sauvegard\'es, c'est-\`a-dire les parties modifi\'ees
+du fichier.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=17cm]{softwareDesign/fileSystemServer.png}
+  \caption{\label{fileSystemServer} Stockage des fichiers sur le serveur}
+\end{figure}
+
 
 
 \subsection{D\'eveloppement}
@@ -1139,7 +1279,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
   \begin{tabular}{lm{6cm}m{6cm}}
    \rowcolor{arkred} 
     \arrayrulecolor{gray73}\hline
-    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \color{white} \textbf{Colonne} & \color{white} \textbf{Information}\\
     \hline
     user\_id & Identifiant unique pour l'utilisateur\\
     \hline
@@ -1151,7 +1291,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
     Utilis\'e pour pr\'evenir automatiquement l'administrateur en cas de
     probl\`eme de fonctionnement.
   \end{tabular}
-  \caption{\label{tabDBRUser} Information champ --- User}
+  \caption{\label{tabDBRUser} Information colonnes -- User}
 \end{table}
 
 \section{Machine}
@@ -1163,7 +1303,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
   \begin{tabular}{lm{6cm}m{6cm}}
    \rowcolor{arkred} 
     \arrayrulecolor{gray73}\hline
-    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \color{white} \textbf{Colonne} & \color{white} \textbf{Information}\\
     \hline
     machine\_id & Identifiant unique pour la machine\\
     \hline
@@ -1183,7 +1323,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
     \hline
     machine\_number\_file & Nombre de fichier sauvegard\'e
   \end{tabular}
-  \caption{\label{tabDBRMachine} Information champ --- Machine}
+  \caption{\label{tabDBRMachine} Information colonnes -- Machine}
 \end{table}
 
 \section{File}
@@ -1195,7 +1335,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
   \begin{tabular}{lm{6cm}m{6cm}}
    \rowcolor{arkred} 
     \arrayrulecolor{gray73}\hline
-    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \color{white} \textbf{Colonne} & \color{white} \textbf{Information}\\
     \hline
     file\_id & Identifiant unique du fichier\\
     \hline
@@ -1215,7 +1355,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
     \hline
     file\_number\_chunk & Nombre de morceau composant le fichier
   \end{tabular}
-  \caption{\label{tabDBRMachine} Information champ --- File}
+  \caption{\label{tabDBRMachine} Information colonnes -- File}
 \end{table}
 
 \section{Chunk}
@@ -1228,7 +1368,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
   \begin{tabular}{lm{6cm}m{6cm}}
    \rowcolor{arkred} 
     \arrayrulecolor{gray73}\hline
-    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \color{white} \textbf{Colonne} & \color{white} \textbf{Information}\\
     \hline
     chunk\_id & Identifiant unique d'un morceau de fichier\\
     \hline
@@ -1252,7 +1392,7 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
     \hline
     chunk\_cipher\_length & Taille du morceau chiffr\'e en octet\\
   \end{tabular}
-  \caption{\label{tabDBRMachine} Information champ --- Chunk}
+  \caption{\label{tabDBRMachine} Information colonnes -- Chunk}
 \end{table}
 \end{savenotes}
 
