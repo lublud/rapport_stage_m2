@@ -3,8 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{titlesec, blindtext, color}
 \usepackage{setspace}
-
-\usepackage[hidelinks]{hyperref}
+\usepackage{footnote}
 
 \usepackage[export]{adjustbox}
 \usepackage{array}
@@ -16,6 +15,8 @@
 \usepackage[top=2cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
 
 \usepackage[french]{babel}
+
+\usepackage[hidelinks]{hyperref}
 
 % page style
 \pagestyle{fancy}
@@ -440,6 +441,16 @@ optimiser la sauvegarde des donn\'ees. Entre autre, cela permettra de chiffrer
 des blocs, constituant les fichiers, tout en envoyant au serveur ceux d\'ej\`a
 chiffr\'es.
 
+Par ailleurs, allant \^etre un service propos\'e aux entreprises, il doit \^etre
+pris en compte qu'un administrateur puisse g\'erer les diff\'erentes
+sauvegardes ou \^etre inform\'e si un probl\`eme survient sur le poste d'un
+employ\'e lors de l'utilisation du logiciel.
+
+Enfin, un syst\`eme de quota devra \^etre mis en place. Ce syst\`eme permettant
+aux entreprises de demander un plus ou moins grand quota selon la quantit\'e de
+donn\'ees \`a sauvegarder. Celle-ci pouvant varier selon la taille ou la
+fonction de l'entreprise, un quota permet une certaine flexibilit\'e.
+
 Ce backup permettrait donc, au premier lancement, de sauvegarder l'ensemble
 d'un ou plusieurs dossier. \`A partir de la seconde sauvegarde, il ne faudrait
 n\'eanmoins sauvegarder que les changements sur les fichiers.
@@ -476,9 +487,9 @@ suivre l'avancement du projet mais aussi pour voir le travail effectu\'e la
 semaine pr\'ec\'edente, essayer de r\'esoudre tout probl\`eme qui aurait pu
 survenir et planifier la semaine suivante.
 C'est en tout cas dans cette optique l\`a que nous avions commenc\'e. Dans les
-fait, le retour des clients lors de mises \`a jour d'un produit ou des
-r\'eunions avec les potentiels futur clients pouvait prendre la priorit\'e et
-ainsi retarder ou annuler les r\'eunions hebdomadaire.
+fait, le retour des clients de l'entreprise lors de mises \`a jour des produits
+ou des r\'eunions avec de potentiels futurs clients pouvaient prendre la
+priorit\'e et ainsi retarder ou annuler les r\'eunions hebdomadaire.
 
 \section{D\'eroulement du stage}
 Avant de commencer le projet en lui-m\^eme, David et Ga\"etan m'ont fait part
@@ -932,7 +943,7 @@ N\'eanmoins la quantit\'e d'information stock\'ee ainsi que le nombre d'acc\`es,
 tant en \'ecrite qu'en lecture, \'etant trop important d\`es lors que l'on
 souhaite sauvegarder plus de quelques fichiers de taille plus ou moins grande,
 il nous fallait une base de donn\'ees avec de meilleurs performances que celles
-offerte. De plus la relations entre les diff\'erentes tables \'etant minimes
+offerte. De plus les relations entre les diff\'erentes tables \'etant minimes
 comme montr\'e figure~\ref{dbRelClient}, nous pouvions privil\'egier la
 performance du \textit{NoSQL} par rapport aux propri\'et\'es ACID qu'offrent
 le \textit{SQL}.
@@ -945,6 +956,9 @@ serveur, sur une base de donn\'ees \textit{NoSQL}.
   \includegraphics[scale=0.69]{softwareDesign/dbRelClient.png}
   \caption{\label{dbRelClient} Base de donn\'ees relationnelle --- client}
 \end{figure}
+
+La signification des diff\'erents champs pr\'esents figure~\ref{dbRelClient} se
+trouve en annexe~\ref{annBDR}.
 
 \paragraph{Choix de la base de donn\'ees}
 En plus des m\'eta-donn\'ees des diff\'erents fichiers sauvegard\'es, le
@@ -1004,6 +1018,139 @@ pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
 \listoftables
 \bibliographystyle{abbrv-fr}
 \bibliography{rapport_stage_arksens_2015}
+
+\appendix
+\makeatletter
+\def\@seccntformat#1{Annexe~\csname the#1\endcsname:\quad}
+\makeatother
+\chapter{Base de donn\'ees relationnelle}
+\label{annBDR}
+\thispagestyle{fancy}
+\section{User}
+\begin{table}[h!]
+  \centering
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{lm{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \hline
+    user\_id & Identifiant unique pour l'utilisateur\\
+    \hline
+    user\_name & Nom de l'utilisateur\\
+    \hline
+    user\_email & Email de l'utilisateur\\
+    \hline
+    user\_admin\_email & Email de l'administrateur en charge de l'utilisateur.
+    Utilis\'e pour pr\'evenir automatiquement l'administrateur en cas de
+    probl\`eme de fonctionnement.
+  \end{tabular}
+  \caption{\label{tabDBRUser} Information champ --- User}
+\end{table}
+
+\section{Machine}
+\begin{table}[h!]
+  \centering
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{lm{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \hline
+    machine\_id & Identifiant unique pour la machine\\
+    \hline
+    machine\_name & Nom de la machine\\
+    \hline
+    machine\_home\_directory & R\'epertoire racine des fichiers \`a sauvegarder\\
+    \hline
+    machine\_quota\_available & Quota disponible (total) pour la machine\\
+    \hline
+    machine\_quota\_left & Quota restant pour la machine\\
+    \hline
+    machine\_CPU & Informations relatives au processeur utilis\'e\\
+    \hline
+    machine\_RAM & Quantit\'e de RAM disponible\\
+    \hline
+    machine\_OS & Syst\`eme d'exploitation utilis\'e\\
+    \hline
+    machine\_number\_file & Nombre de fichier sauvegard\'e
+  \end{tabular}
+  \caption{\label{tabDBRMachine} Information champ --- Machine}
+\end{table}
+
+\section{File}
+\begin{table}[h!]
+  \centering
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{lm{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \hline
+    file\_id & Identifiant unique du fichier\\
+    \hline
+    file\_name & Nom du fichier\\
+    \hline
+    file\_path & Chemin du fichier en local\\
+    \hline
+    file\_type & Type du fichier\\
+    \hline
+    file\_size & Taille du fichier en octet\\
+    \hline
+    file\_modification\_date & Date de derni\`ere modification\\
+    \hline
+    file\_creation\_date & Date de cr\'eation\\
+    \hline
+    file\_signature & Signature num\'erique\\
+    \hline
+    file\_number\_chunk & Nombre de morceau composant le fichier
+  \end{tabular}
+  \caption{\label{tabDBRMachine} Information champ --- File}
+\end{table}
+
+\section{Chunk}
+\begin{savenotes}
+\begin{table}[h!]
+  \centering
+  \def\arraystretch{1.5}
+  \setlength{\fboxsep}{13pt} % padding
+  \setlength{\fboxrule}{0pt} % frame
+  \begin{tabular}{lm{6cm}m{6cm}}
+   \rowcolor{arkred} 
+    \arrayrulecolor{gray73}\hline
+    \color{white} \textbf{Champ} & \color{white} \textbf{Information}\\
+    \hline
+    chunk\_id & Identifiant unique d'un morceau de fichier\\
+    \hline
+    chunk\_index & Index du morceau de fichier\\
+    \hline
+    chunk\_size & Taille du morceau en octet\\
+    \hline
+    chunk\_creation\_date & Date de cr\'eation\\
+    \hline
+    chunk\_checksum & Checksum\\
+    \hline
+    chunk\_signature & Signature num\'erique\\
+    \hline
+    chunk\_TLSBFB\footnote{Two Last Significant Bit of First Byte} & Deux bits
+    de poids faible du premier octet du morceau. Utilis\'e pour r\'epartir le
+    travail entre plusieurs thread lors du scan d'un fichier pour trouver les
+    parties modifi\'es de celui-ci.\\
+    \hline
+    chunk\_init\_vector & Vecteur d'initialisation utilis\'e pour l'algorithme de
+    chiffrement AES\\
+    \hline
+    chunk\_cipher\_length & Taille du morceau chiffr\'e en octet\\
+  \end{tabular}
+  \caption{\label{tabDBRMachine} Information champ --- Chunk}
+\end{table}
+\end{savenotes}
 
 \end{spacing}
 \end{document}          
