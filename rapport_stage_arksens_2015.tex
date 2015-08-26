@@ -803,6 +803,15 @@ n\'ecessaire. Ainsi, et contrairement \`a un syst\`eme d'\flqq observer\frqq,
 les modules n'ont pas \`a avoir connaissance les uns des autres puisque chacun
 passe par ce centre.
 
+Celui-ci est pr\'esent\'e figure~\ref{classDiagramNotif}. On retrouve le
+centre de notification \textit{CNotificationService} qui g\`ere les
+abonnements et les abonn\'es. Ce centre permet ainsi de les notifier les modules
+ayant souscrit \`a un certain type de notification. Pour utiliser ce service,
+il existe deux interfaces : \textit{ISubscriber} pour les abonn\'es et
+\textit{INotifier} pour \'emettre les notifications. Ces interfaces sont donc
+impl\'ement\'ee par les diff\'erents modules utilisant le syst\`eme de
+notification.
+
 \begin{figure}[h!]
   \hspace{-4.5em}
   \includegraphics[width=19cm]{softwareDesign/classDiagramNotif.png}
@@ -846,7 +855,7 @@ L'utilisation d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente.
 Le choix d'en avoir une \'egalement sur la machine cliente s'est fait
 naturellement dans la mesure o\`u cela \'evite d'avoir \`a effectuer une
 connexion au serveur. N\'eanmoins, et contrairement \`a la base de donn\'ee
-pr\'esente sur le serveur, celle du client permettrait de ne stocker que lesases also support automatic re
+pr\'esente sur le serveur, celle du client permettrait de ne stocker que les
 informations li\'ees \`a la derni\`ere sauvegarde. Ce sont en effet ces
 informations qui sont utiles lors d'une nouvelle sauvegarde. On gagne ainsi en
 temps mais aussi en quantit\'e de donn\'ees transmises \`a travers le r\'eseau
@@ -889,7 +898,7 @@ principales diff\'erences sont expos\'ee table~\ref{tabSQLNoSQL}.
     Propri\'et\'es ACID\footnote{Atomicit\'e, Coh\'erence, Isolation,
     Durabilit\'e} & La grande majorit\'e des bases de donn\'ees relationnelle
     ont ces propri\'et\'es & D\'epend de la technologie utilis\'ee. Plusieurs
-    solution NoSQL sacrifie certaines propri\'et\'es pour de meilleurs
+    solution \textit{NoSQL} sacrifie certaines propri\'et\'es pour de meilleurs
     performances et une meilleure adaptabilit\'e.\\
   \end{tabular}
   \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
@@ -897,9 +906,79 @@ principales diff\'erences sont expos\'ee table~\ref{tabSQLNoSQL}.
 \end{table}
 
 
-Un des principaux point qui nous int\'eresse sont l'adaptabilit\'e. En effet, la
-quantit\'e de donn\'ees pouvant augmenter tr\`es rapidement il peut \^etre
-tr\`es rapidement co\^uteux d'utiliser une base de donn\'ees relationnelle.
+\paragraph{Sur le serveur}
+Un des principaux points qui nous int\'eresse est ici l'adaptabilit\'e. En
+effet, la quantit\'e de donn\'ees pouvant augmenter tr\`es rapidement il peut
+\^etre tr\`es co\^uteux d'utiliser une base de donn\'ees relationnelle. Cela
+signifierait d'importants investissements afin de mettre en place des serveurs
+capables de contenir l'int\'egralit\'e des donn\'ees.
+
+Le \textit{NoSQL} \'etait donc une solution \'evidente \`a ce probl\`eme de par
+son \'evolutivit\'e horizontale. De plus cette solution offre \'egalement une
+r\'eplication des donn\'ees \`a travers les diff\'erents serveurs. Celle-ci
+est d'ailleurs faite automatiquement sur la plupart des solutions
+\textit{NoSQL}.
+
+\paragraph{Sur le client}
+Afin d'avoir un acc\`es rapide des informations sur la derni\`ere sauvegarde
+faite, une petite base de donn\'ees doit \^etre install\'ee sur le poste client.
+
+Nous avons dans un premier temps penser au mod\`ele relationnel avec une base
+de donn\'ees \textit{SQLite} permettant de l'int\'egrer directement au
+programme. Celle-ci \'etant stock\'ee dans un fichier, et ce ind\'ependemment
+de la plate-forme utilis\'ee, elle aurait pu correspondre \`a ce que voulions.
+
+N\'eanmoins la quantit\'e d'information stock\'ee ainsi que le nombre d'acc\`es,
+tant en \'ecrite qu'en lecture, \'etant trop important d\`es lors que l'on
+souhaite sauvegarder plus de quelques fichiers de taille plus ou moins grande,
+il nous fallait une base de donn\'ees avec de meilleurs performances que celles
+offerte. De plus la relations entre les diff\'erentes tables \'etant minimes
+comme montr\'e figure~\ref{dbRelClient}, nous pouvions privil\'egier la
+performance du \textit{NoSQL} par rapport aux propri\'et\'es ACID qu'offrent
+le \textit{SQL}.
+
+Nous avons donc d\'ecid\'e par la suite de nous diriger, comme pour la partie
+serveur, sur une base de donn\'ees \textit{NoSQL}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.69]{softwareDesign/dbRelClient.png}
+  \caption{\label{dbRelClient} Base de donn\'ees relationnelle --- client}
+\end{figure}
+
+\paragraph{Choix de la base de donn\'ees}
+En plus des m\'eta-donn\'ees des diff\'erents fichiers sauvegard\'es, le
+stockage des fichiers sur le serveur a influ\'e sur le choix de la base de
+donn\'ees. 
+
+Certaines bases de donn\'ees \textit{NoSQL} offrent la possibilit\'e de 
+sauvegarder les fichiers eux-m\^emes. Cela peut \^etre int\'eressant. que ce
+soit dans l'imm\'ediat ou dans une futur version de l'application.
+
+Donc bien que dans un premier temps nous ayons d\'ecid\'e d'utiliser le
+syst\`eme de fichier en place sur le serveur, nous avons pris cette
+fonctionnalit\'e en compte.
+
+C'est donc sur \textit{MongoDB} que s'est arr\^et\'e notre choix. Cette base
+de donn\'ees a plusieurs avantages qui correspondait \`a ce que nous
+recherchions :
+
+\begin{itemize}
+ \item R\'eplication automatique des donn\'ees sur plusieurs serveurs
+ \item Bonne performance
+ \item \textit{GridFS} pour stocker de plus grosses quantit\'es d'information
+ (correspondant au fichier sauvegard\'ee dans notre cas).
+\end{itemize}
+
+C'est \'egalement une des bases de donn\'ees les plus utilis\'ees pour du
+\textit{NoSQL}. La communaut\'e, et donc les sources pour rechercher des
+informations relatives \`a son utilisation, est assez importante. N'ayant
+jamais utilis\'e \textit{MongoDB} auparavant il \'etait int\'eressant, bien que
+pas forc\'ement n\'ecessaire, de pouvoir assez facilement acc\'eder \`a une
+possible aide si un probl\`eme arrivait.
+
+\paragraph{Sch\'emas}
+
 
 
 
