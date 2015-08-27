@@ -1268,14 +1268,61 @@ commerciale. Bien que ce dernier point ne nous concerne pas puisque le projet
 est doit \^etre Open Source, j'ai pu r\'ecup\'erer le protocole et l'adapter
 pour correspondre \`a nos besoins.
 
-La version modifi\'ee est disponible en annexe~\ref{annProtocolComm}, en
-anglais, telle que pr\'esent\'ee et modifi\'ee sur le wiki du projet. Wiki qui
-n'est pas disponible \`a l'heure o\`u j'\'ecris ce rapport.
+Le protocole ainsi modifi\'e est disponible en annexe~\ref{annProtocolComm}, en
+anglais puisqu'\'egalement disponible sur le wiki du projet. Celui-ci n'est
+n\'eanmoins pas accessible \`a l'heure actuelle puisque le projet est toujours
+dans sa phase de d\'eveloppement.
 
 
 \subsection{D\'eveloppement}
-Le client et le serveur
-\subsubsection{}
+Le client et le serveur \'etant ind\'ependant l'un de l'autre si ce n'est la
+partie communication de l'un \`a l'autre, le d\'eveloppement se fait tout
+aussi ind\'ependemment.
+
+Le client \'etant la plus grosse partie du syst\`eme de backup, je me suis
+concentr\'e sur son d\'eveloppement durant mon stage. Comme il avait \'et\'e
+d\'ecoup\'e en module durant la phase de conception, le d\'eveloppement s'est
+fait de la m\^eme mani\`ere.
+
+De plus chaque module a le droit \`a sa batterie de test de non r\'egression.
+
+\subsubsection{Outils de d\'eveloppement}
+Pour cette phase j'ai utilis\'e plusieurs outils me permettant de construire
+au mieux l'application demand\'ee. 
+
+Le d\'eveloppement s'est principalement fait dans un environnement Unix. J'ai
+personnellement utilis\'e Debian 7 pour le d\'eveloppement de l'application.
+Pouvant avoir acc\`es \`a un environnement Mac OSX dans l'entreprise, j'ai
+\'egalement pu tester mon programme sur celui-ci.
+
+La priorit\'e \'etant d'avoir une premi\`ere version fonctionnelle du
+programme, je n'ai pas port\'e celui-ci sur un syst\`eme windows durant mon
+stage.
+
+\paragraph{Environnement de travail}
+\begin{itemize}
+ \item \textit{vim} comme \'editeur de texte
+ \item \textit{gcc} pour le compilateur
+ \item \textit{gdb} pour d\'ebboguer le programme quand n\'ecessaire
+ \item \textit{valgrind} pour tout ce qui touche \`a la m\'emoire
+ \item \textit{gprof} pour ce qui s'agit de l'analyse de performance
+\end{itemize}
+
+\paragraph{Framework et librairies externes}
+Afin de limiter les contraintes li\'es \`a l'utilisation de framework et
+librairies externes, l'utilisation de ceux-ci \'etait limit\'e. Voici
+ceux que j'ai utilis\'e:
+\begin{itemize}
+ \item \textit{Boost} pour les tests
+ \item \textit{OpenSSL} pour tout ce qui est cryptographie
+ \item \textit{Magic} pour r\'ecup\'erer des informations sur les fichiers
+ comme le MIME type
+\end{itemize}
+
+En addition \`a cela, j'ai \'egalement utilis\'e le driver \textit{C++} de
+\textit{MongoDB} pour communiquer avec la base de donn\'ees.
+
+
 \subsubsection{Tests}
 
 
