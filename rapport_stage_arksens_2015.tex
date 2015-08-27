@@ -13,6 +13,7 @@
 
 \usepackage{float}
 \usepackage{fancyhdr}
+\usepackage{fancyvrb}
 \usepackage{graphicx}
 \usepackage[top=2cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
 
@@ -586,6 +587,7 @@ cela, j'ai donc d\^u imaginer un algorithme r\'epondant \`a la probl\'ematique
 et fonctionnant dans tout les cas possible.
 
 \subsection{Travail de recherche}
+\label{secTravailRecherche}
 \subsubsection{Documentation}
 Mon travail de recherche s'est fait \`a partir d'une liste de mots-cl\'es qui
 m'a \'et\'e donn\'e afin que l'on parle tous le m\^eme langage. Entre autre,
@@ -1251,9 +1253,30 @@ donc t\'el\'echarger \textit{toto\_MyFile0\_20150513.chunk2} mais aussi les
 morceaux \textit{.chunk0} et \textit{.chunk1} datant de la pr\'ec\'edente
 sauvegarde, au 06 mai 2015.
 
+\subsubsection{Communication client - serveur}
+Afin d'envoyer les fichiers \`a travers le r\'eseau, un protocole doit \^etre
+utilis\'e. Pour ce faire, il m'a \'et\'e demand\'e d'en cr\'eer un correspondant
+aux donn\'ees qui sont envoy\'e dans le cadre d'une sauvegarde. En l'occurrence,
+les morceaux d'un fichier avec les m\'eta-donn\'ees correspondantes.
+
+Comme indiqu\'e dans la section \flqq~\nameref{secTravailRecherche} \frqq, je me
+suis servi du protocole cr\'e\'e pour \textit{syncthings} (\textit{BEP}).
+Celui-ci \'etant d\'ecrit sur le github de projet~\cite{refBEP} et
+disponible sous licence Creative Commons~\cite{refCC4.0}, il est autoris\'e de
+le copier, modifier et r\'eutiliser pour n'importe quelle utilisation, m\^eme
+commerciale. Bien que ce dernier point ne nous concerne pas puisque le projet
+est doit \^etre Open Source, j'ai pu r\'ecup\'erer le protocole et l'adapter
+pour correspondre \`a nos besoins.
+
+La version modifi\'ee est disponible en annexe~\ref{annProtocolComm}, en
+anglais, telle que pr\'esent\'ee et modifi\'ee sur le wiki du projet. Wiki qui
+n'est pas disponible \`a l'heure o\`u j'\'ecris ce rapport.
 
 
 \subsection{D\'eveloppement}
+Le client et le serveur
+\subsubsection{}
+\subsubsection{Tests}
 
 
 \chapter{Rapport technique}
@@ -1408,6 +1431,12 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
   \caption{\label{tabDBRMachine} Information colonnes -- Chunk}
 \end{table}
 \end{savenotes}
+
+
+\chapter{Protocole de communication}
+\label{annProtocolComm}
+\thispagestyle{fancy}
+\input{./protocole_communication_backup_arksens.tex}
 
 \end{spacing}
 \end{document}          

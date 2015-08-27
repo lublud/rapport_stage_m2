@@ -1,0 +1,486 @@
+\section{Definition}
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in RFC 2119.
+
+
+\section{Transport and Authentication}
+
+This protocol is deployed as the highest level in a protocol stack, with
+the lower level protocols providing additional encryption and authentication.
+
+\begin{verbatim}
+           +-----------------------------|
+           |   Block Exchange Protocol   |
+           |-----------------------------|
+           | Encryption & Auth (TLS 1.2) |
+           |-----------------------------|
+           |             TCP             |
+           |-----------------------------|
+           v             ...             v
+\end{verbatim}
+
+\section{Messages}
+
+Every message starts with one 32 bit word indicating the message version,
+type and ID, followed by the length of the message. The header is in
+network byte order, i.e. big endian.
+
+\begin{itemize}
+ \item Message Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |  Ver  |       Message ID      |      Type     |    Reserved   |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                            Length                             |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+For version 1 the Version field is set to zero. Future versions with
+incompatible message formats will increment the Version field. A
+message with an unknown version is a protocol error and MUST result
+in the connection being terminated. A client supporting multiple
+versions MAY retry with a different protocol version upon disconnection.
+
+The Message ID is set to a unique value for each transmitted request
+message. In response messages it is set to the Message ID of the
+corresponding request message. The uniqueness requirement implies that
+no more than 4096 messages may be outstanding at any given moment. The
+ordering requirement implies that a response to a given message ID also
+means that all preceding messages have been received, specifically
+those which do not otherwise demand a response. Hence their message
+ID:s may be reused.
+
+The Type field indicates the type of data following the message header
+and is one of the integers defined below. A message of an unknown type
+is a protocol error and MUST result in the connection being terminated.
+
+
+\section{Types}
+\subsection{0 - Client Config}
+
+This informational message provides information about the client
+configuration as it pertains to the current connection. A Client
+Config message MUST be the first message sent on a connection.
+Additional Client Config messages MUST NOT be sent after the initial
+exchange.
+
+\begin{itemize}
+ \item ClientConfigMessage Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                     Length of ClientName                      |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                 ClientName (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                    Length of ClientVersion                    |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                ClientVersion (variable length)                \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Number of Folders                       |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                Zero or more Folder Structures                 \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Number of Options                       |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                Zero or more Option Structures                 \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+\begin{itemize}
+ \item Folder Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                         Length of ID                          |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                     ID (variable length)                      \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Number of Folders                       |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                Zero or more Folder Structures                 \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+\begin{itemize}
+ \item Option Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                         Length of Key                         |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                     Key (variable length)                     \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Length of Value                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                    Value (variable length)                    \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+The ClientName and ClientVersion fields identify the implementation.
+The values SHOULD be simple strings identifying the implementation name,
+as a user would expect to see it, and the version string in the same
+manner. An example ClientName is "acs" and an example ClientVersion is
+"v0.7.2". The ClientVersion field SHOULD follow the patterns laid out
+in the [Semantic Versioning](http://semver.org/) standard.
+
+The Folders field lists all folders that will be synchronized over the
+current connection. Each folder has a list of sub-folders.
+
+The Options field contain option values to be used in an implementation
+specific manner. The options list is conceptually a map of Key => Value
+items, although it is transmitted in the form of a list of (Key, Value)
+pairs, both of string type. Key ID:s are implementation specific. An
+implementation MUST ignore unknown keys. An implementation MAY impose
+limits on the length keys and values. The options list may be used to
+inform of relevant information such as quota and other user information
+for example.
+
+\subsection{1 - Index \&\& 7 - Index Update}
+
+This TypeMessages will be used for Client -> Server communication,
+i.e.~the actual backup.
+
+The Index and Index Update messages define the contents of the senders
+folder. An Index message represents the full contents of the folder and
+thus supersedes any previous index. An Index Update amends an existing
+index with new information, not affecting any entries not included in
+the message.
+
+An Index or Index Update message MUST be sent for each folder included
+in the Client Config message, and MUST be sent before any other message
+referring to that folder. If the folder contents change from non-empty
+to empty, an empty Index message MUST be sent. There is no response to
+the Index message.
+
+\begin{itemize}
+ \item IndexMessage Structure: 
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Length of Folder                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                   Folder (variable length)                    \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Number of Files                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \               Zero or more FileInfo Structures                \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+\begin{itemize}
+ \item FileInfo Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                         Length of ID                          |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                     ID (variable length)                      \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Length of Name                         |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                    Name (variable length)                     \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                                                               |
+           +                      Modified (64 bits)                       +
+           |                                                               |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Number of Blocks                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \               Zero or more BlockInfo Structures               \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+\begin{itemize}
+ \item BlockInfo Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Size                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |lsb|                        Reserved                           |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Signature                      |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                  Signature (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Checksum                       |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                   Checksum (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                          Block Index                          |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Length of Data                         |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                    Data (variable length)                     \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+The Folder field identifies the folder that the index message pertains
+to.
+
+The Name is the file name path relative to the folder root. Like all
+strings, the Name is always in UTF-8 NFC regardless of operating system
+or file system specific conventions. The Name field uses the slash
+character ("/") as path separator, regardless of the implementation's
+operating system conventions. The combination of Folder and Name
+identifies each file on a Client machine as well as a unique ID
+specified by Adhara.
+
+The Modified time is expressed as the number of seconds since the Unix
+Epoch (1970-01-01 00:00:00 UTC).
+
+The Blocks list contains the size, signature, checksum, block index
+and the two least significant bit of the first byte of the block (lsb)
+for each block in the file.
+
+\subsection{2 - Request}
+
+The Request message expresses the desire to retrieve a file from the
+server or to get the data on modified files to synchronize.
+
+\begin{itemize}
+ \item RequestMessage Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Length of Folder                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                   Folder (variable length)                    \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Length of Name                         |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                    Name (variable length)                     \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Size                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Signature                      |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                  Signature (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |      Type     |                  Reserved                     |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+The size and signature field MAY be set to the expected size and
+signature values of the block, or may be left empty (zero length).
+If set, the server SHOULD ensure that the transmitted block matches
+the requested size and signature.
+
+Type corresponds to the expected type of the reply:
+\begin{itemize}
+ \item 3 - ResponseData
+ \item 4 - ResponseFileInfo
+\end{itemize}
+
+\subsection{3 - ResponseData}
+
+The ResponseData message is sent in response to a Request message.
+
+\begin{itemize}
+ \item ResponseDataMessage Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Length of Data                         |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                    Data (variable length)                     \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Code                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+The Code field contains an error code describing the reason a Request
+could not be fulfilled, in the case where a zero length Data was
+returned. The following values are defined:
+
+
+\begin{itemize}
+ \item 0: No Error (Data should be present)
+ \item 1: Generic Error
+ \item 2: No Such File (the requested file does not exist, or the offset is
+  outside the acceptable range for the file)
+ \item 3: Invalid (file exists but has invalid bit set or is otherwise
+  unavailable)
+\end{itemize}
+
+\subsection{4 - ReponseFileInfo}
+
+The ResponseFileInfo is sent in response to a Request message.
+
+\begin{itemize}
+ \item ResponseFileInfoMessage Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Size                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Signature                      |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                  Signature (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Checksum                       |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                   Checksum (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Number of Blocks                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \               Zero or more BlockInfo Structures               \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Code                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+\begin{itemize}
+  \item BlockInfo Structure:
+\end{itemize}
+
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Size                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |lsb|                        Reserved                           |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Signature                      |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                  Signature (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                      Length of Checksum                       |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                   Checksum (variable length)                  \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                          Block Index                          |
+           -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                        Length of Data                         |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                    Data (variable length)                     \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Code                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+The different fields are defined as they were previously.
+
+
+\subsection{5 - Ping}
+No content. The Ping message is used to determine that a connection is
+alive.
+
+\subsection{6 - Pong}
+No content but copies the Message ID from the Ping.
+
+\subsection{8 - Close}
+
+The Close message MAY be sent to indicate that the connection will be
+torn down due to an error condition. A Close message MUST NOT be
+followed by further messages.
+
+\begin{itemize}
+ \item CloseMessage Structure: 
+\end{itemize}
+ 
+\begin{verbatim}
+            O                   1                   2                   3
+            O 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                       Length of Reason                        |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           /                                                               /
+           \                   Reason (variable length)                    \
+           /                                                               /
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+           |                             Code                              |
+           +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+\end{verbatim}
+
+
+The Reason field contains a human description of the error condition,
+suitable for consumption by a human. The Code field is for a machine
+readable error code.
