@@ -83,6 +83,8 @@
       {]}{{{\color{delim}{]}}}}{1},
 }
 
+\setcounter{tocdepth}{2}
+
 \begin{document}
 \begin{spacing}{1.2}
  
@@ -239,7 +241,8 @@ utilisateurs un service de proximit\'e :
   \caption{\label{mapArksens} O\`u trouver Arksens}
 \end{figure}
       
-\subsection{Produits et solutions}
+\subsection{Produits, solutions et offres}
+\subsubsection{Les produits et solutions de s\'ecurit\'e}
 \textit{Arksens} propose aux entreprises 6 produits et solutions autour de la
 s\'ecurit\'e informatique. Une rapide description de ces produits se trouve
 table~\ref{tabProduits} :
@@ -698,12 +701,14 @@ backup.
 \end{itemize}
 
 \paragraph{rsync revisit\'e}
-Ne pouvant rien faire du c\^ot\'e serveur, il fallait trouver un algorithme
-qui permette de d'analyser un fichier en un temps fini. Pour cela, j'ai
-travaill\'e \`a partir de l'id\'ee de fen\^etr glissante utilis\'ee pour
-\textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de taille
-identique, il a fallu modifier l'algorithme pour prendre ceci en compte. Ainsi
-avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
+\'Etant donn\'e que les fichiers doivent \^etre chiffr\'es et d\'echiffr\'es
+uniquement sur la machine h\^ote (le client), nous ne pouvons effectuer des
+op\'erations sur ceux-ci du c\^ot\'e du serveur. Il fallait trouver un
+algorithme qui permette de d'analyser un fichier en un temps fini. J'ai donc
+d\'ecid\'e de baser mon travail sur le principe de fen\^etre glissante
+utilis\'ee pour \textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de
+taille identique, il a fallu modifier l'algorithme pour prendre ceci en compte.
+Ainsi avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
 
 \begin{itemize}
  \item \textbf{Fonctionnement :} L'algorithme utilise une fen\^etre dynamique,
@@ -733,15 +738,15 @@ le temps d'ex\'ecution de celui-ci. Plusieurs essais ont \'et\'e fait afin de
 r\'eduire toujours plus la dur\'ee d'ex\'ecution de l'algorithme. C'est donc
 principalement de l'optimisation, \`a la fois au niveau algorithmique et
 qu'au niveau de l'\'ecriture du code en lui-m\^eme, que j'ai effectu\'e  au
-course de cette \'etape.
+cours de cette \'etape.
 
 Plusieurs version ont donc vu le jour au cours de cette \'etape afin d'obtenir
 un algorithme qui puisse \^etre utilisable pour le syst\`eme de backup. Dans
 le cas \'ech\'eant il aurait fallu chercher un algorithme diff\'erent pour
 atteindre notre objectif. N\'eanmoins cela n'a pas \'et\'e le cas. Le
-prototype \'ecrit ayant permis de valider l'algorithme trouv\'e, j'ai pu passer
-\`a l'\'etape suivante et commencer ainsi la conception.
-
+prototype \'ecrit ayant permis de valider le fonctionnement de l'algorithme
+trouv\'e, j'ai pu passer \`a l'\'etape suivante et commencer ainsi la
+conception.
 Plus de d\'etails sur ces diff\'erentes versions de l'algorithme peuvent \^etre
 trouv\'es dans la partie~\nameref{rapportTechnique}.
 
@@ -876,7 +881,7 @@ notification.
 
 La figure~\ref{interactModule} montre comment le programme fonctionne dans le
 cas d'une premi\`ere sauvegarde sur le serveur. Chaque noeud \`a l'int\'erieur
-du client est un module tournant sur un \textit{thread} diff\'erent. Ainsi
+du client est un module exploitant un \textit{thread} diff\'erent. Ainsi
 avons-nous :
 \begin{itemize}
  \item une seule instance de \textit{Filer} est ex\'ecut\'ee. Le module
@@ -896,24 +901,24 @@ base de donn\'ees semblait obligatoire afin de garder les m\'eta-donn\'ees
 des fichiers sauvegard\'es mais \'egalement pouvoir garder en m\'emoire une
 trace de chaque sauvegarde effectu\'ee. Cela donnerait la possibilit\'e
 de restaurer n'importe quelle version d'un ou plusieurs fichier(s). En effet,
-on aurait alors l'ensemble des informations n\'ecessaires pour chacune des
-versions.
+nous aurions ainsi dans l'ensemble des informations n\'ecessaires \`a la
+reconstruction d'une version particuli\`ere d'un fichier.
 
 L'utilisation d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente.
 Le choix d'en avoir une \'egalement sur la machine cliente s'est fait
-naturellement dans la mesure o\`u cela \'evite d'avoir \`a effectuer une
-connexion au serveur. N\'eanmoins, et contrairement \`a la base de donn\'ee
-pr\'esente sur le serveur, celle du client permettrait de ne stocker que les
-informations li\'ees \`a la derni\`ere sauvegarde. Ce sont en effet ces
-informations qui sont utiles lors d'une nouvelle sauvegarde. On gagne ainsi en
-temps mais aussi en quantit\'e de donn\'ees transmises \`a travers le r\'eseau
-internet.
+naturellement dans la mesure o\`u cela \'evite d'avoir \`a effectuer
+r\'eguli\`erement des connexions avec le serveur. N\'eanmoins, et contrairement
+\`a la base de donn\'ee pr\'esente sur le serveur, celle du client permettrait
+de ne stocker que les informations li\'ees \`a la derni\`ere sauvegarde. Ce
+sont en effet ces informations qui sont utiles lors d'une nouvelle sauvegarde.
+On r\'eduit de ce fait le temps de traitement ainsi que la quantit\'e de
+donn\'ees transmises \`a travers le r\'eseau internet.
 
 \paragraph{SQL vs NoSQL}
-Il s'agissait donc de trouver quelle type(s) de base de donn\'ees pourrai(en)t
-\^etre utilis\'e(s) avec d'un c\^ot\'e les bases de donn\'ees relationnelle
-\textit{SQL} et d'un autre les bases de donn\'ees \textit{NoSQL}. Les
-principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
+La prob\'ematique fut donc de trouver quelle type(s) de base de donn\'ees
+pourrai(en)t \^etre utilis\'e(s) avec d'un c\^ot\'e les bases de donn\'ees
+relationnelle \textit{SQL} et d'un autre les bases de donn\'ees \textit{NoSQL}.
+Les principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
 
 \begin{savenotes}
 \begin{table}[h!]
@@ -973,7 +978,7 @@ est d'ailleurs faite automatiquement sur la plupart des solutions
 Afin d'avoir un acc\`es rapide des informations sur la derni\`ere sauvegarde
 faite, une petite base de donn\'ees doit \^etre install\'ee sur le poste client.
 
-Nous avons dans un premier temps penser au mod\`ele relationnel avec une base
+Nous avons dans un premier temps pens\'e au mod\`ele relationnel avec une base
 de donn\'ees \textit{SQLite} permettant de l'int\'egrer directement au
 programme. Celle-ci \'etant stock\'ee dans un fichier, et ce ind\'ependemment
 de la plate-forme utilis\'ee, elle aurait pu correspondre \`a ce que voulions.
@@ -1006,11 +1011,11 @@ donn\'ees.
 
 Certaines bases de donn\'ees \textit{NoSQL} offrent la possibilit\'e de 
 sauvegarder les fichiers eux-m\^emes. Cela peut \^etre int\'eressant. que ce
-soit dans l'imm\'ediat ou dans une futur version de l'application.
+soit dans l'imm\'ediat ou dans une future version de l'application.
 
 Donc bien que dans un premier temps nous ayons d\'ecid\'e d'utiliser le
-syst\`eme de fichier en place sur le serveur, nous avons pris cette
-fonctionnalit\'e en compte.
+syst\`eme de fichier en place sur le serveur, nous avons pris en compte cette
+fonctionnalit\'e.
 
 C'est donc sur \textit{MongoDB} que s'est arr\^et\'e notre choix. Cette base
 de donn\'ees a plusieurs avantages qui correspondait \`a ce que nous
@@ -1099,7 +1104,8 @@ la collection \textit{User}. Ce choix s'est fait puisque, sur le client
 il n'y a que la machine sur laquelle le logiciel est install\'e qui est
 pr\'esente en base de donn\'ees. De plus, l'acc\`es aux donn\'ees est \`a la
 fois plus simple et plus rapide en utilisant une collection regroupant
-l'utilisateur et sa machine plut\^ot qu'en en utilisant deux.
+l'utilisateur et sa machine plut\^ot qu'en utilisant deux collections
+distinctes.
 
 \begin{lstlisting}[language=json]
 File :
@@ -1139,10 +1145,10 @@ repr\'esent\'e par le champ \textit{id\_file} contenant l'identifiant d'un
 fichier auquel appartient un morceau.
 
 \subparagraph{Serveur\\}
-Bien que similaire, la base de donn\'ees est l\'eg\`erement diff\'erente
-sur le serveur par rapport au client. Les changements prennent en compte
-qu'il peut exister plusieurs machines pour un utilisateur mais aussi que
-plusieurs utilisateurs existent au sein d'une compagnie.
+Bien que similaire, la base de donn\'ees est l\'eg\`erement diff\'erente sur le
+serveur par rapport au client. Les changements prennent en compte le fait qu'il
+puisse exister plusieurs machines pour un utilisateur mais aussi que plusieurs
+utilisateurs existent au sein d'une compagnie.
 \begin{lstlisting}[language=json]
 User :
 { "_id",
@@ -1220,10 +1226,11 @@ Chunk :
 \end{lstlisting}
 
 \subsubsection{Stockage des fichiers}
-Comme nous l'avons vu pr\'ec\'edemment, \textit{MongoDB} avec \textit{GridFS}
-permet de stocker des fichiers. N\'eanmoins nous avons d\'ecid\'e d'utiliser,
-au moins dans un premier temps, le syst\`eme de fichier disponible sur le
-serveur : celui-ci ayant de meilleurs performances en lecture et \'ecriture.
+Comme nous l'avons vu pr\'ec\'edemment, \textit{MongoDB} combin\'e avec
+\textit{GridFS} permet de stocker des fichiers. N\'eanmoins nous avons
+d\'ecid\'e d'utiliser, au moins dans un premier temps, le syst\`eme de fichier
+disponible sur le serveur : celui-ci ayant de meilleurs performances en lecture
+et \'ecriture.
 
 La figure~\ref{fileSystemServer} pr\'esente comment les donn\'ees seront
 stock\'ee sur le serveur une fois sauvegard\'ees. Ainsi chaque fichier
@@ -1233,10 +1240,16 @@ les diff\'erents morceaux sauvegard\'es, c'est-\`a-dire les parties modifi\'ees
 du fichier.
 
 \begin{figure}[h!]
-  \centering
-  \includegraphics[width=17cm]{softwareDesign/fileSystemServer.png}
+  \hspace{-4.5em}
+  \includegraphics[width=19cm]{softwareDesign/fileSystemServer.png}
   \caption{\label{fileSystemServer} Stockage des fichiers sur le serveur}
 \end{figure}
+
+Dans notre exemple, pour r\'ecup\'erer le fichier \textit{MyFile0} de
+l'utilisateur \textit{toto}  dans sa version datant du 13 mai 2015, nous devons
+donc t\'el\'echarger \textit{toto\_MyFile0\_20150513.chunk2} mais aussi les
+morceaux \textit{.chunk0} et \textit{.chunk1} datant de la pr\'ec\'edente
+sauvegarde, au 06 mai 2015.
 
 
 
@@ -1251,7 +1264,7 @@ du fichier.
 \subsubsection{Prototypage}
 Comme expliqu\'e dans le~\nameref{rapportSynthese}, une v\'erification pratique
 de la faisabilit\'e de l'algorithme choisi \'etait n\'ecessaire avant de
-pouvoir entamer la conception du produit et plusieurs versions on vu le jour.
+pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
 
 \paragraph{Premi\`ere version}
 
