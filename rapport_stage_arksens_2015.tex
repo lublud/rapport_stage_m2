@@ -784,8 +784,8 @@ Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
   sauvegard\'e, ce module va scanner l'int\'egralit\'e du fichier pour trouver
   les parties qui ont \'et\'e modifi\'ees et qui doivent \^etre chiffr\'ees et
   envoy\'ees au serveur.
-  \item \textbf{hasher :} ce module fournit des fonction de hash permettant de
-  v\'erifier l'int\'egralit\'e des fichiers.
+  \item \textbf{hasher :} ce module fournit des fonction de hachage permettant
+  de v\'erifier l'int\'egralit\'e des fichiers.
   \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
   d\'echiffrement des donn\'ees.
   \item \textbf{communication :} ce module s'occupe de la communication avec
@@ -824,16 +824,36 @@ sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un lien
 est donc n\'ecessaire pour que deux \textit{threads} puisse s'envoyer les
 donn\'ees li\'ees \`a un fichier.
 
+Dans un premier temps, j'avais cr\'ee un outil qui, appel\'e par un module,
+retournait le c\^ot\'e d'un tunnel (\textit{pipe}) : soit pour lire, soit pour
+\'ecrire. Un autre module pouvait ensuite utiliser ce m\^eme outil pour
+r\'ecup\'erer l'autre partie, non utilis\'ee, du tunnel. En triant les
+tunnels ainsi cr\'ees par cat\'egories, il \'etait possible de faire communiquer
+deux modules tel que, par exemple, \textit{encryptor} pouvait envoyer ou
+recevoir des donn\'ees vers ou depuis le module \textit{communication}. La
+cat\'egorie du tunnel aurait alors pu s'appeler \textit{encomm}.
+
+N\'eanmoins il y avait un probl\`eme majeur \`a l'utilisation d'un tel outil.
+Car s'il permettait bien d'envoyer des informations entre deux modules sans
+que ceux-ci ne se connaissent, ils ne pouvaient pas envoyer d'objet
+\textit{C++}. En somme ils ne pouvaient pas s'envoyer les m\'eta-informations
+du fichier sur lequel ils \'etaient en train de travailler. Ils n'avaient
+donc que les octets du fichiers.
+
+Pour palier \`a ce probl\`eme, nous nous sommes donc dirig\'es vers les patrons
+de conception (\textit{design pattern}).
+
 \paragraph{Design pattern}
 \subparagraph{Observer\\}
-Pour faire ce lien, nous avons dans un premier temps pens\'e au design pattern
-\textit{observer}, dont le principe est que lors du changement d'\'etat d'un
-module, les autres module l'observant sont avertis et peuvent, ou non, agir en
-cons\'equence. Cela donne \'egalement la possibilit\'e \`a un module d'envoyer
-des informations en passant dans un certain \'etat \`a des moments cl\'es. Dans
-notre cas, elles auraient correspondu aux m\'eta-donn\'ees d'un fichier,
-accompagn\'e d'un \textit{pipe} servant de tunnel pour faire transiter le
-fichier en lui-m\^eme d'un \textit{thread} \`a un autre.
+Pour faire ce lien, nous avons dans un premier temps pens\'e au
+\textit{design pattern} \textit{observer}, dont le principe est que lors du
+changement d'\'etat d'un module, les autres module l'observant sont avertis et
+peuvent, ou non, agir en cons\'equence. Cela donne \'egalement la possibilit\'e
+\`a un module d'envoyer des informations en passant dans un certain \'etat \`a
+des moments cl\'es. Dans notre cas, elles auraient correspondu aux
+m\'eta-donn\'ees d'un fichier, accompagn\'e d'un \textit{pipe} servant de
+tunnel pour faire transiter le fichier en lui-m\^eme d'un \textit{thread} \`a
+un autre.
 
 Cette solution ne fut n\'eanmoins pas retenue puisqu'elle impliquait qu'un
 module ait connaissances de celui \`a qui envoyer les informations. Ceci
@@ -1312,7 +1332,7 @@ durant mon stage.
  \item \textit{git} comme gestion de versions d\'ecentralis\'e
 \end{itemize}
 
-\paragraph{Frameworks et librairies externes}
+\paragraph{Frameworks et biblioth\`eques externes}
 Afin de limiter les contraintes li\'es \`a l'utilisation de \textit{framework}
 et librairies externes, l'utilisation de ceux-ci \'etait limit\'e. Voici
 ceux que j'ai utilis\'e:
@@ -1327,6 +1347,58 @@ En addition \`a cela, j'ai \'egalement utilis\'e le driver \textit{C++} de
 \textit{MongoDB} pour communiquer avec la base de donn\'ees.
 
 \subsubsection{Travail r\'ealis\'e}
+Comme il a \'et\'e initialement pens\'e, j'ai d\'evelopp\'e le syst\`eme de
+sauvegarde module par module, tous ind\'ependant les uns des autres en
+pr\'ef\'erant dans un premier temps la partie principale du programme. Cette
+partie correspond \`a la lecture des fichiers depuis le disque, le d\'ecoupage
+en morceaux ainsi que le chiffrement de ceux-ci.
+
+\paragraph{D\'eveloppement des modules}
+J'ai donc tout d'abord cr\'e\'e le \textit{logger} qui allait m'aider pendant
+l'ensemble du d\'eveloppement du programme afin de me permettre de d\'eceler
+plus facilement des probl\`emes pouvant exister.
+
+Une fois ceci fait, j'ai d\'evelopp\'e toute la partie concernant la
+cryptographie. Cette partie comprend les modules \textit{hasher} et
+\textit{encryptor}. J'ai utilis\'e les m\'ethodes fournies par la biblioth\`eque
+\textit{OpenSSL} afin d'\'ecrire ces deux modules. L'utilisation de m\'ethodes
+d\'ej\`a existantes \'etant pr\'ef\'erable \`a la r\'e\'ecriture de celles-ci.
+
+S'en est suivi le d\'eveloppement du module \textit{spconc}, permettant dans un
+sens de d\'ecouper en plusieurs morceaux un fichier, ou \`a l'inverse de
+concat\'ener ces morceaux pour retrouver le fichier d'origine.
+
+Apr\`es celui-ci, ce fut autour du module \textit{information} d'\^etre
+d\'evelopp\'e afin de pouvoir cr\'eer des objets permettant de garder les
+m\'eta-donn\'ees des fichiers.
+
+\`A partir de l\`a, nous avions assez de module pour les combiner ensemble et
+voir une premi\`ere fois le programme tourner. Pour simuler une sauvegarde, il
+manquait des prototype pour mimer le r\^ole des modules \textit{filer},
+\textit{communication} et \textit{organizer}. En plus de cela, il nous fallait
+bien \'evidemment d\'evelopper le syst\`eme de notification pour pouvoir faire
+communiquer les diff\'erents modules.
+
+Une fois ceci fait, je pouvais cr\'eer l'\textit{organizer} afin de faire
+tourner tous ces modules ensemble.
+
+\paragraph{Imbrication des modules}
+Cette \'etape fut longue et beaucoup d'erreur apparurent. Bien que chaque
+module, individuellement, fonctionnait parfaitement, les faire fonctionner sur
+des threads s\'epar\'es et communiquer tous ensemble amena quelque probl\`emes :
+
+\begin{itemize}
+ \item Lib\'eration de la m\'emoire d'objets contenant les informations trop
+ t\^ot, emp\^echant le bon fonctionnement des modules utilisant encore ces
+ objets
+ \item Fuite de m\'emoire li\'ee \`a l'utilisation de plusieurs threads avec
+ de la m\'emoire pas toujours lib\'er\'ee
+ \item Soucis dans l'abonnement de certains modules pour certains type de
+ notifications
+ \item Chiffrement correct de fichier devant \^etre d\'ecoup\'e en de nombreux
+ morceaux diff\'erent, et donc impossibilit\'e de d\'echiffrement
+\end{itemize}
+
 
 
 \subsubsection{Tests}
@@ -1475,8 +1547,7 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
     de poids faible du premier octet du morceau. Utilis\'e pour r\'epartir le
     travail entre plusieurs thread lors du scan d'un fichier pour trouver les
     parties modifi\'es de celui-ci.\\
-    \hline
-    chunk\_init\_vector & Vecteur d'initialisation utilis\'e pour l'algorithme de
+    \hline chunk\_init\_vector & Vecteur d'initialisation utilis\'e pour l'algorithme de
     chiffrement AES\\
     \hline
     chunk\_cipher\_length & Taille du morceau chiffr\'e en octet\\
