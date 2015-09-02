@@ -179,6 +179,7 @@ the first of His Name, King of the Dutch, King of the flatlands and the first
 Men, Breaker of Cars and Father of the Bikers.
 
 \tableofcontents
+\thispagestyle{plain}
 
 \chapter*{Introduction}
 \thispagestyle{fancy}
@@ -574,7 +575,7 @@ signature, \`a \(N + 1\), ne correspond pas \`a la signature pr\'ec\'edemment
 calcul\'ee (\(N\)). Le bloc est donc chiffr\'e avant d'\^etre envoy\'e sur le
 serveur avec sa signature \textit{signature\_bloc1.txt}.
 
-\subsubsection{}
+\subparagraph{}
 L'id\'ee, bien qu'int\'eressante dans un premier temps, ne peut \^etre
 appliqu\'ee que dans un cas tr\`es particulier de fonctionnement et ne peut
 donc pas \^etre utilis\'e en tant que tel :
@@ -801,7 +802,7 @@ Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
   erreur provoque l'arr\^et pr\'ematur\'e du programme.
 \end{itemize}
 
-\subsubsection{}
+\subparagraph{}
 L'utilisation de modules doit permettre une modification facile du programme,
 sans avoir \`a modifier tout le code. Par exemple, pour changer un algorithme,
 il ne doit donc \^etre n\'ecessaire que d'\'ecrire le code de celui-ci, sans
@@ -895,7 +896,7 @@ notification.
   \caption{\label{classDiagramNotif} Diagramme de classe --- notifications}
 \end{figure}
 
-\subsubsection{}
+\subparagraph{}
 \begin{figure}[h!]
   \hspace{-1.5em}
   \includegraphics[width=17cm]{softwareDesign/moduleInteraction.png}
@@ -1325,11 +1326,12 @@ durant mon stage.
 \subsubsection{Environnement de travail}
 \begin{itemize}
  \item \textit{vim} comme \'editeur de texte
- \item \textit{gcc} pour le compilateur
+ \item \textit{gcc} comme compilateur
  \item \textit{gdb} pour d\'eboguer le programme quand n\'ecessaire
- \item \textit{valgrind} pour tout ce qui touche \`a la m\'emoire
+ \item \textit{valgrind} pour tout ce qui touche \`a la m\'emoire (analyse,
+ gestion de la m\'emoire)
  \item \textit{gprof} pour ce qui s'agit de l'analyse de performance
- \item \textit{git} comme gestion de versions d\'ecentralis\'e
+ \item \textit{git} comme gestionnaire de versions d\'ecentralis\'e
 \end{itemize}
 
 \subsubsection{Frameworks et biblioth\`eques externes}
@@ -1582,7 +1584,8 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
     \hline
     machine\_name & Nom de la machine\\
     \hline
-    machine\_home\_directory & R\'epertoire racine des fichiers \`a sauvegarder\\
+    machine\_home\_directory & R\'epertoire racine des fichiers \`a
+    sauvegarder\\
     \hline
     machine\_quota\_available & Quota disponible (total) pour la machine\\
     \hline
@@ -1659,8 +1662,8 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
     de poids faible du premier octet du morceau. Utilis\'e pour r\'epartir le
     travail entre plusieurs thread lors du scan d'un fichier pour trouver les
     parties modifi\'es de celui-ci.\\
-    \hline chunk\_init\_vector & Vecteur d'initialisation utilis\'e pour l'algorithme de
-    chiffrement AES\\
+    \hline chunk\_init\_vector & Vecteur d'initialisation utilis\'e pour
+    l'algorithme de chiffrement AES\\
     \hline
     chunk\_cipher\_length & Taille du morceau chiffr\'e en octet\\
   \end{tabular}
