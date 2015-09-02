@@ -178,9 +178,7 @@ Je tiens tout particuli\`erement \`a remercier Sir Daniel Brands of House Brands
 the first of His Name, King of the Dutch, King of the flatlands and the first
 Men, Breaker of Cars and Father of the Bikers.
 
-\hfill
 \tableofcontents
-\thispagestyle{fancy}
 
 \chapter*{Introduction}
 \thispagestyle{fancy}
@@ -208,10 +206,10 @@ Ce rapport pr\'esente donc le d\'eroulement du stage ainsi que le travail
 accompli au sein de l'entreprise durant ces six mois.
 
 
-\chapter{Rapport de synth\`ese}
-\thispagestyle{fancy}
+\part{Rapport de synth\`ese}
 \label{rapportSynthese}
-\section{Pr\'esentation de l'entreprise}
+\chapter{Pr\'esentation de l'entreprise}
+\thispagestyle{fancy}
 Cr\'e\'ee en 2013 sous le nom d'\textit{Adhara Cyber Security} avant
 d'\^etre renomm\'ee \textit{Arksens} au 1\up{er} juillet 2015, l'entreprise 
 dans laquelle j'ai effectu\'e mon stage est sp\'ecialis\'ee en s\'ecurit\'e
@@ -225,7 +223,7 @@ s'est ouverte aux entreprises de taille plus importante. Revoyant leur
 strat\'egie de commercialisation et de communication, l'entreprise se devait
 donc de changer de nom.
 
-\subsection{Pr\'esence dans le monde}
+\section{Pr\'esence dans le monde}
 Aujourd'hui \textit{Arksens} est donc pr\'esent dans trois pays chacun sur
 un continent diff\'erent (voir figure~\ref{mapArksens}) offrant ainsi aux
 utilisateurs un service de proximit\'e :
@@ -242,8 +240,8 @@ utilisateurs un service de proximit\'e :
   \caption{\label{mapArksens} O\`u trouver Arksens}
 \end{figure}
       
-\subsection{Produits, solutions et offres}
-\subsubsection{Les produits et solutions de s\'ecurit\'e}
+\section{Produits, solutions et offres}
+\subsection{Les produits et solutions de s\'ecurit\'e}
 \textit{Arksens} propose aux entreprises 6 produits et solutions autour de la
 s\'ecurit\'e informatique. Une rapide description de ces produits se trouve
 table~\ref{tabProduits} :
@@ -285,7 +283,7 @@ table~\ref{tabProduits} :
 L'ensemble des produits et solutions propos\'es par l'entreprise sont d\'ecrit
 de mani\`ere plus compl\`ete sur leur site web~\cite{refArksens}.
 
-\subsubsection{Les offres de cloud}
+\subsection{Les offres de cloud}
 L'entreprise propose \'egalement des offres autour du Cloud\footnote{
 Exploitation de la puissance de calcul ou de stockage de serveurs distants
 par l'interm\'ediaire d'un r\'eseau, g\'en\'eralement l'internet.}
@@ -324,8 +322,8 @@ Avec 3 offres de cloud comportant l'ensemble des solutions de s\'ecurit\'e
 cité pr\'ec\'edemment, \textit{Arksens} peut répondre à l'ensemble des besoins
 de ses clients actuels.
 
-\subsection{L'id\'eologie de l'entreprise}
-\subsubsection{La politique des centres de données}
+\section{L'id\'eologie de l'entreprise}
+\subsection{La politique des centres de données}
 
 Pour chaque service, \textit{Arksens} fournit le mat\'eriel (centres de
 donn\'ees), le produit et le support qui va avec. Pour \^etre en mesure de
@@ -351,7 +349,7 @@ un service indisponible.} et en Suisse chez AlpineDC~\cite{refAlpineDC} dont la
 l\'egislation est une des plus restrictive en mati\`ere de protection de
 donn\'ees personnelles.
 
-\subsubsection{La culture Open Source}
+\subsection{La culture Open Source}
 
 L'open source est une tradition dans l'entreprise. L'ensemble des
 produits respectent les crit\`eres \'etablis par l'Open Source
@@ -382,7 +380,7 @@ suivants :
   mise en avant
 \end{itemize}
 
-\subsection{\^Ile Maurice}
+\section{\^Ile Maurice}
 L'\^ile Maurice abrite es locaux accueillant le centre de recherche et
 d\'eveloppement de l'entreprise. Les locaux se trouvent au Business Park de
 Beau Plan (figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au
@@ -429,8 +427,9 @@ et c'est ainsi dans une ambiance g\'en\'eralement bonne, bien que quelque peu
 compliqu\'ee sur la fin d\^u \`a la restructuration de l'entreprise s'est
 d\'eroul\'e ce stage de fin d'\'etude.
 
-\section{Sujet de stage}
-\subsection{Contexte}
+\chapter{Sujet de stage}
+\thispagestyle{fancy}
+\section{Contexte}
 L'entreprise \'etant encore jeune et de petite taille, plusieurs des services
 existant \'etaient bas\'e sur des produits open source qui avaient \'et\'e
 int\'egr\'e au \textit{manager} (voir figure~\ref{managerFront}).
@@ -470,7 +469,7 @@ aussi facile que ce qu'il peut y avoir en Europe.
 C'est donc dans ce cadre que je suis arriv\'e et qu'il m'a \'et\'e demand\'e
 de cr\'eer la prochaine g\'en\'eration de backup pour \textit{Arksens}.
 
-\subsection{Le sujet}
+\section{Le sujet}
 Ma mission pour ce stage \'etait donc de faire la conception et le
 d\'eveloppement d'un syst\`eme de backup incr\'emental et dont les donn\'ees
 sauvegard\'ees sont chiffr\'ees en local, sur la machine client, avant d'\^etre
@@ -534,7 +533,8 @@ fait, le retour des clients de l'entreprise lors de mises \`a jour des produits
 ou des r\'eunions avec de potentiels futurs clients pouvaient prendre la
 priorit\'e et ainsi retarder ou annuler les r\'eunions hebdomadaire.
 
-\section{D\'eroulement du stage}
+\chapter{D\'eroulement du stage}
+\thispagestyle{fancy}
 Avant de commencer le projet en lui-m\^eme, David et Ga\"etan m'ont fait part
 de leur r\'eflexion sur le possible fonctionnement du syst\`eme de sauvegarde.
 
@@ -574,7 +574,7 @@ signature, \`a \(N + 1\), ne correspond pas \`a la signature pr\'ec\'edemment
 calcul\'ee (\(N\)). Le bloc est donc chiffr\'e avant d'\^etre envoy\'e sur le
 serveur avec sa signature \textit{signature\_bloc1.txt}.
 
-\paragraph{}
+\subsubsection{}
 L'id\'ee, bien qu'int\'eressante dans un premier temps, ne peut \^etre
 appliqu\'ee que dans un cas tr\`es particulier de fonctionnement et ne peut
 donc pas \^etre utilis\'e en tant que tel :
@@ -588,9 +588,9 @@ d'un bloc, etc.), l'algorithme ne pourrait pas fonctionner. Pour palier \`a
 cela, j'ai donc d\^u imaginer un algorithme r\'epondant \`a la probl\'ematique
 et fonctionnant dans tout les cas possible.
 
-\subsection{Travail de recherche}
+\section{Travail de recherche}
 \label{secTravailRecherche}
-\subsubsection{Documentation}
+\subsection{Documentation}
 Mon travail de recherche s'est fait \`a partir d'une liste de mots-cl\'es qui
 m'a \'et\'e donn\'e afin que l'on parle tous le m\^eme langage. Entre autre,
 certaines d\'efinitions li\'ees au backup et au chiffrement :
@@ -613,7 +613,7 @@ fichiers et \`a partir desquels il pouvait \^etre int\'eressant de s'inspirer :
  \item rsync~\cite{refRsync}
 \end{itemize}
 
-\paragraph{Syncthing}
+\subsubsection{Syncthing}
 \textit{Syncthing} est un logiciel permettant la synchronisation des donn\'ees
 entre plusieurs appareils au travers d'une communication s\'ecuris\'ee via TLS.
 Les donn\'ees n'\'etant jamais stock\'ees sur un serveur tiers, uniquement les
@@ -625,7 +625,7 @@ communication, qui a \'et\'e cr\'ee \`a l'occasion : Block Exchange Protocol
 donc une bonne source d'inspiration afin de faire la liaison entre notre client
 et notre serveur.
 
-\paragraph{rsync}
+\subsubsection{rsync}
 \textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
 Unix. Le c\oe ur du programme est son algorithme sch\'ematis\'e
 figure~\ref{rsyncAlgo} :
@@ -665,7 +665,7 @@ pour n'envoyer les changements mais diff\'erent dans la mesure o\`u il n'est
 pas possible dans mon cas de maintenir une liste de bloc de m\^eme taille au
 del\`a du premier backup.
 
-\subsubsection{R\'eflexion}
+\subsection{R\'eflexion}
 Une fois cette phase de documentation r\'ealis\'ee, il \'etait temps de trouver
 un algorithme permettant d'identifier les parties d'un fichier ayant \'et\'e
 modifi\'e depuis le pr\'ec\'edent backup. Pour ce faire, et comme indiqu\'e
@@ -673,7 +673,7 @@ dans la partie documentation, je me suis bas\'e sur l'algorithme \textit{rsync}
 pour, petit \`a petit, cr\'eer un algorithme qui permettait de r\'epondre \`a ma
 probl\'ematique.
 
-\paragraph{Chiffrement homomorphe}
+\subsubsection{Chiffrement homomorphe}
 Dans un premier temps, j'ai \'etudi\'e la question de l'homomorphisme. Ce type
 de chiffrement permet de r\'ealiser des op\'erations sur des fichiers chiffr\'es
 et de retourner le r\'esultat chiffr\'e. Ceci permet de faire des op\'erations
@@ -704,7 +704,7 @@ sans avoir \`a conna\^itre le contenu d'un fichier.
 backup.
 \end{itemize}
 
-\paragraph{rsync revisit\'e}
+\subsubsection{rsync revisit\'e}
 \'Etant donn\'e que les fichiers doivent \^etre chiffr\'es et d\'echiffr\'es
 uniquement sur la machine h\^ote (le client), nous ne pouvons effectuer des
 op\'erations sur ceux-ci du c\^ot\'e du serveur. Il fallait trouver un
@@ -732,7 +732,7 @@ C'est donc sur cette base que j'ai commenc\'e l'\'etape suivante. \'Etape
 consistant \`a \'ecrire un prototype permettant de v\'erifier la faisabilit\'e,
 notamment en ce qui concerne le temps d'ex\'ecution du programme.
 
-\subsubsection{Prototypage}
+\subsection{Prototypage}
 La v\'erification pratique de la th\'eorie \'etait n\'ecessaire avant de
 pouvoir penser \`a la conception du produit. Pour cela, le passage par une
 \'etape de prototypage semblait in\'evitable.
@@ -754,8 +754,8 @@ conception.
 Plus de d\'etails sur ces diff\'erentes versions de l'algorithme peuvent \^etre
 trouv\'es dans la partie~\nameref{rapportTechnique}.
 
-\subsection{Conception}
-\subsubsection{Un programme modulaire}
+\section{Conception}
+\subsection{Un programme modulaire}
 La conception a commenc\'e avec le d\'ecoupage du projet en diff\'erents
 modules. Avant de penser \`a la partie serveur, c'est le client qui, dans un
 premier temps, va \^etre la priorit\'e.
@@ -801,7 +801,7 @@ Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
   erreur provoque l'arr\^et pr\'ematur\'e du programme.
 \end{itemize}
 
-\paragraph{}
+\subsubsection{}
 L'utilisation de modules doit permettre une modification facile du programme,
 sans avoir \`a modifier tout le code. Par exemple, pour changer un algorithme,
 il ne doit donc \^etre n\'ecessaire que d'\'ecrire le code de celui-ci, sans
@@ -814,7 +814,7 @@ apporte pour maintenir le code efficacement.
 Dans ce but, j'utiliserai et profiterai des sp\'ecificit\'es qu'offre la
 programmation orient\'ee objet.
 
-\subsubsection{Interaction entre modules}
+\subsection{Interaction entre modules}
 
 L'utilisation de \textit{threads} pour ex\'ecuter les diff\'erents modules
 complexifie l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es
@@ -843,8 +843,8 @@ donc que les octets du fichiers.
 Pour palier \`a ce probl\`eme, nous nous sommes donc dirig\'es vers les patrons
 de conception (\textit{design pattern}).
 
-\paragraph{Design pattern}
-\subparagraph{Observer\\}
+\subsubsection{Design pattern}
+\paragraph{Observer\\}
 Pour faire ce lien, nous avons dans un premier temps pens\'e au
 \textit{design pattern} \textit{observer}, dont le principe est que lors du
 changement d'\'etat d'un module, les autres module l'observant sont avertis et
@@ -860,7 +860,7 @@ module ait connaissances de celui \`a qui envoyer les informations. Ceci
 n'\'etait pas voulu afin de laisser les modules aussi ind\'ependant que
 possible.
 
-\subparagraph{Event Notifier\\}
+\paragraph{Event Notifier\\}
 Pour palier \`a cela, un syst\`eme de notification a donc \'et\'e
 impl\'ement\'e. Le principe de ce syst\`eme est relativement simple \`a
 comprendre. On peut d'ailleurs trouver le m\^eme syst\`eme dans la vie de
@@ -868,7 +868,7 @@ tous les jours. Par exemple un journal publie r\'eguli\`erement des nouvelles
 ayant un certain libell\'e (\flqq alertes\frqq, \flqq national\frqq, \flqq
 sport\frqq, etc.). En face, il existe des utilisateurs qui peuvent, ou non,
 s'inscrire \`a un ou plusieurs type de nouvelle. Ainsi, quelqu'un inscrit aux
-nouvelles de type \flqq alertes\frqq va recevoir une notification lorsqu'une
+nouvelles de type \flqq alertes\frqq~va recevoir une notification lorsqu'une
 nouvelle de ce type appara\^it.
 
 Le principe utilis\'e dans notre cas est exactement le m\^eme : des modules
@@ -895,7 +895,7 @@ notification.
   \caption{\label{classDiagramNotif} Diagramme de classe --- notifications}
 \end{figure}
 
-\paragraph{}
+\subsubsection{}
 \begin{figure}[h!]
   \hspace{-1.5em}
   \includegraphics[width=17cm]{softwareDesign/moduleInteraction.png}
@@ -919,7 +919,7 @@ avons-nous :
  serveur.
 \end{itemize}
 
-\subsubsection{Base de donn\'ees}
+\subsection{Base de donn\'ees}
 \`A la fois du c\^ot\'e client et du c\^ot\'e serveur, l'utilisation d'une
 base de donn\'ees semblait obligatoire afin de garder les m\'eta-donn\'ees
 des fichiers sauvegard\'es mais \'egalement pouvoir garder en m\'emoire une
@@ -938,7 +938,7 @@ sont en effet ces informations qui sont utiles lors d'une nouvelle sauvegarde.
 On r\'eduit de ce fait le temps de traitement ainsi que la quantit\'e de
 donn\'ees transmises \`a travers le r\'eseau internet.
 
-\paragraph{SQL vs NoSQL}
+\subsubsection{SQL vs NoSQL}
 La prob\'ematique fut donc de trouver quelle type(s) de base de donn\'ees
 pourrai(en)t \^etre utilis\'e(s) avec d'un c\^ot\'e les bases de donn\'ees
 relationnelle \textit{SQL} et d'un autre les bases de donn\'ees \textit{NoSQL}.
@@ -985,7 +985,7 @@ Les principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
 \end{savenotes}
 
 
-\paragraph{Sur le serveur}
+\subsubsection{Sur le serveur}
 Un des principaux points qui nous int\'eresse est ici l'adaptabilit\'e. En
 effet, la quantit\'e de donn\'ees pouvant augmenter tr\`es rapidement il peut
 \^etre tr\`es co\^uteux d'utiliser une base de donn\'ees relationnelle. Cela
@@ -998,7 +998,7 @@ r\'eplication des donn\'ees \`a travers les diff\'erents serveurs. Celle-ci
 est d'ailleurs faite automatiquement sur la plupart des solutions
 \textit{NoSQL}.
 
-\paragraph{Sur le client}
+\subsubsection{Sur le client}
 Afin d'avoir un acc\`es rapide des informations sur la derni\`ere sauvegarde
 faite, une petite base de donn\'ees doit \^etre install\'ee sur le poste client.
 
@@ -1028,7 +1028,7 @@ serveur, sur une base de donn\'ees \textit{NoSQL}.
 La signification des diff\'erentes colonnes pr\'esentes figure~\ref{dbRelClient}
 se trouve en annexe~\ref{annBDR}.
 
-\paragraph{Choix de la base de donn\'ees}
+\subsubsection{Choix de la base de donn\'ees}
 En plus des m\'eta-donn\'ees des diff\'erents fichiers sauvegard\'es, le
 stockage des fichiers sur le serveur a influ\'e sur le choix de la base de
 donn\'ees. 
@@ -1090,7 +1090,7 @@ utilis\'e pour une base de donn\'ees \textit{SQL} avec ceux utilis\'es dans
   avec les termes \textit{MongoDB}}
 \end{table}
 
-\paragraph{Sch\'emas}
+\subsubsection{Sch\'emas}
 Bien que quelque peu diff\'erent, le sch\'ema des bases de donn\'ees
 pr\'esentes sur le serveur et le client ressemble \`a celui pr\'esent
 figure~\ref{dbRelClient}.
@@ -1100,7 +1100,7 @@ modification des sch\'emas. De plus, le serveur doit prendre en compte qu'un
 utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
 de la machine sur laquelle il est install\'e.
 
-\subparagraph{Client\\}
+\paragraph{Client\\}
 Les structures suivantes repr\'esentent les collections de la base de donn\'ees
 install\'ee sur les machines clientes.
 
@@ -1168,7 +1168,7 @@ Le lien entre la collection \textit{Chunk} et la collection \textit{File} est
 repr\'esent\'e par le champ \textit{id\_file} contenant l'identifiant d'un
 fichier auquel appartient un morceau.
 
-\subparagraph{Serveur\\}
+\paragraph{Serveur\\}
 Bien que similaire, la base de donn\'ees est l\'eg\`erement diff\'erente sur le
 serveur par rapport au client. Les changements prennent en compte le fait qu'il
 puisse exister plusieurs machines pour un utilisateur mais aussi que plusieurs
@@ -1249,7 +1249,7 @@ Chunk :
 }
 \end{lstlisting}
 
-\subsubsection{Stockage des fichiers}
+\subsection{Stockage des fichiers}
 Comme nous l'avons vu pr\'ec\'edemment, \textit{MongoDB} combin\'e avec
 \textit{GridFS} permet de stocker des fichiers. N\'eanmoins nous avons
 d\'ecid\'e d'utiliser, au moins dans un premier temps, le syst\`eme de fichier
@@ -1275,7 +1275,7 @@ donc t\'el\'echarger \textit{toto\_MyFile0\_20150513.chunk2} mais aussi les
 morceaux \textit{.chunk0} et \textit{.chunk1} datant de la pr\'ec\'edente
 sauvegarde, au 06 mai 2015.
 
-\subsubsection{Communication client - serveur}
+\subsection{Communication client - serveur}
 Afin d'envoyer les fichiers \`a travers le r\'eseau, un protocole doit \^etre
 utilis\'e. Pour ce faire, il m'a \'et\'e demand\'e d'en cr\'eer un correspondant
 aux donn\'ees qui sont envoy\'e dans le cadre d'une sauvegarde. En l'occurrence,
@@ -1296,7 +1296,7 @@ n\'eanmoins pas accessible \`a l'heure actuelle puisque le projet est toujours
 dans sa phase de d\'eveloppement.
 
 
-\subsection{D\'eveloppement}
+\section{D\'eveloppement}
 Le client et le serveur \'etant ind\'ependant l'un de l'autre si ce n'est la
 partie communication de l'un \`a l'autre, le d\'eveloppement se fait tout
 aussi ind\'ependemment.
@@ -1308,7 +1308,7 @@ fait de la m\^eme mani\`ere.
 
 De plus chaque module a le droit \`a sa batterie de test de non r\'egression.
 
-\subsubsection{Outils de d\'eveloppement}
+\subsection{Outils de d\'eveloppement}
 Pour cette phase j'ai utilis\'e plusieurs outils me permettant de construire
 au mieux l'application demand\'ee. 
 
@@ -1322,7 +1322,7 @@ La priorit\'e \'etant d'avoir une premi\`ere version fonctionnelle du
 programme, je n'ai pas port\'e celui-ci sur un syst\`eme \textit{Windows}
 durant mon stage.
 
-\paragraph{Environnement de travail}
+\subsubsection{Environnement de travail}
 \begin{itemize}
  \item \textit{vim} comme \'editeur de texte
  \item \textit{gcc} pour le compilateur
@@ -1332,7 +1332,7 @@ durant mon stage.
  \item \textit{git} comme gestion de versions d\'ecentralis\'e
 \end{itemize}
 
-\paragraph{Frameworks et biblioth\`eques externes}
+\subsubsection{Frameworks et biblioth\`eques externes}
 Afin de limiter les contraintes li\'es \`a l'utilisation de \textit{framework}
 et librairies externes, l'utilisation de ceux-ci \'etait limit\'e. Voici
 ceux que j'ai utilis\'e:
@@ -1346,14 +1346,14 @@ ceux que j'ai utilis\'e:
 En addition \`a cela, j'ai \'egalement utilis\'e le driver \textit{C++} de
 \textit{MongoDB} pour communiquer avec la base de donn\'ees.
 
-\subsubsection{Travail r\'ealis\'e}
+\subsection{Travail r\'ealis\'e}
 Comme il a \'et\'e initialement pens\'e, j'ai d\'evelopp\'e le syst\`eme de
 sauvegarde module par module, tous ind\'ependant les uns des autres en
 pr\'ef\'erant dans un premier temps la partie principale du programme. Cette
 partie correspond \`a la lecture des fichiers depuis le disque, le d\'ecoupage
 en morceaux ainsi que le chiffrement de ceux-ci.
 
-\paragraph{D\'eveloppement des modules}
+\subsubsection{D\'eveloppement des modules}
 J'ai donc tout d'abord cr\'e\'e le \textit{logger} qui allait m'aider pendant
 l'ensemble du d\'eveloppement du programme afin de me permettre de d\'eceler
 plus facilement des probl\`emes pouvant exister.
@@ -1382,39 +1382,149 @@ communiquer les diff\'erents modules.
 Une fois ceci fait, je pouvais cr\'eer l'\textit{organizer} afin de faire
 tourner tous ces modules ensemble.
 
-\paragraph{Imbrication des modules}
-Cette \'etape fut longue et beaucoup d'erreur apparurent. Bien que chaque
-module, individuellement, fonctionnait parfaitement, les faire fonctionner sur
-des threads s\'epar\'es et communiquer tous ensemble amena quelque probl\`emes :
+\subsubsection{Imbrication des modules}
+Cette \'etape fut longue et beaucoup d'erreurs apparurent. Bien que chaque
+module, individuellement, fonctionnait parfaitement, les ex\'ecuter sur sur des
+threads s\'epar\'es, et communiquer tous ensemble amena plusieurs probl\`emes.
 
+\paragraph{Probl\`emes et solutions}
+
+\subparagraph{Chiffrement et d\'echiffrement\\}
+Un des points sur lequel j'ai pass\'e le plus de temps a \'et\'e la partie
+chiffrement et d\'echiffrement. Car si le programme n'\'emettait pas d'erreurs
+dans le cas du chiffrement, les morceaux cr\'e\'es en sortie ne correspondaient
+pas \`a ce que l'on pouvait attendre.
+
+Bien qu'ayant pr\'eciser dans le code du programme que je voulais \'ecrire
+sur le disque du binaire et non des caract\`eres ASCII, il semblait que
+l'utilisation des \textit{iofstream} (flux d'entr\'ee/sortie sur des fichiers)
+posait probl\`emes. En effet, un nombre al\'eatoire de caract\`ere \'etait
+\'ecrit dans les fichiers de sortis. 
+
+De par ce fait, il \'etait tout simplement impossible de reconstruire les
+fichiers proprement puisqu'il \'etait impossible alors de les d\'echiffrer.
+
+La solution a \'et\'e l'utilisation des \textit{FILE} du \textit{C} pour tout
+ce qui est gestion de fichiers en lieu et place des \textit{iofstream} du
+\textit{C++}.
+
+\subparagraph{Probl\`emes de m\'emoire\\}
+Avec l'utilisation du \textit{C++}, je devais g\'erer moi-m\^eme l'utilisation
+de la m\'emoire. J'ai donc rencontr\'e deux soucis : fuites de m\'emoire et
+lib\'eration pr\'ecipit\'ee de la m\'emoire.
+
+Dans le premier cas, il suffisait simplement de lib\'erer la m\'emoire au bon
+moment. C'est-\`a-dire lorsque je n'ai plus besoin d'acc\'eder \`a la m\'emoire
+allou\'ee pr\'ec\'edemment dans le programme.
+
+En ce qui concerne le second cas, cela posait probl\`eme puisque plusieurs
+\textit{threads} tournait en parall\`eles. Ainsi \'etait-ce au r\^ole du
+\textit{thread} ayant allou\'e la m\'emoire de la lib\'erer. N\'eanmoins,
+d'autres modules, ex\'ecut\'e sur d'autres \textit{threads}, pouvait utiliser
+cette m\^eme m\'emoire. C'\'etait notamment le cas des objets contenant les
+m\'eta-informations des fichiers. Si le premier module lib\'erait la m\'emoire
+allou\'ee, il devenait impossible pour les suivants d'utiliser cette m\'emoire
+qui ne contenait alors plus l'objet voulu.
+
+Pour r\'esoudre ce probl\`eme deux solutions s'offraient \`a moi :
 \begin{itemize}
- \item Lib\'eration de la m\'emoire d'objets contenant les informations trop
- t\^ot, emp\^echant le bon fonctionnement des modules utilisant encore ces
- objets
- \item Fuite de m\'emoire li\'ee \`a l'utilisation de plusieurs threads avec
- de la m\'emoire pas toujours lib\'er\'ee
- \item Soucis dans l'abonnement de certains modules pour certains type de
- notifications
- \item Chiffrement correct de fichier devant \^etre d\'ecoup\'e en de nombreux
- morceaux diff\'erent, et donc impossibilit\'e de d\'echiffrement
+ \item La premi\`ere \'etait de lib\'erer la m\'emoire une fois que tout les
+ modules l'utilisant avait finit leur ex\'ecution sur l'objet contenu dans cet
+ espace m\'emoire.
+ \item La seconde \'etait d'utiliser des pointeurs intelligents. Ceux-ci
+ fonctionnent comme un \textit{garbage collector} (ramasse-miettes)\footnote{
+ Sous-syst\`eme informatique de gestion automatique de la m\'emoire. Il est
+ responsable du recyclage de la m\'emoire pr\'ealablement allou\'ee puis
+ inutilis\'ee} : tant que la m\'emoire est utilis\'ee, elle n'est pas
+ lib\'er\'ee ; elle est lib\'er\'ee automatiquement lorsqu'elle n'est plus
+ utilis\'e, dans aucune module.
 \end{itemize}
 
+La seconde solution \'etait bien \'evidemment pr\'ef\'erable puisqu'elle
+r\'eglait aussi les soucis de fuites de m\'emoire pouvant exister \c{c}\`a et
+l\`a dans le programme.
+
+\paragraph{Ajout des fonctionnalit\'es}
+Une fois toutes les erreurs r\'egl\'ees, nous avions une version fonctionnelle
+du programme. Cette version permettait de chiffrer un fichier (que l'on
+pr\'ecisait dans un premier temps en d\'ebut d'ex\'ecution) ainsi que de le
+d\'echiffrer. Les morceaux du fichier ainsi cr\'e\'es et chiffr\'es \'etaient
+stock\'es en local sur le disque dur afin de \flqq simuler\frqq~le module
+\textit{communication}.
+
+\`A partir de l\`a il ne restait plus qu'\`a rajouter les diff\'erentes
+fonctionnalit\'es n\'ecessaire au bon fonctionnement du programme tel qu'il
+avait \'et\'e demand\'e.
+
+J'ai donc tout d'abord ajout\'e la possibilit\'e de lire un dossier de
+mani\`ere r\'ecursive au lieu de lire uniquement un simple fichier. Quelques
+petites erreurs que je n'avais pas d\'etect\'e lors de la pr\'ec\'edente
+version du programme sont apparu. Entre autre, et principalement, tous les
+descripteurs de fichiers\footnote{Un descripteur de fichier est une cl\'e
+abstraite pour acc\'eder \`a un fichier.} ouvert n'\'etaient pas forc\'ement
+ferm\'es. Cela amenait le programme \`a planter \`a cause d'un trop grand
+nombre de descripteur ouvert. J'ai donc du les fermer pour que le programme
+puisse s'ex\'ecuter sans probl\`emes.
+
+\`A ce moment j'ai test\'e le programme sur \textit{Mac OSX}. Une erreur de
+liaison avec les biblioth\`eques utilis\'ees emp\^echer la compilation. Une
+simple modification du \textit{Makefile}\footnote{Fichier(s) permettant de
+compiler et lier un programme avec les biblioth\`eques utilis\'ees.} a permis
+de r\'esoudre ce l\'eger soucis. Le programme pouvait ainsi tourner sur le
+syst\`eme d'exploitation d'\textit{Apple}.
+
+\paragraph{Travail \`a venir}
+
+L'\'etape suivante consistait \`a ajouter la base de donn\'ees, n\'ecessaire
+pour pouvoir int\'egrer au programme l'algorithme trouv\'e en tout d\'ebut de
+stage (voir section \flqq~\nameref{secTravailRecherche}\frqq).
+
+Ne connaissant pas \textit{MongoDB}, je me suis donc form\'e pour comprendre
+comment celui-ci fonctionnait ainsi que pour l'utiliser dans un programme en
+\textit{C++}. De plus, un cours en ligne commen\c{c}ant gratuitement sur le site
+\flqq\textit{University}\frqq~de \textit{MongoDB}\cite{refMongoDBUniversity},
+j'ai suivi ce cours montrant et expliquant comment utiliser \textit{MongoDB}
+pour un d\'eveloppeur. M\^eme si le langage utilis\'e dans le cours est
+\textit{Python}, le principe reste le m\^eme et je peux r\'eutiliser ce que
+j'apprends dans ce cours en adaptant pour le projet de syst\`eme de sauvegarde.
+
+Au moment d'\'ecrire le rapport j'en suis donc \`a cette \'etape l\`a. Une fois
+la base de donn\'ees ajout\'ee ainsi que le prototype de l'algorithme
+int\'egr\'e dans le programme, il ne restera plus qu'\`a d\'etecter quels
+fichiers ont \'et\'e modifi\'e depuis la pr\'ec\'edente sauvegarde avant de
+pouvoir faire tourner le programme pour ne prendre en compte que ces fichiers
+l\`a et les analyser, ainsi que les fichiers nouvellement cr\'e\'es.
+
+\subsection{Tests}
+Une suite de test unitaire a \'et\'e \'ecrite pour chaque module. Ainsi est
+faite la v\'erification de chaque m\'ethodes de chaque classe de chaque module
+dans la mesure du possible. En effet, et c'est notamment vrai pour ce qui touche
+aux \textit{threads}, il est parfois difficile d'\'ecrire des tests permettant
+de couvrir l'ensemble des cas pouvant exister.
+
+Afin de r\'ealiser les tests, j'ai utilis\'e le framework de test
+\textit{Boost}. Celui-ci m'a donc permis de valider le bon fonctionnement des
+diff\'erents \'el\'ements constituant le programme.
+
+Ces tests ont \'et\'e \'ecrits au fur et \`a mesure de l'avancement du projet.
+De plus, pour chaque test, une v\'erification de l'utilisation de la m\'emoire
+\'etait effectu\'ee \`a l'aide de l'outil \textit{valgrind}. Cela me permettait
+de v\'erifier qu'il n'y avait pas de fuite de m\'emoire ainsi que le module
+fonctionnait et avait le comportement qu'on attendait de lui.
 
 
-\subsubsection{Tests}
-
-
-\chapter{Rapport technique}
-\thispagestyle{fancy}
+\part{Rapport technique}
 \label{rapportTechnique}
-\section{D\'eroulement du stage}
-\subsection{Travail de recherche}
-\subsubsection{Prototypage}
+\setcounter{chapter}{0}
+\chapter{D\'eroulement du stage}
+\thispagestyle{fancy}
+\section{Travail de recherche}
+\subsection{Prototypage}
 Comme expliqu\'e dans le~\nameref{rapportSynthese}, une v\'erification pratique
 de la faisabilit\'e de l'algorithme choisi \'etait n\'ecessaire avant de
 pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
 
-\paragraph{Premi\`ere version}
+\subsubsection{Premi\`ere version}
 
 
 
@@ -1428,7 +1538,9 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
 \makeatletter
 \def\@seccntformat#1{Annexe~\csname the#1\endcsname:\quad}
 \makeatother
+\part{Annexes}
 \chapter{Base de donn\'ees relationnelle}
+\thispagestyle{fancy}
 \label{annBDR}
 \thispagestyle{fancy}
 \section{User}
@@ -1516,7 +1628,7 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
     \hline
     file\_number\_chunk & Nombre de morceau composant le fichier
   \end{tabular}
-  \caption{\label{tabDBRMachine} Information colonnes -- File}
+  \caption{\label{tabDBRFile} Information colonnes -- File}
 \end{table}
 
 \section{Chunk}
@@ -1552,12 +1664,13 @@ pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
     \hline
     chunk\_cipher\_length & Taille du morceau chiffr\'e en octet\\
   \end{tabular}
-  \caption{\label{tabDBRMachine} Information colonnes -- Chunk}
+  \caption{\label{tabDBRChunk} Information colonnes -- Chunk}
 \end{table}
 \end{savenotes}
 
 
 \chapter{Protocole de communication}
+\thispagestyle{fancy}
 \label{annProtocolComm}
 \thispagestyle{fancy}
 \input{./protocole_communication_backup_arksens.tex}
