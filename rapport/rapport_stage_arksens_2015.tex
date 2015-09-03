@@ -1,9 +1,12 @@
 \documentclass[a4paper,10pt, twoside]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
 \usepackage{titlesec, blindtext, color}
 \usepackage{setspace}
 \usepackage{footnote}
+\usepackage{etoolbox}
 
 \usepackage[export]{adjustbox}
 \usepackage{array}
@@ -16,8 +19,6 @@
 \usepackage{fancyvrb}
 \usepackage{graphicx}
 \usepackage[top=2cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
-
-\usepackage[french]{babel}
 
 \usepackage[hidelinks]{hyperref}
 
@@ -51,6 +52,9 @@
 \titleformat{\subsubsection}{\large\bfseries}{}{}
 {\refstepcounter{subsubsection}~\thesubsubsection~}
 \titleformat{\paragraph}{\bfseries\itshape}{}{}{\\}
+
+\patchcmd{\part}{\thispagestyle{plain}}{\thispagestyle{fancy}}
+  {}{\errmessage{Cannot patch \string\part}}
 
 \graphicspath{{../images/}}
 
@@ -157,9 +161,8 @@ La seconde partie apporte un aspect technique au rapport et permet de
 pr\'esenter le travail r\'ealis\'e plus en d\'etail.
 \end{abstract}
 
-\newpage
-\hfill
 \chapter*{Remerciements}
+\thispagestyle{fancy}
 Je tiens tout d'abord \`a remercier l'\'equipe p\'edagogique de la facult\'e des
 sciences de l'universit\'e d'Aix-Marseille qui m'a permis d'avoir les
 connaissances et les aptitudes n\'ecessaires au bon d\'eroulement de ce stage.
@@ -178,10 +181,14 @@ Je tiens tout particuli\`erement \`a remercier Sir Daniel Brands of House Brands
 the first of His Name, King of the Dutch, King of the flatlands and the first
 Men, Breaker of Cars and Father of the Bikers.
 
+\clearpage
+\pagestyle{fancy}
 \tableofcontents
-\thispagestyle{plain}
+\clearpage
 
-\chapter*{Introduction}
+\part{Rapport}
+\thispagestyle{empty}
+\chapter{Introduction}
 \thispagestyle{fancy}
 Dans le cadre du Master professionnel \textit{Fiabilit\'e, S\'ecurit\'e et
 Int\'egration logicielle}, parcours \textit{Fiabilit\'e et S\'ecurit\'e
@@ -206,9 +213,6 @@ stade avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.
 Ce rapport pr\'esente donc le d\'eroulement du stage ainsi que le travail
 accompli au sein de l'entreprise durant ces six mois.
 
-
-\part{Rapport de synth\`ese}
-\label{rapportSynthese}
 \chapter{Pr\'esentation de l'entreprise}
 \thispagestyle{fancy}
 Cr\'e\'ee en 2013 sous le nom d'\textit{Adhara Cyber Security} avant
@@ -587,7 +591,7 @@ donc pas \^etre utilis\'e en tant que tel :
 Pour tout les autres cas (ajout, suppression, d\'eplacement de tout ou partie
 d'un bloc, etc.), l'algorithme ne pourrait pas fonctionner. Pour palier \`a
 cela, j'ai donc d\^u imaginer un algorithme r\'epondant \`a la probl\'ematique
-et fonctionnant dans tout les cas possible.
+et fonctionnant dans tout les cas imaginables.
 
 \section{Travail de recherche}
 \label{secTravailRecherche}
@@ -1307,7 +1311,7 @@ concentr\'e sur son d\'eveloppement durant mon stage. Comme il avait \'et\'e
 d\'ecoup\'e en module durant la phase de conception, le d\'eveloppement s'est
 fait de la m\^eme mani\`ere.
 
-De plus chaque module a le droit \`a sa batterie de test de non r\'egression.
+De plus chaque module a le droit \`a sa batterie de tests de non r\'egression.
 
 \subsection{Outils de d\'eveloppement}
 Pour cette phase j'ai utilis\'e plusieurs outils me permettant de construire
@@ -1356,9 +1360,9 @@ partie correspond \`a la lecture des fichiers depuis le disque, le d\'ecoupage
 en morceaux ainsi que le chiffrement de ceux-ci.
 
 \subsubsection{D\'eveloppement des modules}
-J'ai donc tout d'abord cr\'e\'e le \textit{logger} qui allait m'aider pendant
-l'ensemble du d\'eveloppement du programme afin de me permettre de d\'eceler
-plus facilement des probl\`emes pouvant exister.
+J'ai donc tout d'abord cr\'e\'e le \textit{logger} qui allait m'aider, pendant
+l'ensemble du d\'eveloppement du programme, \`a d\'eceler plus facilement les
+probl\`emes pouvant exister.
 
 Une fois ceci fait, j'ai d\'evelopp\'e toute la partie concernant la
 cryptographie. Cette partie comprend les modules \textit{hasher} et
@@ -1374,19 +1378,19 @@ Apr\`es celui-ci, ce fut autour du module \textit{information} d'\^etre
 d\'evelopp\'e afin de pouvoir cr\'eer des objets permettant de garder les
 m\'eta-donn\'ees des fichiers.
 
-\`A partir de l\`a, nous avions assez de module pour les combiner ensemble et
-voir une premi\`ere fois le programme tourner. Pour simuler une sauvegarde, il
-manquait des prototype pour mimer le r\^ole des modules \textit{filer},
+\`A partir de l\`a, nous avions assez de module combinables afin de lancer le
+programme dans sa toute premi\`ere phase d'essai. Pour simuler une sauvegarde,
+il manquait des prototypes pour mimer le r\^ole des modules \textit{filer},
 \textit{communication} et \textit{organizer}. En plus de cela, il nous fallait
 bien \'evidemment d\'evelopper le syst\`eme de notification pour pouvoir faire
 communiquer les diff\'erents modules.
 
 Une fois ceci fait, je pouvais cr\'eer l'\textit{organizer} afin de faire
-tourner tous ces modules ensemble.
+fonctionner tous ces modules ensemble.
 
 \subsubsection{Imbrication des modules}
 Cette \'etape fut longue et beaucoup d'erreurs apparurent. Bien que chaque
-module, individuellement, fonctionnait parfaitement, les ex\'ecuter sur sur des
+module, individuellement, fonctionnait parfaitement, les ex\'ecuter sur des
 threads s\'epar\'es, et communiquer tous ensemble amena plusieurs probl\`emes.
 
 \paragraph{Probl\`emes et solutions}
@@ -1439,7 +1443,7 @@ Pour r\'esoudre ce probl\`eme deux solutions s'offraient \`a moi :
  responsable du recyclage de la m\'emoire pr\'ealablement allou\'ee puis
  inutilis\'ee} : tant que la m\'emoire est utilis\'ee, elle n'est pas
  lib\'er\'ee ; elle est lib\'er\'ee automatiquement lorsqu'elle n'est plus
- utilis\'e, dans aucune module.
+ utilis\'e, dans aucun module.
 \end{itemize}
 
 La seconde solution \'etait bien \'evidemment pr\'ef\'erable puisqu'elle
@@ -1447,7 +1451,7 @@ r\'eglait aussi les soucis de fuites de m\'emoire pouvant exister \c{c}\`a et
 l\`a dans le programme.
 
 \paragraph{Ajout des fonctionnalit\'es}
-Une fois toutes les erreurs r\'egl\'ees, nous avions une version fonctionnelle
+Une fois toutes les erreurs corrig\'ees, nous avions une version fonctionnelle
 du programme. Cette version permettait de chiffrer un fichier (que l'on
 pr\'ecisait dans un premier temps en d\'ebut d'ex\'ecution) ainsi que de le
 d\'echiffrer. Les morceaux du fichier ainsi cr\'e\'es et chiffr\'es \'etaient
@@ -1461,7 +1465,7 @@ avait \'et\'e demand\'e.
 J'ai donc tout d'abord ajout\'e la possibilit\'e de lire un dossier de
 mani\`ere r\'ecursive au lieu de lire uniquement un simple fichier. Quelques
 petites erreurs que je n'avais pas d\'etect\'e lors de la pr\'ec\'edente
-version du programme sont apparu. Entre autre, et principalement, tous les
+version du programme sont apparues. Entre autres, et principalement, tous les
 descripteurs de fichiers\footnote{Un descripteur de fichier est une cl\'e
 abstraite pour acc\'eder \`a un fichier.} ouvert n'\'etaient pas forc\'ement
 ferm\'es. Cela amenait le programme \`a planter \`a cause d'un trop grand
@@ -1469,10 +1473,10 @@ nombre de descripteur ouvert. J'ai donc du les fermer pour que le programme
 puisse s'ex\'ecuter sans probl\`emes.
 
 \`A ce moment j'ai test\'e le programme sur \textit{Mac OSX}. Une erreur de
-liaison avec les biblioth\`eques utilis\'ees emp\^echer la compilation. Une
+liaison avec les biblioth\`eques utilis\'ees emp\^echait la compilation. Une
 simple modification du \textit{Makefile}\footnote{Fichier(s) permettant de
 compiler et lier un programme avec les biblioth\`eques utilis\'ees.} a permis
-de r\'esoudre ce l\'eger soucis. Le programme pouvait ainsi tourner sur le
+de r\'esoudre ce l\'eger souci. Le programme pouvait ainsi tourner sur le
 syst\`eme d'exploitation d'\textit{Apple}.
 
 \paragraph{Travail \`a venir}
@@ -1498,8 +1502,8 @@ pouvoir faire tourner le programme pour ne prendre en compte que ces fichiers
 l\`a et les analyser, ainsi que les fichiers nouvellement cr\'e\'es.
 
 \subsection{Tests}
-Une suite de test unitaire a \'et\'e \'ecrite pour chaque module. Ainsi est
-faite la v\'erification de chaque m\'ethodes de chaque classe de chaque module
+Une suite de test unitaires a \'et\'e \'ecrite pour chaque module. Ainsi est
+faite la v\'erification de chaque m\'ethode de chaque classe de chaque module
 dans la mesure du possible. En effet, et c'est notamment vrai pour ce qui touche
 aux \textit{threads}, il est parfois difficile d'\'ecrire des tests permettant
 de couvrir l'ensemble des cas pouvant exister.
@@ -1514,20 +1518,7 @@ De plus, pour chaque test, une v\'erification de l'utilisation de la m\'emoire
 de v\'erifier qu'il n'y avait pas de fuite de m\'emoire ainsi que le module
 fonctionnait et avait le comportement qu'on attendait de lui.
 
-
-\part{Rapport technique}
-\label{rapportTechnique}
-\setcounter{chapter}{0}
-\chapter{D\'eroulement du stage}
-\thispagestyle{fancy}
-\section{Travail de recherche}
-\subsection{Prototypage}
-Comme expliqu\'e dans le~\nameref{rapportSynthese}, une v\'erification pratique
-de la faisabilit\'e de l'algorithme choisi \'etait n\'ecessaire avant de
-pouvoir entamer la conception du produit et plusieurs versions ont vu le jour.
-
-\subsubsection{Premi\`ere version}
-
+\chapter{Conclusion}
 
 
 \newpage
