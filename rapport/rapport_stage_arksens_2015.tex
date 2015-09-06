@@ -8,6 +8,8 @@
 \usepackage{footnote}
 \usepackage{etoolbox}
 
+\usepackage[left,modulo]{lineno}
+
 \usepackage[export]{adjustbox}
 \usepackage{array}
 \usepackage{color, colortbl}
@@ -18,14 +20,15 @@
 \usepackage{fancyhdr}
 \usepackage{fancyvrb}
 \usepackage{graphicx}
-\usepackage[top=2cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
 
 \usepackage[hidelinks]{hyperref}
 
 % page style
 \pagestyle{fancy}
 \setlength{\headheight}{49pt}
-\setlength{\footskip}{17pt}
+\setlength{\footskip}{27pt}
+\setlength{\textheight}{0.95\textheight}
 
 % header
 \fancyhead[R]{\includegraphics[width=5cm]{logo_sciences.png}}
@@ -149,7 +152,7 @@
 \begin{abstract}
 
 Ce document pr\'esente le travail r\'ealis\'e lors du stage de fin d'\'etude
-\`a Arksens Ltd. \`a l'\^ile Maurice entre le premier avril 2015 et le 25
+\`a Arksens Ltd. \`a l'\^ile Maurice entre le 1\up{er} avril 2015 et le 11
 septembre 2015 dans le cadre du Master 2 Fiabilit\'e et S\'ecurit\'e
 Informatique \`a l'Universit\'e d'Aix-Marseille.
 
@@ -186,6 +189,7 @@ Men, Breaker of Cars and Father of the Bikers.
 \tableofcontents
 \clearpage
 
+\linenumbers
 \part{Rapport}
 \thispagestyle{empty}
 \chapter{Introduction}
@@ -270,7 +274,7 @@ table~\ref{tabProduits} :
     chiffrement et de sauvegarde des donn\'ees dans un cloud d\'edi\'e.\\
     \hline
     \includegraphics[width=5cm, fbox]{produits/gateway.png} & S\'ecuriser et
-    rendre anonyme la navigation sur internet.\\
+    rendre anonyme la navigation sur Internet.\\
     \hline
     \includegraphics[width=5cm, fbox]{produits/endpoint.png} & S\'ecuriser les
     postes utilisateurs en locales. C'est une ligne de d\'efense pour palier
@@ -291,7 +295,7 @@ de mani\`ere plus compl\`ete sur leur site web~\cite{refArksens}.
 \subsection{Les offres de cloud}
 L'entreprise propose \'egalement des offres autour du Cloud\footnote{
 Exploitation de la puissance de calcul ou de stockage de serveurs distants
-par l'interm\'ediaire d'un r\'eseau, g\'en\'eralement l'internet.}
+par l'interm\'ediaire d'un r\'eseau, g\'en\'eralement l'Internet.}
 
 \begin{itemize}
   \item Offre 1 - Pure cloud
@@ -386,7 +390,7 @@ suivants :
 \end{itemize}
 
 \section{\^Ile Maurice}
-L'\^ile Maurice abrite es locaux accueillant le centre de recherche et
+L'\^ile Maurice abrite les locaux accueillant le centre de recherche et
 d\'eveloppement de l'entreprise. Les locaux se trouvent au Business Park de
 Beau Plan (figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au
 nord-ouest de l'\^ile, \`a proximit\'e de Port Louis. C'est donc l\`a que
@@ -466,9 +470,9 @@ mais presque obligatoire.
 Pour cela, \textit{Arksens} voulait offrir \`a ses clients un syst\`eme de
 sauvegarde fiable, s\'ecuris\'e et optimis\'e afin de pouvoir \^etre
 ex\'ecut\'e sur les ordinateurs les moins performants. De plus la prise en
-compte de connexions internet pouvant \^etre parfois tr\`es lentes \'etait une
+compte de connexions Internet pouvant \^etre parfois tr\`es lentes \'etait une
 obligation. En particulier, une partie du march\'e vis\'e par \textit{Arksens}
-se trouve en Afrique o\`u l'acc\`es \`a un internet rapide n'est pas toujours
+se trouve en Afrique o\`u l'acc\`es \`a un Internet rapide n'est pas toujours
 aussi facile que ce qu'il peut y avoir en Europe.
 
 C'est donc dans ce cadre que je suis arriv\'e et qu'il m'a \'et\'e demand\'e
@@ -929,8 +933,8 @@ avons-nous :
 base de donn\'ees semblait obligatoire afin de garder les m\'eta-donn\'ees
 des fichiers sauvegard\'es mais \'egalement pouvoir garder en m\'emoire une
 trace de chaque sauvegarde effectu\'ee. Cela donnerait la possibilit\'e
-de restaurer n'importe quelle version d'un ou plusieurs fichier(s). En effet,
-nous aurions ainsi dans l'ensemble des informations n\'ecessaires \`a la
+de restaurer n'importe quelle version d'un ou plusieurs fichier(s). De ce fait
+nous aurions donc l'ensemble des informations n\'ecessaires \`a la
 reconstruction d'une version particuli\`ere d'un fichier.
 
 L'utilisation d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente.
@@ -941,7 +945,7 @@ r\'eguli\`erement des connexions avec le serveur. N\'eanmoins, et contrairement
 de ne stocker que les informations li\'ees \`a la derni\`ere sauvegarde. Ce
 sont en effet ces informations qui sont utiles lors d'une nouvelle sauvegarde.
 On r\'eduit de ce fait le temps de traitement ainsi que la quantit\'e de
-donn\'ees transmises \`a travers le r\'eseau internet.
+donn\'ees transmises \`a travers le r\'eseau Internet.
 
 \subsubsection{SQL vs NoSQL}
 La prob\'ematique fut donc de trouver quelle type(s) de base de donn\'ees
@@ -1483,7 +1487,7 @@ syst\`eme d'exploitation d'\textit{Apple}.
 
 L'\'etape suivante consistait \`a ajouter la base de donn\'ees, n\'ecessaire
 pour pouvoir int\'egrer au programme l'algorithme trouv\'e en tout d\'ebut de
-stage (voir section \flqq~\nameref{secTravailRecherche}\frqq).
+stage (voir section \flqq~\nameref{secTravailRecherche}~\frqq).
 
 Ne connaissant pas \textit{MongoDB}, je me suis donc form\'e pour comprendre
 comment celui-ci fonctionnait ainsi que pour l'utiliser dans un programme en
