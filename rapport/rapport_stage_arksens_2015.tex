@@ -104,14 +104,14 @@
     \includegraphics[width=9cm]{logo_sciences.png}\\[2cm]
     
     \textsc{\bfseries\Large Rapport de stage\\[0.3cm]
-    Master 2 -- Fiabilit\'e, S\'ecurit\'e et
-    Int\'egration Logicielle\\[0.3cm]
-        Parcours Fiabilit\'e et S\'ecurit\'e Informatique}\\[0.3cm]
+    Master 2 -- Fiabilité, Sécurité et
+    Intégration Logicielle\\[0.3cm]
+        Parcours Fiabilité et Sécurité Informatique}\\[0.3cm]
 
     \rule{\linewidth}{1mm} \\[1cm]
 
-    \textsc{\bfseries\huge Conception \&  d\'eveloppement syst\`eme de backup
-    chiffr\'e et incr\'emental en C/C++}\\[1cm]
+    \textsc{\bfseries\huge Conception \&  développement système de backup
+    chiffré et incrémental en C/C++}\\[1cm]
 
     \rule{\linewidth}{1mm}\\[1.5cm]
 
@@ -137,13 +137,13 @@
     \begin{minipage}{0.4\textwidth}
       \begin{flushright}
         \large \emph{\bfseries Tuteur Entreprise :}\\
-        Ga\"etan \textsc{van Diemen}\\[0.2cm]
+        Gaëtan \textsc{van Diemen}\\[0.2cm]
         \emph{\bfseries Enseignant :}\\
         Jean-Luc \textsc{Massat}
       \end{flushright}
     \end{minipage}\\[1.5cm]
       
-    \large\emph{\bfseries Ann\'ee Universitaire :}\\
+    \large\emph{\bfseries Année Universitaire :}\\
     2014 -- 2015
 
   \end{center}
@@ -151,36 +151,36 @@
 
 \begin{abstract}
 
-Ce document pr\'esente le travail r\'ealis\'e lors du stage de fin d'\'etude
-\`a Arksens Ltd. \`a l'\^ile Maurice entre le 1\up{er} avril 2015 et le 11
-septembre 2015 dans le cadre du Master 2 Fiabilit\'e et S\'ecurit\'e
-Informatique \`a l'Universit\'e d'Aix-Marseille.
+Ce document présente le travail réalisé lors du stage de fin d'étude
+à Arksens Ltd. à l'île Maurice entre le 1\up{er} avril 2015 et le 11
+septembre 2015 dans le cadre du Master 2 Fiabilité et Sécurité
+Informatique à l'Université d'Aix-Marseille.
 
-Le rapport est d\'ecoup\'e en deux parties. Une premi\`ere servant de rapport
-de synth\`ese et pr\'esentant l'entreprise, le sujet de stage, le
-travail effectu\'e de m\^eme que l'environnement de travail et les \'eventuelles
-difficult\'es rencontr\'ees.
+Le rapport est découpé en deux parties. Une première servant de rapport
+de synthèse et présentant l'entreprise, le sujet de stage, le
+travail effectué de même que l'environnement de travail et les éventuelles
+difficultés rencontrées.
 La seconde partie apporte un aspect technique au rapport et permet de 
-pr\'esenter le travail r\'ealis\'e plus en d\'etail.
+présenter le travail réalisé plus en détail.
 \end{abstract}
 
 \chapter*{Remerciements}
 \thispagestyle{fancy}
-Je tiens tout d'abord \`a remercier l'\'equipe p\'edagogique de la facult\'e des
-sciences de l'universit\'e d'Aix-Marseille qui m'a permis d'avoir les
-connaissances et les aptitudes n\'ecessaires au bon d\'eroulement de ce stage.
+Je tiens tout d'abord à remercier l'équipe pédagogique de la faculté des
+sciences de l'université d'Aix-Marseille qui m'a permis d'avoir les
+connaissances et les aptitudes nécessaires au bon déroulement de ce stage.
 
-Je remercie \'egalement la soci\'et\'e Arksens pour m'avoir permis de faire mon
-stage chez eux. Tout particuli\`erement, je remercie David Terranova et Ga\"etan
-van Diemen qui m'ont accueilli \`a l'\^ile Maurice et suivi au jour le jour
-durant ces six mois, mais \'egalement Micha\"el Colaone et le reste de
-l'\'equipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
+Je remercie également la société Arksens pour m'avoir permis de faire mon
+stage chez eux. Tout particulièrement, je remercie David Terranova et Gaëtan
+van Diemen qui m'ont accueilli à l'île Maurice et suivi au jour le jour
+durant ces six mois, mais également Michaël Colaone et le reste de
+l'équipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
 
 Enfin je remercie toutes les personnes que je peux oublier mais qui m'ont
-aid\'e, dans l'\'ecriture de ce rapport, dans le cadre du stage ou qui m'ont
-tout simplement fait d\'ecouvrir l'\^ile Maurice.
+aidé, dans l'écriture de ce rapport, dans le cadre du stage ou qui m'ont
+tout simplement fait découvrir l'île Maurice.
 
-Je tiens tout particuli\`erement \`a remercier Sir Daniel Brands of House Brands,
+Je tiens tout particulièrement à remercier Sir Daniel Brands of House Brands,
 the first of His Name, King of the Dutch, King of the flatlands and the first
 Men, Breaker of Cars and Father of the Bikers.
 
@@ -194,65 +194,65 @@ Men, Breaker of Cars and Father of the Bikers.
 \thispagestyle{empty}
 \chapter{Introduction}
 \thispagestyle{fancy}
-Dans le cadre du Master professionnel \textit{Fiabilit\'e, S\'ecurit\'e et
-Int\'egration logicielle}, parcours \textit{Fiabilit\'e et S\'ecurit\'e
-Informatique} \`a l'\textit{Universit\'e d'Aix-Marseille}, un stage de fin
-d'\'etude doit \^etre effectu\'e en entreprise pour valider les acquis et
+Dans le cadre du Master professionnel \textit{Fiabilité, Sécurité et
+Intégration logicielle}, parcours \textit{Fiabilité et Sécurité
+Informatique} à l'\textit{Université d'Aix-Marseille}, un stage de fin
+d'étude doit être effectué en entreprise pour valider les acquis et
 rentrer dans le monde professionnel.
 
-J'ai r\'ealis\'e ce stage entre le 1\up{er} avril et le 11 septembre 2015, soit
-une p\'eriode de cinq mois et demi, dans l'entreprise \textit{Adhara Cyber
-Security}, renomm\'ee \textit{Arksens} au 1\up{er} juillet.
+J'ai réalisé ce stage entre le 1\up{er} avril et le 11 septembre 2015, soit
+une période de cinq mois et demi, dans l'entreprise \textit{Adhara Cyber
+Security}, renommée \textit{Arksens} au 1\up{er} juillet.
 
 Ce stage fut donc l'occasion pour moi de mettre en pratique mes connaissances,
 acquises tout au long de mon parcours universitaire, dans un environnement
 professionnel et de m'en servir pour mener au mieux la mission qui m'a
-\'et\'e confi\'ee. Ma mission, durant ce stage, a \'et\'e de concevoir et
-d\'ev\'elopper un syst\`eme de backup incr\'ementale et s\'ecuris\'e, offrant
-une encryption en local des donn\'ees des utilisateurs. J'ai ainsi proc\'ed\'e
-\`a la r\'edaction du plan de d\'eveloppement puis \`a l'impl\'ementation de
-celui-ci, et j'ai ainsi particip\'e au processus de cr\'eation, jusqu'\`a un
-stade avanc\'e, de ce qui peut \^etre qualifi\'e de gros projet.
+été confiée. Ma mission, durant ce stage, a été de concevoir et
+dévélopper un système de backup incrémentale et sécurisé, offrant
+une encryption en local des données des utilisateurs. J'ai ainsi procédé
+à la rédaction du plan de développement puis à l'implémentation de
+celui-ci, et j'ai ainsi participé au processus de création, jusqu'à un
+stade avancé, de ce qui peut être qualifié de gros projet.
 
-Ce rapport pr\'esente le d\'eroulement du stage ainsi que le travail accompli
+Ce rapport présente le déroulement du stage ainsi que le travail accompli
 au sein de l'entreprise durant ces six mois.
 
-\chapter{Pr\'esentation de l'entreprise}
+\chapter{Présentation de l'entreprise}
 \thispagestyle{fancy}
-Cr\'e\'ee en 2013 sous le nom d'\textit{Adhara Cyber Security} avant
-d'\^etre renomm\'ee \textit{Arksens} au 1\up{er} juillet 2015, l'entreprise 
-dans laquelle j'ai effectu\'e mon stage est sp\'ecialis\'ee en s\'ecurit\'e
-informatique. L'entreprise se d\'eveloppe sur trois continents gr\^ace \`a une
-approche novatrice et r\'epondant aux besoins des entreprises et
+Créée en 2013 sous le nom d'\textit{Adhara Cyber Security} avant
+d'être renommée \textit{Arksens} au 1\up{er} juillet 2015, l'entreprise 
+dans laquelle j'ai effectué mon stage est spécialisée en sécurité
+informatique. L'entreprise se développe sur trois continents grâce à une
+approche novatrice et répondant aux besoins des entreprises et
 administrations de toutes tailles.
 
-Le changement de nom a fait suite \`a une \'evolution des clients puisque
+Le changement de nom a fait suite à une évolution des clients puisque
 l'entreprise, bien que principalement prestataire de service pour des PME
 s'est ouverte aux entreprises de taille plus importante. Revoyant leur
-strat\'egie de commercialisation et de communication, l'entreprise se devait
+stratégie de commercialisation et de communication, l'entreprise se devait
 donc de changer de nom.
 
-\section{Pr\'esence dans le monde}
-Aujourd'hui \textit{Arksens} est donc pr\'esent dans trois pays chacun sur
-un continent diff\'erent (voir figure~\ref{mapArksens}) offrant ainsi aux
-utilisateurs un service de proximit\'e :
+\section{Présence dans le monde}
+Aujourd'hui \textit{Arksens} est donc présent dans trois pays chacun sur
+un continent différent (voir figure~\ref{mapArksens}) offrant ainsi aux
+utilisateurs un service de proximité :
 \begin{itemize}
-  \item Abu Dhabi aux \'Emirats Arabes Unis pour les activit\'es au Moyen
+  \item Abu Dhabi aux Émirats Arabes Unis pour les activités au Moyen
   Orient.
-  \item Pamplemousses à l’\^ile Maurice pour les activit\'es africaines.
-  \item Paris en France pour les activit\'es européennes.
+  \item Pamplemousses à l’île Maurice pour les activités africaines.
+  \item Paris en France pour les activités européennes.
 \end{itemize}
 
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.30]{map_arksens.png}
-  \caption{\label{mapArksens} O\`u trouver Arksens}
+  \caption{\label{mapArksens} Où trouver Arksens}
 \end{figure}
       
 \section{Produits, solutions et offres}
-\subsection{Les produits et solutions de s\'ecurit\'e}
+\subsection{Les produits et solutions de sécurité}
 \textit{Arksens} propose aux entreprises 6 produits et solutions autour de la
-s\'ecurit\'e informatique. Une rapide description de ces produits se trouve
+sécurité informatique. Une rapide description de ces produits se trouve
 table~\ref{tabProduits} :
 \begin{table}[h!]
   \centering
@@ -263,138 +263,138 @@ table~\ref{tabProduits} :
    \rowcolor{arkred} 
     \arrayrulecolor{gray73}\hline
     \color{white} \textbf{Produit} & \color{white} \textbf{Description} \\
-    \includegraphics[width=5cm, fbox]{produits/mail.png} & Prot\'eger l'information
-    transitant par les mails. H\'ebergement de serveur email s\'ecuris\'e dans
-    un cloud d\'edi\'e.\\
+    \includegraphics[width=5cm, fbox]{produits/mail.png} & Protéger l'information
+    transitant par les mails. Hébergement de serveur email sécurisé dans
+    un cloud dédié.\\
     \hline
     \includegraphics[width=5cm, fbox]{produits/whisper.png} & Communications voix
-    et images s\'ecuris\'es et anonymes.\\
+    et images sécurisés et anonymes.\\
     \hline
-    \includegraphics[width=5cm, fbox]{produits/backup.png} & Syst\`eme de
-    chiffrement et de sauvegarde des donn\'ees dans un cloud d\'edi\'e.\\
+    \includegraphics[width=5cm, fbox]{produits/backup.png} & Système de
+    chiffrement et de sauvegarde des données dans un cloud dédié.\\
     \hline
-    \includegraphics[width=5cm, fbox]{produits/gateway.png} & S\'ecuriser et
+    \includegraphics[width=5cm, fbox]{produits/gateway.png} & Sécuriser et
     rendre anonyme la navigation sur Internet.\\
     \hline
-    \includegraphics[width=5cm, fbox]{produits/endpoint.png} & S\'ecuriser les
-    postes utilisateurs en locales. C'est une ligne de d\'efense pour palier
-    \`a la diffusion d'\'eventuels logiciels malveillants (virus, chevaux de
+    \includegraphics[width=5cm, fbox]{produits/endpoint.png} & Sécuriser les
+    postes utilisateurs en locales. C'est une ligne de défense pour palier
+    à la diffusion d'éventuels logiciels malveillants (virus, chevaux de
     Troie, vers, logiciels espions,\ldots{}) sur les ordinateurs et les
     serveurs.\\
     \hline
-    \includegraphics[width=5cm, fbox]{produits/nomad.png} & S\'ecuriser les
-    donn\'ees personnelles sur appareils mobiles.\\
+    \includegraphics[width=5cm, fbox]{produits/nomad.png} & Sécuriser les
+    données personnelles sur appareils mobiles.\\
     \hline
   \end{tabular}
   \caption{\label{tabProduits} Produits et solutions par \textit{Arksens}}
 \end{table}
 
-L'ensemble des produits et solutions propos\'es par l'entreprise sont d\'ecrit
-de mani\`ere plus compl\`ete sur leur site web~\cite{refArksens}.
+L'ensemble des produits et solutions proposés par l'entreprise sont décrit
+de manière plus complète sur leur site web~\cite{refArksens}.
 
 \subsection{Les offres de cloud}
-L'entreprise propose \'egalement des offres autour du Cloud\footnote{
+L'entreprise propose également des offres autour du Cloud\footnote{
 Exploitation de la puissance de calcul ou de stockage de serveurs distants
-par l'interm\'ediaire d'un r\'eseau, g\'en\'eralement l'Internet.}
+par l'intermédiaire d'un réseau, généralement l'Internet.}
 
 \begin{itemize}
   \item Offre 1 - Pure cloud
   \noindent
   \begin{itemize}
-    \item 100 \% des services sont h\'eberg\'es
-    \item La gestion est assur\'ee par \textit{Arksens}
-    \item Des fonctionnalit\'es suppl\'ementaires sont propos\'ees telles que
-    l'h\'ebergement de fichiers ou de logiciels
+    \item 100 \% des services sont hébergés
+    \item La gestion est assurée par \textit{Arksens}
+    \item Des fonctionnalités supplémentaires sont proposées telles que
+    l'hébergement de fichiers ou de logiciels
   \end{itemize}
   \item Offre 2 - Hybrid cloud
   \noindent
   \begin{itemize}
-    \item Un h\'ebergement local avec une ``box'' chifr\'ee et une
-    r\'eplication sur le cloud \textit{Arksens}
-    \item La gestion est assur\'ee par \textit{Arksens}
-    \item Id\'eal pour les clients souhaitant une r\'eplication dans leurs
+    \item Un hébergement local avec une ``box'' chifrée et une
+    réplication sur le cloud \textit{Arksens}
+    \item La gestion est assurée par \textit{Arksens}
+    \item Idéal pour les clients souhaitant une réplication dans leurs
     locaux
   \end{itemize}
   \item Offre 3 - Private cloud
   \noindent
   \begin{itemize}
-    \item Le cloud est pr\'esent uniquement chez le client dans une salle de
-    serveurs ou dans un centre de donn\'ees
-    \item La gestion est assur\'ee par \textit{Arksens}
-    \item Id\'eal pour les clients souhaitant stocker l'ensemble des services
-    et des donn\'ees localement (comme les banques, la d\'efense,
+    \item Le cloud est présent uniquement chez le client dans une salle de
+    serveurs ou dans un centre de données
+    \item La gestion est assurée par \textit{Arksens}
+    \item Idéal pour les clients souhaitant stocker l'ensemble des services
+    et des données localement (comme les banques, la défense,
     l'audit\ldots{})
   \end{itemize}
 \end{itemize}
 
-Avec 3 offres de cloud comportant l'ensemble des solutions de s\'ecurit\'e
-cité pr\'ec\'edemment, \textit{Arksens} peut répondre à l'ensemble des besoins
+Avec 3 offres de cloud comportant l'ensemble des solutions de sécurité
+cité précédemment, \textit{Arksens} peut répondre à l'ensemble des besoins
 de ses clients actuels.
 
-\section{L'id\'eologie de l'entreprise}
+\section{L'idéologie de l'entreprise}
 \subsection{La politique des centres de données}
 
-Pour chaque service, \textit{Arksens} fournit le mat\'eriel (centres de
-donn\'ees), le produit et le support qui va avec. Pour \^etre en mesure de
-fournir les meilleurs services, elle poss\`ede une politique de s\'election des
-centres de donn\'ees qu'elle utilise. Ci-dessous une liste repr\'esentant les
-diff\'erents aspects les plus importants que doivent respecter les centres de
-donn\'ees :
+Pour chaque service, \textit{Arksens} fournit le matériel (centres de
+données), le produit et le support qui va avec. Pour être en mesure de
+fournir les meilleurs services, elle possède une politique de sélection des
+centres de données qu'elle utilise. Ci-dessous une liste représentant les
+différents aspects les plus importants que doivent respecter les centres de
+données :
 
 \begin{itemize}
-  \item Uniquement des Tier IV (Haute disponibilit\'e\footnote{Mesure de
-  performance. C'est le temps durant lequel le syst\`eme est op\'erationnel par
-  rapport \`a sa dur\'ee totale d'exploitation} : 99,995 \%)
-  \item Toutes les données sont chiffr\'ees sur les serveurs d\'edi\'es
-  \item Les centres de donn\'ees doivent se situés dans des pays libres
+  \item Uniquement des Tier IV (Haute disponibilité\footnote{Mesure de
+  performance. C'est le temps durant lequel le système est opérationnel par
+  rapport à sa durée totale d'exploitation} : 99,995 \%)
+  \item Toutes les données sont chiffrées sur les serveurs dédiés
+  \item Les centres de données doivent se situés dans des pays libres
   respectant le \textit{Patriot Act}~\cite{refPatriotAct}
 \end{itemize}
 
-De ce fait l'entreprise a actuellement des centres de donn\'ees en France
-chez OVH~\cite{refOVH} qui lui conf\`ere en plus une solution contre les
-attaques DDoS\footnote{Attaque par d\'eni de service. Le principe est d'envoyer
-une multitude de requ\^ete depuis plusieurs sources diff\'erentes pour rendre
+De ce fait l'entreprise a actuellement des centres de données en France
+chez OVH~\cite{refOVH} qui lui confère en plus une solution contre les
+attaques DDoS\footnote{Attaque par déni de service. Le principe est d'envoyer
+une multitude de requête depuis plusieurs sources différentes pour rendre
 un service indisponible.} et en Suisse chez AlpineDC~\cite{refAlpineDC} dont la
-l\'egislation est une des plus restrictive en mati\`ere de protection de
-donn\'ees personnelles.
+législation est une des plus restrictive en matière de protection de
+données personnelles.
 
 \subsection{La culture Open Source}
 
 L'open source est une tradition dans l'entreprise. L'ensemble des
-produits respectent les crit\`eres \'etablis par l'Open Source
-Initiative~\cite{refOSI}, \`a savoir :
+produits respectent les critères établis par l'Open Source
+Initiative~\cite{refOSI}, à savoir :
 
 \begin{itemize}
-  \item Possibilit\'e de redistribution
+  \item Possibilité de redistribution
   \item Accès au code source
-  \item Cr\'eation de travaux d\'eériv\'eés
+  \item Création de travaux déérivéés
 \end{itemize}
 
 Ce choix permet notamment d'accentuer la confiance avec les clients et
-d'am\'eliorer le niveau de s\'ecurit\'e des produits gr\^ace aux avantages
+d'améliorer le niveau de sécurité des produits grâce aux avantages
 suivants :
 
 \begin{itemize}
-  \item Logiciel ind\'ependant : aucune porte d\'erob\'ee
-  (\textit{backdoor})\footnote{Fonctionnalit\'e inconnue de l'utilisateur
-  l\'egitime et qui donne un acc\`es secret au logiciel} ne peut
-  \^etre introduite par une organisation externe puisque les produits sont
-  d\'evelopp\'es par \textit{Arksens} pour \textit{Arksens}
-  \item Communaut\'e : l'acc\`es facile aux produits permet de cr\'eer une
-  communaut\'e d'utilisateurs capable sur le long terme de proposer un
-  support sur les produit d\'evelopp\'es, des am\'eliorations, mais aussi
-  permet de d\'eceler des bogues
-  \item Code source accessible : tout le monde a acc\`es au code source,
-  rien n'est cach\'e, la cr\'edibilit\'e et la qualit\'e des produits est ainsi
+  \item Logiciel indépendant : aucune porte dérobée
+  (\textit{backdoor})\footnote{Fonctionnalité inconnue de l'utilisateur
+  légitime et qui donne un accès secret au logiciel} ne peut
+  être introduite par une organisation externe puisque les produits sont
+  développés par \textit{Arksens} pour \textit{Arksens}
+  \item Communauté : l'accès facile aux produits permet de créer une
+  communauté d'utilisateurs capable sur le long terme de proposer un
+  support sur les produit développés, des améliorations, mais aussi
+  permet de déceler des bogues
+  \item Code source accessible : tout le monde a accès au code source,
+  rien n'est caché, la crédibilité et la qualité des produits est ainsi
   mise en avant
 \end{itemize}
 
-\section{\^Ile Maurice}
-L'\^ile Maurice abrite les locaux accueillant le centre de recherche et
-d\'eveloppement de l'entreprise. Les locaux se trouvent au Business Park de
-Beau Plan (figure~\ref{beauPlan}) \`a Pamplemousses, ville situ\'ee au
-nord-ouest de l'\^ile, \`a proximit\'e de Port Louis. C'est donc l\`a que
-j'ai effectu\'e mon stage.
+\section{Île Maurice}
+L'île Maurice abrite les locaux accueillant le centre de recherche et
+développement de l'entreprise. Les locaux se trouvent au Business Park de
+Beau Plan (figure~\ref{beauPlan}) à Pamplemousses, ville située au
+nord-ouest de l'île, à proximité de Port Louis. C'est donc là que
+j'ai effectué mon stage.
 
 \begin{figure}[h!]
   \centering
@@ -402,50 +402,50 @@ j'ai effectu\'e mon stage.
   \caption{\label{beauPlan} Beau Plan Business Park}
 \end{figure}
 
-L'\'equipe a beaucoup \'evolu\'ee entre mon arriv\'ee et mon d\'epart puisque
-seulement trois personnes en plus du PDG, Micha\"el Colaone, \'etaient
-pr\'esentes au 1\up{er} avril, date de d\'ebut du stage : David Terranova,
-directeur des op\'erations, Ga\"etan van Diemen, chef de projet ainsi que
-Daniel Brands, d\'eveloppeur web arriv\'e quelques jours auparavant.
+L'équipe a beaucoup évoluée entre mon arrivée et mon départ puisque
+seulement trois personnes en plus du PDG, Michaël Colaone, étaient
+présentes au 1\up{er} avril, date de début du stage : David Terranova,
+directeur des opérations, Gaëtan van Diemen, chef de projet ainsi que
+Daniel Brands, développeur web arrivé quelques jours auparavant.
 
-L'\'equipe s'est agrandie par deux fois. D'abord \`a la mi-avril avec
-l'arriv\'ee de deux autres stagiaire, Didier Mannone et
-Yves Colin de Verdi\`ere, puis au 1\up{er} mai avec l'arriv\'ee d'Aymeric
-Tabourin, ing\'enieur s\'ecurit\'e.
+L'équipe s'est agrandie par deux fois. D'abord à la mi-avril avec
+l'arrivée de deux autres stagiaire, Didier Mannone et
+Yves Colin de Verdière, puis au 1\up{er} mai avec l'arrivée d'Aymeric
+Tabourin, ingénieur sécurité.
 
-\`A mon d\'epart, une restructuration \'etait en cours et plusieurs changements
-allait \^etre apport\'es au niveau de l'\'equipe en place avec notamment le
-d\'epart de certains collaborateurs (licenciement, d\'emission ou tout
-simplement fin de stage). Ceci a pr\'ecipit\'e la fin de mon stage d'une
-quinzaine de jour puisque j'ai arr\^et\'e celui-ci au 11 septembre bien qu'il
-\'etait initialement pr\'evu de finir le 25 septembre.
+À mon départ, une restructuration était en cours et plusieurs changements
+allait être apportés au niveau de l'équipe en place avec notamment le
+départ de certains collaborateurs (licenciement, démission ou tout
+simplement fin de stage). Ceci a précipité la fin de mon stage d'une
+quinzaine de jour puisque j'ai arrêté celui-ci au 11 septembre bien qu'il
+était initialement prévu de finir le 25 septembre.
 
-Ces changements montrent que la vie d'une startup peut rapidement \'evoluer,
+Ces changements montrent que la vie d'une startup peut rapidement évoluer,
 que ce soit dans un sens ou dans l'autre. En l'espace de six mois seulement
-une p\'eriode de recrutement s'en \'etait donc suivi d'une restructuration
-importante impliquant le d\'epart de plusieurs employ\'es.
+une période de recrutement s'en était donc suivi d'une restructuration
+importante impliquant le départ de plusieurs employés.
 
-Durant mon stage dans l'entreprise, la pr\'esence de collaborateurs
-N\'eerlandais et Mauriciens a permis la cr\'eation d'un environnement
+Durant mon stage dans l'entreprise, la présence de collaborateurs
+Néerlandais et Mauriciens a permis la création d'un environnement
 international, bien que fortement francophone. Afin de pouvoir communiquer avec
-l'ensemble des personnes de l'\'equipe, l'utilisation de l'anglais au quotidien
-\'etait donc une n\'ecessit\'e.
+l'ensemble des personnes de l'équipe, l'utilisation de l'anglais au quotidien
+était donc une nécessité.
 
-L'int\'egration dans l'\'equipe s'est donc faite assez facilement et rapidement
-et c'est ainsi dans une ambiance g\'en\'eralement bonne, bien que quelque peu
-compliqu\'ee sur la fin d\^u \`a la restructuration de l'entreprise s'est
-d\'eroul\'e ce stage de fin d'\'etude.
+L'intégration dans l'équipe s'est donc faite assez facilement et rapidement
+et c'est ainsi dans une ambiance généralement bonne, bien que quelque peu
+compliquée sur la fin dû à la restructuration de l'entreprise s'est
+déroulé ce stage de fin d'étude.
 
 \chapter{Sujet de stage}
 \thispagestyle{fancy}
 \section{Contexte}
-L'entreprise \'etant encore jeune et de petite taille, plusieurs des services
-existant \'etaient bas\'e sur des produits open source qui avaient \'et\'e
-int\'egr\'e au \textit{manager} (voir figure~\ref{managerFront}).
+L'entreprise étant encore jeune et de petite taille, plusieurs des services
+existant étaient basé sur des produits open source qui avaient été
+intégré au \textit{manager} (voir figure~\ref{managerFront}).
 
-Ce \textit{manager} est un environnement web d\'evelopp\'e et maintenu par
-\textit{Arksens}. Il permet aux utilisateurs de g\'erer les services auxquels
-ils ont souscrit \`a partir d'un unique endroit, centralis\'e, et ainsi
+Ce \textit{manager} est un environnement web développé et maintenu par
+\textit{Arksens}. Il permet aux utilisateurs de gérer les services auxquels
+ils ont souscrit à partir d'un unique endroit, centralisé, et ainsi
 faciliter l'utilisation de ces derniers.
 
 \begin{figure}[h!]
@@ -454,321 +454,321 @@ faciliter l'utilisation de ces derniers.
   \caption{\label{managerFront} Page d'accueil du \textit{manager}}
 \end{figure}
 
-L'objectif de ce recrutement important \'etait pour l'entreprise de petit \`a
-petit d\'evelopper ses propre solutions afin de proposer aux utilisateurs des
-produits adapt\'es et r\'epondant \`a leurs besoins tout en minimisant
+L'objectif de ce recrutement important était pour l'entreprise de petit à
+petit développer ses propre solutions afin de proposer aux utilisateurs des
+produits adaptés et répondant à leurs besoins tout en minimisant
 l'utilisation de logiciels tiers.
 
-De plus les syst\`emes de backup ne sont souvent pas consid\'er\'es par les
-entreprises avant qu'une perte de donn\'ees, plus ou moins importante,
-ne survienne. Cons\'equences financi\`eres, temps pass\'e \`a reconstituer le
-savoir \'evapor\'e ou encore impact sur la r\'eputation de l'entreprise ne sont
+De plus les systèmes de backup ne sont souvent pas considérés par les
+entreprises avant qu'une perte de données, plus ou moins importante,
+ne survienne. Conséquences financières, temps passé à reconstituer le
+savoir évaporé ou encore impact sur la réputation de l'entreprise ne sont
 que des exemples de ce qui peut arriver dans une telle situation. Pour
-pr\'evenir ce probl\`eme un syst\`eme de backup est non seulement n\'ecessaire
+prévenir ce problème un système de backup est non seulement nécessaire
 mais presque obligatoire.
 
-Pour cela, \textit{Arksens} voulait offrir \`a ses clients un syst\`eme de
-sauvegarde fiable, s\'ecuris\'e et optimis\'e afin de pouvoir \^etre
-ex\'ecut\'e sur les ordinateurs les moins performants. De plus la prise en
-compte de connexions Internet pouvant \^etre parfois tr\`es lentes \'etait une
-obligation. En particulier, une partie du march\'e vis\'e par \textit{Arksens}
-se trouve en Afrique o\`u l'acc\`es \`a un Internet rapide n'est pas toujours
+Pour cela, \textit{Arksens} voulait offrir à ses clients un système de
+sauvegarde fiable, sécurisé et optimisé afin de pouvoir être
+exécuté sur les ordinateurs les moins performants. De plus la prise en
+compte de connexions Internet pouvant être parfois très lentes était une
+obligation. En particulier, une partie du marché visé par \textit{Arksens}
+se trouve en Afrique où l'accès à un Internet rapide n'est pas toujours
 aussi facile que ce qu'il peut y avoir en Europe.
 
-C'est donc dans ce cadre que je suis arriv\'e et qu'il m'a \'et\'e demand\'e
-de cr\'eer la prochaine g\'en\'eration de backup pour \textit{Arksens}.
+C'est donc dans ce cadre que je suis arrivé et qu'il m'a été demandé
+de créer la prochaine génération de backup pour \textit{Arksens}.
 
 \section{Le sujet}
-Ma mission pour ce stage \'etait donc de faire la conception et le
-d\'eveloppement d'un syst\`eme de backup incr\'emental et dont les donn\'ees
-sauvegard\'ees sont chiffr\'ees en local, sur la machine client, avant d'\^etre
-envoy\'ees sur des serveurs distant. Il me fallait donc d\'evelopper un
-client/serveur multi-plate-forme, robuste et s\'ecuris\'e r\'epondant \`a
-la probl\'ematique suivante : combiner le chiffrement local avec la sauvegarde
-incr\'ementale.
+Ma mission pour ce stage était donc de faire la conception et le
+développement d'un système de backup incrémental et dont les données
+sauvegardées sont chiffrées en local, sur la machine client, avant d'être
+envoyées sur des serveurs distant. Il me fallait donc développer un
+client/serveur multi-plate-forme, robuste et sécurisé répondant à
+la problématique suivante : combiner le chiffrement local avec la sauvegarde
+incrémentale.
 
-De plus le programme devra \^etre \textit{multi-thread\'e} pour pouvoir
-optimiser la sauvegarde des donn\'ees. Entre autre, cela permettra de chiffrer
-des blocs, constituant les fichiers, tout en envoyant au serveur ceux d\'ej\`a
-chiffr\'es.
+De plus le programme devra être \textit{multi-threadé} pour pouvoir
+optimiser la sauvegarde des données. Entre autre, cela permettra de chiffrer
+des blocs, constituant les fichiers, tout en envoyant au serveur ceux déjà
+chiffrés.
 
-Par ailleurs, allant \^etre un service propos\'e aux entreprises, il doit \^etre
-pris en compte qu'un administrateur puisse g\'erer les diff\'erentes
-sauvegardes ou \^etre inform\'e si un probl\`eme survient sur le poste d'un
-employ\'e lors de l'utilisation du logiciel.
+Par ailleurs, allant être un service proposé aux entreprises, il doit être
+pris en compte qu'un administrateur puisse gérer les différentes
+sauvegardes ou être informé si un problème survient sur le poste d'un
+employé lors de l'utilisation du logiciel.
 
-Enfin, un syst\`eme de quota devra \^etre mis en place. Ce syst\`eme permettant
-aux entreprises de demander un plus ou moins grand quota selon la quantit\'e de
-donn\'ees \`a sauvegarder. Celle-ci pouvant varier selon la taille ou la
-fonction de l'entreprise, un quota permet une certaine flexibilit\'e.
+Enfin, un système de quota devra être mis en place. Ce système permettant
+aux entreprises de demander un plus ou moins grand quota selon la quantité de
+données à sauvegarder. Celle-ci pouvant varier selon la taille ou la
+fonction de l'entreprise, un quota permet une certaine flexibilité.
 
 Ce backup permettrait donc, au premier lancement, de sauvegarder l'ensemble
-d'un ou plusieurs dossier. \`A partir de la seconde sauvegarde, il ne faudrait
-n\'eanmoins sauvegarder que les changements sur les fichiers.
+d'un ou plusieurs dossier. À partir de la seconde sauvegarde, il ne faudrait
+néanmoins sauvegarder que les changements sur les fichiers.
 
-\`A mon arriv\'ee, David et Ga\"etan avait d\'ej\`a des id\'ees sur la
-mani\`ere de r\'ealiser ce syst\`eme de sauvegarde, id\'ees que nous verrons
-plus loin dans ce rapport. Et c'est \`a partir de celles-ci que j'ai pu
-d\'emarrer mon travail, qui sera alors divis\'e en trois grandes phases :
+À mon arrivée, David et Gaëtan avait déjà des idées sur la
+manière de réaliser ce système de sauvegarde, idées que nous verrons
+plus loin dans ce rapport. Et c'est à partir de celles-ci que j'ai pu
+démarrer mon travail, qui sera alors divisé en trois grandes phases :
 
 \begin{itemize}
- \item Phase de documentation et de r\'eflexions sur la probl\'ematique
+ \item Phase de documentation et de réflexions sur la problématique
  \item Conception logicielle
- \item D\'eveloppement
+ \item Développement
 \end{itemize}
 
-La premi\`ere phase de documentation et de r\'eflexions consistait \`a
-rechercher diff\'erentes solutions d\'ej\`a existantes et potentiellement
-exploitable avant de proc\'eder \`a toute phase de conception.
+La première phase de documentation et de réflexions consistait à
+rechercher différentes solutions déjà existantes et potentiellement
+exploitable avant de procéder à toute phase de conception.
 
 La conception s'est faite en prenant en compte les contraintes existantes
-et en se basant sur un travail de r\'eflexions d\'ej\`a effectu\'e par David et
-Ga\"etan avant mon arriv\'ee.
+et en se basant sur un travail de réflexions déjà effectué par David et
+Gaëtan avant mon arrivée.
 
-Enfin, en ce qui concerne le d\'eveloppement, une des contraintes que j'avais
-\'etait d'utiliser le C++ et de d\'evelopper de mani\`ere orient\'e objet tout
-en faisant en sorte que le code puisse \^etre robuste, lisible, testable, et
+Enfin, en ce qui concerne le développement, une des contraintes que j'avais
+était d'utiliser le C++ et de développer de manière orienté objet tout
+en faisant en sorte que le code puisse être robuste, lisible, testable, et
 donc facilement maintenable. De plus les librairies et \textit{framework}
-utilis\'es devaient \^etre sous licence libre afin d'\^etre en droit de publier
-l'ouvrage sous licence libre. Une derni\`ere contrainte, mais pas des moindres,
-\'etait de d\'evelopper en logiciel pour qu'il puisse tourner sur les
-plate-formes r\'epandues : \textit{Mac OSX}, \textit{Windows} et
+utilisés devaient être sous licence libre afin d'être en droit de publier
+l'ouvrage sous licence libre. Une dernière contrainte, mais pas des moindres,
+était de développer en logiciel pour qu'il puisse tourner sur les
+plate-formes répandues : \textit{Mac OSX}, \textit{Windows} et
 \textit{GNU/Linux}.
 
-Pour mener cette mission \`a bien, il avait \'et\'e d\'ecid\'e qu'une r\'eunion
-hebdomadaire devait \^etre r\'ealis\'ee afin que David et Ga\"etan puissent
-suivre l'avancement du projet mais aussi pour voir le travail effectu\'e la
-semaine pr\'ec\'edente, essayer de r\'esoudre tout probl\`eme qui aurait pu
+Pour mener cette mission à bien, il avait été décidé qu'une réunion
+hebdomadaire devait être réalisée afin que David et Gaëtan puissent
+suivre l'avancement du projet mais aussi pour voir le travail effectué la
+semaine précédente, essayer de résoudre tout problème qui aurait pu
 survenir et planifier la semaine suivante.
-C'est en tout cas dans cette optique l\`a que nous avions commenc\'e. Dans les
-fait, le retour des clients de l'entreprise lors de mises \`a jour des produits
-ou des r\'eunions avec de potentiels futurs clients pouvaient prendre la
-priorit\'e et ainsi retarder ou annuler les r\'eunions hebdomadaire.
+C'est en tout cas dans cette optique là que nous avions commencé. Dans les
+fait, le retour des clients de l'entreprise lors de mises à jour des produits
+ou des réunions avec de potentiels futurs clients pouvaient prendre la
+priorité et ainsi retarder ou annuler les réunions hebdomadaire.
 
-\chapter{D\'eroulement du stage}
+\chapter{Déroulement du stage}
 \thispagestyle{fancy}
-Avant de commencer le projet en lui-m\^eme, David et Ga\"etan m'ont fait part
-de leur r\'eflexion sur le possible fonctionnement du syst\`eme de sauvegarde.
+Avant de commencer le projet en lui-même, David et Gaëtan m'ont fait part
+de leur réflexion sur le possible fonctionnement du système de sauvegarde.
 
 \begin{figure}[h!]
     \hspace{-4.5em}
     \includegraphics[width=19cm]{algo/schemaInitial.png}
-    \caption{\label{schemaInitial} Sch\'ema initial du fonctionnement du backup}
+    \caption{\label{schemaInitial} Schéma initial du fonctionnement du backup}
 \end{figure}
 
-Le syst\`eme a deux comportement diff\'erent lors de la sauvegarde d'un fichier.
-D'abord pour la premi\`ere connexion, o\`u une sauvegarde int\'egrale est
-n\'ecessaire, puis lors des connexions suivantes o\`u seulement les
-modifications doivent \^etre envoy\'ees.
+Le système a deux comportement différent lors de la sauvegarde d'un fichier.
+D'abord pour la première connexion, où une sauvegarde intégrale est
+nécessaire, puis lors des connexions suivantes où seulement les
+modifications doivent être envoyées.
 
-Dans le premier cas, le fichier est d\'ecoup\'e en blocs de taille \'egale
-avant d'\^etre chiffr\'e puis envoy\'e accompagn\'e des signatures calcul\'es
-pour chaque bloc ainsi que pour le fichier en lui m\^eme. Les signatures
-permettant de v\'erifier l'int\'egrit\'e des fichiers.
+Dans le premier cas, le fichier est découpé en blocs de taille égale
+avant d'être chiffré puis envoyé accompagné des signatures calculés
+pour chaque bloc ainsi que pour le fichier en lui même. Les signatures
+permettant de vérifier l'intégrité des fichiers.
 
-Le second cas est un peu plus complexe et d\'ecrit comme suit :
+Le second cas est un peu plus complexe et décrit comme suit :
 \begin{itemize}
  \item Calculer \textit{signature\_toto.txt} (\(N + 1\))
- \item T\'el\'echager \textit{signature\_toto.txt} (\(N\))
- \item Comparer les deux signatures : si elles ne sont pas diff\'erentes, les
- fichiers n'ont pas \`a \^etre compar\'e et on peut passer au fichier suivant
+ \item Téléchager \textit{signature\_toto.txt} (\(N\))
+ \item Comparer les deux signatures : si elles ne sont pas différentes, les
+ fichiers n'ont pas à être comparé et on peut passer au fichier suivant
  sinon on continue
- \item D\'ecouper toto en bloc
+ \item Découper toto en bloc
  \item Calculer la signature de chaque bloc (\(N + 1\))
- \item T\'el\'echarger la signature de chaque bloc (\(N\))
+ \item Télécharger la signature de chaque bloc (\(N\))
  \item Comparer chaque signatures entre elles
- \item Pour chaque signature diff\'erente, envoyer sur le serveur le bloc
- chiffr\'e correspondant accompagn\'e de sa signature (\(N + 1\))
+ \item Pour chaque signature différente, envoyer sur le serveur le bloc
+ chiffré correspondant accompagné de sa signature (\(N + 1\))
 \end{itemize}
 
-Dans le cas de la figure~\ref{schemaInitial}, le bloc 1 \'etant modifi\'e, sa
-signature, \`a \(N + 1\), ne correspond pas \`a la signature pr\'ec\'edemment
-calcul\'ee (\(N\)). Le bloc est donc chiffr\'e avant d'\^etre envoy\'e sur le
+Dans le cas de la figure~\ref{schemaInitial}, le bloc 1 étant modifié, sa
+signature, à \(N + 1\), ne correspond pas à la signature précédemment
+calculée (\(N\)). Le bloc est donc chiffré avant d'être envoyé sur le
 serveur avec sa signature \textit{signature\_bloc1.txt}.
 
 \subparagraph{}
-L'id\'ee, bien qu'int\'eressante dans un premier temps, ne peut \^etre
-appliqu\'ee que dans un cas tr\`es particulier de fonctionnement et ne peut
-donc pas \^etre utilis\'e en tant que tel :
+L'idée, bien qu'intéressante dans un premier temps, ne peut être
+appliquée que dans un cas très particulier de fonctionnement et ne peut
+donc pas être utilisé en tant que tel :
 \begin{itemize}
  \item Si les modifications n'affecte pas la taille d'un bloc et que l'ordre
- des blocs est rest\'e inchang\'e
+ des blocs est resté inchangé
 \end{itemize}
 
-Pour tout les autres cas (ajout, suppression, d\'eplacement de tout ou partie
-d'un bloc, etc.), l'algorithme ne pourrait pas fonctionner. Pour palier \`a
-cela, j'ai donc d\^u imaginer un algorithme r\'epondant \`a la probl\'ematique
+Pour tout les autres cas (ajout, suppression, déplacement de tout ou partie
+d'un bloc, etc.), l'algorithme ne pourrait pas fonctionner. Pour palier à
+cela, j'ai donc dû imaginer un algorithme répondant à la problématique
 et fonctionnant dans tout les cas imaginables.
 
 \section{Travail de recherche}
 \label{secTravailRecherche}
 \subsection{Documentation}
-Mon travail de recherche s'est fait \`a partir d'une liste de mots-cl\'es qui
-m'a \'et\'e donn\'e afin que l'on parle tous le m\^eme langage. Entre autre,
-certaines d\'efinitions li\'ees au backup et au chiffrement :
+Mon travail de recherche s'est fait à partir d'une liste de mots-clés qui
+m'a été donné afin que l'on parle tous le même langage. Entre autre,
+certaines définitions liées au backup et au chiffrement :
 \begin{itemize}
- \item Backup incr\'emental\footnote{Sauvegarde de fichiers dont le principe est
- d'envoyer uniquement les fichiers modifi\'es depuis la derni\`ere sauvegarde
- effectu\'ee}
- \item Backup diff\'erentiel\footnote{Sauvegarde de fichiers dont le principe
- est d'envoyer uniquement les fichiers modifi\'es depuis la derni\`ere
- sauvegarde compl\`ete effectu\'ee}
+ \item Backup incrémental\footnote{Sauvegarde de fichiers dont le principe est
+ d'envoyer uniquement les fichiers modifiés depuis la dernière sauvegarde
+ effectuée}
+ \item Backup différentiel\footnote{Sauvegarde de fichiers dont le principe
+ est d'envoyer uniquement les fichiers modifiés depuis la dernière
+ sauvegarde complète effectuée}
  \item Transchiffrement\footnote{Technique consistant, lors d'un changement
- de cl\'e de chiffrement, \`a d\'echiffrer l'ensemble des donn\'ees avec la
- pr\'ec\'edente cl\'e puis \`a les re-chiffrer avec la nouvelle}
+ de clé de chiffrement, à déchiffrer l'ensemble des données avec la
+ précédente clé puis à les re-chiffrer avec la nouvelle}
 \end{itemize}
 
-Mais aussi des logiciels d\'ej\`a existant, de backup ou de synchronisation de
-fichiers et \`a partir desquels il pouvait \^etre int\'eressant de s'inspirer :
+Mais aussi des logiciels déjà existant, de backup ou de synchronisation de
+fichiers et à partir desquels il pouvait être intéressant de s'inspirer :
 \begin{itemize}
  \item Syncthing~\cite{refSyncthing}
  \item rsync~\cite{refRsync}
 \end{itemize}
 
 \subsubsection{Syncthing}
-\textit{Syncthing} est un logiciel permettant la synchronisation des donn\'ees
-entre plusieurs appareils au travers d'une communication s\'ecuris\'ee via TLS.
-Les donn\'ees n'\'etant jamais stock\'ees sur un serveur tiers, uniquement les
-diff\'erents ordinateurs utilis\'es y ont donc acc\`es.
+\textit{Syncthing} est un logiciel permettant la synchronisation des données
+entre plusieurs appareils au travers d'une communication sécurisée via TLS.
+Les données n'étant jamais stockées sur un serveur tiers, uniquement les
+différents ordinateurs utilisés y ont donc accès.
 
-L'aspect int\'eressant de \textit{Syncthing} est pour nous le protocole de
-communication, qui a \'et\'e cr\'ee \`a l'occasion : Block Exchange Protocol
+L'aspect intéressant de \textit{Syncthing} est pour nous le protocole de
+communication, qui a été crée à l'occasion : Block Exchange Protocol
 (BEP)~\cite{refBEP}. Ce protocole sous Creative Commons~\cite{refCC4.0}, est
 donc une bonne source d'inspiration afin de faire la liaison entre notre client
 et notre serveur.
 
 \subsubsection{rsync}
-\textit{rsync} est un programme de transfert de fichiers pour les syst\`emes
-Unix. Le c\oe ur du programme est son algorithme sch\'ematis\'e
+\textit{rsync} est un programme de transfert de fichiers pour les systèmes
+Unix. Le c\oe ur du programme est son algorithme schématisé
 figure~\ref{rsyncAlgo} :
 \textit{\flqq rsync algorithm \frqq}~\cite{refRsyncAlgo}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=15cm]{algo/rsyncalgo.png}
-    \caption{\label{rsyncAlgo} Sch\'ema montrant bri\`evement
+    \caption{\label{rsyncAlgo} Schéma montrant brièvement
     l'algorithme \textit{rsync}}
 \end{figure}
 
-Celui-ci va d\'ecouper un fichier en plusieurs blocs de taille identique avant
+Celui-ci va découper un fichier en plusieurs blocs de taille identique avant
 de calculer, pour chacun, un \texttt{checksum} ainsi qu'un \texttt{hash}.
 
-Pour n'envoyer que les parties modifi\'ees d'un ficher, l'algorithme va cr\'eer
-une fen\^etre de la taille des blocs. Celle-ci va parcourir l'int\'egralit\'e
+Pour n'envoyer que les parties modifiées d'un ficher, l'algorithme va créer
+une fenêtre de la taille des blocs. Celle-ci va parcourir l'intégralité
 du fichier octet par octet.
 
-Pour chaque position de la fen\^etre, le \texttt{checksum} --- rapide \`a
-calculer mais dont le risque de collision est \'elev\'e --- est calcul\'e et
-compar\'e au \texttt{checksum} d\'ej\`a calcul\'e au pr\'ec\'edent backup de
+Pour chaque position de la fenêtre, le \texttt{checksum} --- rapide à
+calculer mais dont le risque de collision est élevé --- est calculé et
+comparé au \texttt{checksum} déjà calculé au précédent backup de
 chaque bloc composant le fichier. Si un \textit{checksum} correspond, le
-\texttt{hash} --- plus lent \`a calculer mais ayant un risque de collision
-beaucoup plus faible, selon l'algorithme utilis\'e --- du bloc correspondant
-est alors compar\'e. Si celui-ci est identique, la fen\^etre correspond \`a un
-bloc non modifi\'e du fichier.
+\texttt{hash} --- plus lent à calculer mais ayant un risque de collision
+beaucoup plus faible, selon l'algorithme utilisé --- du bloc correspondant
+est alors comparé. Si celui-ci est identique, la fenêtre correspond à un
+bloc non modifié du fichier.
 
-Ainsi, tout ce qui pr\'ec\`ede la fen\^etre, et jusqu'au pr\'ec\'edent bloc
-trouv\'e, correspondant \`a une partie du fichier modifi\'ee
-(ajout/modification/suppression) et doit donc \^etre synchronis\'e.
+Ainsi, tout ce qui précède la fenêtre, et jusqu'au précédent bloc
+trouvé, correspondant à une partie du fichier modifiée
+(ajout/modification/suppression) et doit donc être synchronisé.
 
 C'est en grande partie cet algorithme qui m'a permis d'en trouver un me
-permettant de r\'epondre \`a ma probl\'ematique. Probl\'ematique \`a la fois
-similaire au probl\`eme de \textit{rsync} puisqu'il fallait comparer deux
-fichiers distants pour n'envoyer que les changements mais \'egalement
-diff\'erent dans la mesure o\`u il n'est pas possible dans mon cas de maintenir
-une liste de bloc de m\^eme taille au del\`a de la premi\`ere sauvegarde.
+permettant de répondre à ma problématique. Problématique à la fois
+similaire au problème de \textit{rsync} puisqu'il fallait comparer deux
+fichiers distants pour n'envoyer que les changements mais également
+différent dans la mesure où il n'est pas possible dans mon cas de maintenir
+une liste de bloc de même taille au delà de la première sauvegarde.
 
-\subsection{R\'eflexions}
-Une fois cette phase de documentation r\'ealis\'ee, il \'etait temps de trouver
-un algorithme permettant d'identifier les parties d'un fichier ayant \'et\'e
-modifi\'e depuis le pr\'ec\'edent backup. Pour ce faire, et comme indiqu\'e
-dans la partie documentation, je me suis bas\'e sur l'algorithme \textit{rsync}
-pour, petit \`a petit, cr\'eer un algorithme qui permettait de r\'epondre \`a ma
-probl\'ematique.
+\subsection{Réflexions}
+Une fois cette phase de documentation réalisée, il était temps de trouver
+un algorithme permettant d'identifier les parties d'un fichier ayant été
+modifié depuis le précédent backup. Pour ce faire, et comme indiqué
+dans la partie documentation, je me suis basé sur l'algorithme \textit{rsync}
+pour, petit à petit, créer un algorithme qui permettait de répondre à ma
+problématique.
 
 \subsubsection{Chiffrement homomorphe}
-Dans un premier temps, j'ai \'etudi\'e la question de l'homomorphisme. Ce type
-de chiffrement permet de r\'ealiser des op\'erations sur des fichiers chiffr\'es
-et de retourner le r\'esultat chiffr\'e. Ceci permet de faire des op\'erations
-sans avoir \`a conna\^itre le contenu d'un fichier.
+Dans un premier temps, j'ai étudié la question de l'homomorphisme. Ce type
+de chiffrement permet de réaliser des opérations sur des fichiers chiffrés
+et de retourner le résultat chiffré. Ceci permet de faire des opérations
+sans avoir à connaître le contenu d'un fichier.
 
 \begin{itemize}
  \item \textbf{Fonctionnement :} Dans notre cas, il nous aurait permis de
  concatener sur le serveur l'ensemble des morceaux d'un fichier avant de le
- re-d\'ecouper en bloc de taille \'egale puis de calculer pour chacun le
+ re-découper en bloc de taille égale puis de calculer pour chacun le
  \texttt{checksum} ainsi que le \texttt{hash}. Ceci aurait permis d'utiliser
  directement l'algorithme \textit{rsync} pour identifier les modifications
  faites sur un fichier.
 
  \item \textbf{Avantage :} Consommation de ressource et temps de calcul
- r\'eduit sur la machine client.
+ réduit sur la machine client.
  
- \item \textbf{Inconv\'enient :} En utilisant le chiffrement homomorphe, le
+ \item \textbf{Inconvénient :} En utilisant le chiffrement homomorphe, le
  plus gros du calcul se fait sur le serveur entre deux backup, et ceux pour
- chaque fichier de chaque utilisateur. Ce type de chiffrement est donc tr\`es
- demandeur de ressource du c\^ot\'e du serveur pour que le programme fonctionne
+ chaque fichier de chaque utilisateur. Ce type de chiffrement est donc très
+ demandeur de ressource du côté du serveur pour que le programme fonctionne
  correctement.
 
- \item \textbf{Probl\`eme :} Le chiffrement homomorphe est un domaine de
- recherche tr\`es prometteur mais pas encore assez avanc\'e pour pouvoir
- \^etre utilis\'e en production. De plus le temps de calcul est extr\^emement
- \'elev\'e. Cette solution ne peut donc pas \^etre utilis\'ee aujourd'hui mais
- pourra peut-\^etre un jour \^etre envisag\'ee dans une prochaine version du
+ \item \textbf{Problème :} Le chiffrement homomorphe est un domaine de
+ recherche très prometteur mais pas encore assez avancé pour pouvoir
+ être utilisé en production. De plus le temps de calcul est extrêmement
+ élevé. Cette solution ne peut donc pas être utilisée aujourd'hui mais
+ pourra peut-être un jour être envisagée dans une prochaine version du
 backup.
 \end{itemize}
 
-\subsubsection{rsync revisit\'e}
-\'Etant donn\'e que les fichiers doivent \^etre chiffr\'es et d\'echiffr\'es
-uniquement sur la machine h\^ote (le client), nous ne pouvons effectuer
-d'op\'erations sur ceux-ci du serveur. Il fallait trouver un algorithme qui
-permette de d'analyser un fichier en un temps fini. J'ai donc d\'ecid\'e de
-baser mon travail sur le principe de fen\^etre glissante utilis\'ee pour
+\subsubsection{rsync revisité}
+Étant donné que les fichiers doivent être chiffrés et déchiffrés
+uniquement sur la machine hôte (le client), nous ne pouvons effectuer
+d'opérations sur ceux-ci du serveur. Il fallait trouver un algorithme qui
+permette de d'analyser un fichier en un temps fini. J'ai donc décidé de
+baser mon travail sur le principe de fenêtre glissante utilisée pour
 \textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de taille
 identique, il a fallu modifier l'algorithme pour prendre ceci en compte. Ainsi
-avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
+avoir une fenêtre dynamique semblait être l'option à prendre.
 
 \begin{itemize}
- \item \textbf{Fonctionnement :} L'algorithme utilise une fen\^etre dynamique,
- parcourant l'int\'egralit\'e du fichier et adaptant sa taille en fonction
+ \item \textbf{Fonctionnement :} L'algorithme utilise une fenêtre dynamique,
+ parcourant l'intégralité du fichier et adaptant sa taille en fonction
  des longueurs des morceaux de fichier que nous avons.
  
- \item \textbf{Avantage :} Fait c\^ot\'e client, il n'y a pas une
- sur-utilisation des ressources serveurs qui est alors utilis\'e uniquement
- pour stocker les donn\'ees une fois chiffr\'ees.
+ \item \textbf{Avantage :} Fait côté client, il n'y a pas une
+ sur-utilisation des ressources serveurs qui est alors utilisé uniquement
+ pour stocker les données une fois chiffrées.
  
- \item \textbf{Inconv\'enient :} Temps de calcul potentiellement grand,
- d\'ependant de la taille des fichiers \`a analyser ainsi que de ressources
+ \item \textbf{Inconvénient :} Temps de calcul potentiellement grand,
+ dépendant de la taille des fichiers à analyser ainsi que de ressources
  disponible sur la machine client.
 \end{itemize}
 
-C'est donc sur cette base que j'ai commenc\'e l'\'etape suivante. \'Etape 
-consistant \`a \'ecrire un prototype permettant de v\'erifier la faisabilit\'e,
-notamment en ce qui concerne le temps d'ex\'ecution du programme.
+C'est donc sur cette base que j'ai commencé l'étape suivante. Étape 
+consistant à écrire un prototype permettant de vérifier la faisabilité,
+notamment en ce qui concerne le temps d'exécution du programme.
 
 \subsection{Prototypage}
-La v\'erification, en pratique, de la th\'eorie \'etait n\'ecessaire avant de
-pouvoir penser \`a la conception du produit. Pour cela, le passage par une
-\'etape de prototypage semblait in\'evitable.
+La vérification, en pratique, de la théorie était nécessaire avant de
+pouvoir penser à la conception du produit. Pour cela, le passage par une
+étape de prototypage semblait inévitable.
 
-Dans ce cadre, j'ai \'ecrit l'algorithme en \textit{C++} afin de v\'erifier
-le temps d'ex\'ecution de celui-ci. Plusieurs essais ont \'et\'e fait afin de
-r\'eduire toujours plus la dur\'ee d'ex\'ecution de l'algorithme. C'est donc
-principalement de l'optimisation, \`a la fois au niveau algorithmique et
-qu'au niveau de l'\'ecriture du code en lui-m\^eme, que j'ai effectu\'e  au
-cours de cette \'etape.
+Dans ce cadre, j'ai écrit l'algorithme en \textit{C++} afin de vérifier
+le temps d'exécution de celui-ci. Plusieurs essais ont été fait afin de
+réduire toujours plus la durée d'exécution de l'algorithme. C'est donc
+principalement de l'optimisation, à la fois au niveau algorithmique et
+qu'au niveau de l'écriture du code en lui-même, que j'ai effectué  au
+cours de cette étape.
 
-Plusieurs version ont donc vu le jour au cours de cette \'etape afin d'obtenir
-un algorithme qui puisse \^etre utilisable pour le syst\`eme de sauvegarde. Dans
-le cas \'ech\'eant, il aurait fallu chercher un algorithme diff\'erent pour
-atteindre notre objectif. Cela n'a n\'eanmoins pas \'et\'e le cas. Le
-prototype \'ecrit ayant permis de valider le fonctionnement de l'algorithme
-trouv\'e, j'ai pu passer \`a l'\'etape suivante et commencer ainsi la
+Plusieurs version ont donc vu le jour au cours de cette étape afin d'obtenir
+un algorithme qui puisse être utilisable pour le système de sauvegarde. Dans
+le cas échéant, il aurait fallu chercher un algorithme différent pour
+atteindre notre objectif. Cela n'a néanmoins pas été le cas. Le
+prototype écrit ayant permis de valider le fonctionnement de l'algorithme
+trouvé, j'ai pu passer à l'étape suivante et commencer ainsi la
 conception.
 
 \section{Conception}
 \subsection{Un programme modulaire}
-La conception a commenc\'e avec le d\'ecoupage du projet en diff\'erents
-modules. Avant de penser \`a la partie serveur, c'est le client qui, dans un
-premier temps, va \^etre la priorit\'e.
+La conception a commencé avec le découpage du projet en différents
+modules. Avant de penser à la partie serveur, c'est le client qui, dans un
+premier temps, va être la priorité.
 
 \begin{figure}[h!]
   \centering
@@ -776,132 +776,132 @@ premier temps, va \^etre la priorit\'e.
   \caption{\label{overviewModule} Vue d'ensemble des modules}
 \end{figure}
 
-Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
+Pour celui-ci, dix modules vont être utilisés autour d'un module central :
 \begin{itemize}
-  \item \textbf{organizer :} module central qui va cr\'eer plus ou moins de
-  \textit{thread} et lancer les diff\'erents modules n\'ecessaires \`a la
-  sauvegarde ou \`a la r\'ecup\'eration des donn\'ees.
+  \item \textbf{organizer :} module central qui va créer plus ou moins de
+  \textit{thread} et lancer les différents modules nécessaires à la
+  sauvegarde ou à la récupération des données.
   \item \textbf{information :} ce module contient les informations
-  (m\'eta-informations) n\'ecessaires sur les morceaux de fichiers ainsi que
-  sur les fichiers en eux-m\^eme.
-  \item \textbf{filer :} ce module r\'ecup\`ere la liste des fichiers \`a
-  partir du r\'epertoire d'entr\'ee. Il cr\'ee les objets correspondants
+  (méta-informations) nécessaires sur les morceaux de fichiers ainsi que
+  sur les fichiers en eux-même.
+  \item \textbf{filer :} ce module récupère la liste des fichiers à
+  partir du répertoire d'entrée. Il crée les objets correspondants
   (module information) et les transmets au module suivant.
-  \item \textbf{spconc :} ce module coupe (\textit{split}) ou concat\`ene ce
-  qui lui est envoy\'e selon qu'il s'agisse d'une sauvegarde ou d'une
-  r\'ecup\'eration de donn\'ees.
-  \item \textbf{scanFile :} dans le cas o\`u un fichier a d\'ej\`a \'et\'e
-  sauvegard\'e, ce module va scanner l'int\'egralit\'e du fichier pour trouver
-  les parties qui ont \'et\'e modifi\'ees et qui doivent \^etre chiffr\'ees et
-  envoy\'ees au serveur.
+  \item \textbf{spconc :} ce module coupe (\textit{split}) ou concatène ce
+  qui lui est envoyé selon qu'il s'agisse d'une sauvegarde ou d'une
+  récupération de données.
+  \item \textbf{scanFile :} dans le cas où un fichier a déjà été
+  sauvegardé, ce module va scanner l'intégralité du fichier pour trouver
+  les parties qui ont été modifiées et qui doivent être chiffrées et
+  envoyées au serveur.
   \item \textbf{hasher :} ce module fournit des fonction de hachage permettant
-  de v\'erifier l'int\'egrit\'e des fichiers.
+  de vérifier l'intégrité des fichiers.
   \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
-  d\'echiffrement des donn\'ees.
+  déchiffrement des données.
   \item \textbf{communication :} ce module s'occupe de la communication avec
   le serveur.
-  \item \textbf{dbcomm :} ce module contient les fonctions utilis\'ees pour la
-  communication avec la base de donn\'ees
+  \item \textbf{dbcomm :} ce module contient les fonctions utilisées pour la
+  communication avec la base de données
   \item \textbf{misc :} ce module contient divers outils
-  (\textit{miscellaneous}) pouvant \^etre utile dans le programme. Entre autre
-  il contient le syst\`eme de notification permettant la communication entre
-  les diff\'erents modules
+  (\textit{miscellaneous}) pouvant être utile dans le programme. Entre autre
+  il contient le système de notification permettant la communication entre
+  les différents modules
   \item \textbf{logger :} ce module permet de garder une trace lors de
-  l'ex\'ecution du programme, notamment utile lors du d\'eboguage ou si une
-  erreur provoque l'arr\^et pr\'ematur\'e du programme.
+  l'exécution du programme, notamment utile lors du déboguage ou si une
+  erreur provoque l'arrêt prématuré du programme.
 \end{itemize}
 
 \subparagraph{}
 L'utilisation de modules doit permettre une modification facile du programme,
-sans avoir \`a modifier tout le code. Par exemple, pour changer un algorithme,
-il ne doit \^etre n\'ecessaire d'\'ecrire que le code de celui-ci, sans
-modifier celui d\'ej\`a en place. Par la suite, on ne devrait avoir \`a
-pr\'eciser que l'algorithme souhait\'e lors de la cr\'eation d'un objet.
+sans avoir à modifier tout le code. Par exemple, pour changer un algorithme,
+il ne doit être nécessaire d'écrire que le code de celui-ci, sans
+modifier celui déjà en place. Par la suite, on ne devrait avoir à
+préciser que l'algorithme souhaité lors de la création d'un objet.
 
-Un autre avantage de la programmation modulaire est la facilit\'ee que cela
+Un autre avantage de la programmation modulaire est la facilitée que cela
 apporte pour maintenir le code efficacement.
 
-Dans ce but, j'utiliserai et profiterai des sp\'ecificit\'es qu'offre la
-programmation orient\'ee objet.
+Dans ce but, j'utiliserai et profiterai des spécificités qu'offre la
+programmation orientée objet.
 
 \subsection{Interaction entre modules}
 
-L'utilisation de \textit{threads} pour ex\'ecuter les diff\'erents modules
-complexifie l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es
+L'utilisation de \textit{threads} pour exécuter les différents modules
+complexifie l'interaction entre ceux-ci. Plusieurs modules sont utilisés
 successivement pour pouvoir traiter un fichier, de la lecture depuis le disque
-jusqu'\`a l'envoie des blocs --- chiffr\'es --- le constituant (dans le cas
+jusqu'à l'envoie des blocs --- chiffrés --- le constituant (dans le cas
 d'une sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un
-lien est donc n\'ecessaire pour que deux \textit{threads} puisse s'envoyer les
-donn\'ees li\'ees \`a un fichier.
+lien est donc nécessaire pour que deux \textit{threads} puisse s'envoyer les
+données liées à un fichier.
 
-Dans un premier temps, j'avais cr\'ee un outil qui, appel\'e par un module,
-retournait un \textit{pipe} (tunnel) soit en lecture, soit en \'ecrite. Un autre
-module pouvait ensuite utiliser ce m\^eme outil pour r\'ecup\'erer le tunnel.
-Un module ayant acc\`es au tunnel en lecture et l'autre en \'ecrite, une
-communication peut \^etre effectu\'ee dans un sens. Un second tunnel est
-n\'ecessaire pour pouvoir communiquer dans les deux sens. En triant les
-tunnels ainsi cr\'e\'es par cat\'egories, il \'etait possible de faire
+Dans un premier temps, j'avais crée un outil qui, appelé par un module,
+retournait un \textit{pipe} (tunnel) soit en lecture, soit en écrite. Un autre
+module pouvait ensuite utiliser ce même outil pour récupérer le tunnel.
+Un module ayant accès au tunnel en lecture et l'autre en écrite, une
+communication peut être effectuée dans un sens. Un second tunnel est
+nécessaire pour pouvoir communiquer dans les deux sens. En triant les
+tunnels ainsi créés par catégories, il était possible de faire
 communiquer deux modules tel que, par exemple, \textit{encryptor} et
 \textit{communication}. Le premier pouvait ainsi envoyer ou recevoir des
-donn\'ees vers ou depuis le module \textit{communication}. Dans ce cas, la
-cat\'egorie du tunnel aurait alors pu s'appeler \textit{encomm}.
+données vers ou depuis le module \textit{communication}. Dans ce cas, la
+catégorie du tunnel aurait alors pu s'appeler \textit{encomm}.
 
-Il y avait n\'eanmoins un probl\`eme majeur \`a l'utilisation d'un tel outil.
+Il y avait néanmoins un problème majeur à l'utilisation d'un tel outil.
 Car s'il permettait bien d'envoyer des informations entre deux modules sans
 que ceux-ci ne se connaissent, ils ne pouvaient pas envoyer d'objet
-\textit{C++}. En somme ils ne pouvaient pas s'envoyer les m\'eta-informations
-du fichier sur lequel ils \'etaient en train de travailler. Ils n'avaient
+\textit{C++}. En somme ils ne pouvaient pas s'envoyer les méta-informations
+du fichier sur lequel ils étaient en train de travailler. Ils n'avaient
 donc que les octets du fichiers.
 
-Pour palier \`a ce probl\`eme, nous nous sommes donc dirig\'es vers les patrons
+Pour palier à ce problème, nous nous sommes donc dirigés vers les patrons
 de conception (\textit{design pattern}).
 
 \subsubsection{Design pattern}
 \paragraph{Observer\\}
-Pour faire ce lien, nous avons dans un premier temps pens\'e au
+Pour faire ce lien, nous avons dans un premier temps pensé au
 \textit{design pattern} \textit{observer}, dont le principe est de notifier des
-objets inconnus d'un changement d'\'etat. Dans notre cas, cel\`a aurait permis
-que, lors du changement d'\'etat d'un module, les autres modules l'observant
-soient avertis et puissent, ou non, agir en cons\'equence. Cela donne
-\'egalement la possibilit\'e \`a un module d'envoyer des informations en
-passant dans un certain \'etat \`a des moments cl\'es. Dans notre cas, elles
-auraient correspondu aux m\'eta-donn\'ees d'un fichier, accompagn\'e d'un
-\textit{pipe} servant de tunnel pour faire transiter le fichier en lui-m\^eme
-d'un \textit{thread} \`a un autre.
+objets inconnus d'un changement d'état. Dans notre cas, celà aurait permis
+que, lors du changement d'état d'un module, les autres modules l'observant
+soient avertis et puissent, ou non, agir en conséquence. Cela donne
+également la possibilité à un module d'envoyer des informations en
+passant dans un certain état à des moments clés. Dans notre cas, elles
+auraient correspondu aux méta-données d'un fichier, accompagné d'un
+\textit{pipe} servant de tunnel pour faire transiter le fichier en lui-même
+d'un \textit{thread} à un autre.
 
-Cette solution ne fut n\'eanmoins pas retenue puisqu'elle impliquait qu'un
-module ait connaissances de celui \`a qui envoyer les informations. Ceci
-n'\'etait pas voulu afin de laisser les modules aussi ind\'ependant que
+Cette solution ne fut néanmoins pas retenue puisqu'elle impliquait qu'un
+module ait connaissances de celui à qui envoyer les informations. Ceci
+n'était pas voulu afin de laisser les modules aussi indépendant que
 possible.
 
 \paragraph{Event Notifier\\}
-Afin d'\'eviter que certains modules aient connaissances de l'existence d'autres
-modules, un syst\`eme de notification a donc \'et\'e impl\'ement\'e. Le
-principe de ce syst\`eme est relativement simple \`a comprendre. On peut
-d'ailleurs trouver le m\^eme syst\`eme dans la vie de tous les jours. Par
-exemple un journal publie r\'eguli\`erement des nouvelles ayant un certain
-libell\'e (\flqq alertes\frqq, \flqq national\frqq, \flqq sport\frqq, etc.).
-En face, il existe des utilisateurs qui peuvent, ou non, s'inscrire \`a un ou
+Afin d'éviter que certains modules aient connaissances de l'existence d'autres
+modules, un système de notification a donc été implémenté. Le
+principe de ce système est relativement simple à comprendre. On peut
+d'ailleurs trouver le même système dans la vie de tous les jours. Par
+exemple un journal publie régulièrement des nouvelles ayant un certain
+libellé (\flqq alertes\frqq, \flqq national\frqq, \flqq sport\frqq, etc.).
+En face, il existe des utilisateurs qui peuvent, ou non, s'inscrire à un ou
 plusieurs type de nouvelle. Ainsi, quelqu'un inscrit aux nouvelles de type
 \flqq alertes\frqq~va recevoir une notification lorsqu'une nouvelle de ce type
-appara\^it.
+apparaît.
 
-Le principe utilis\'e dans notre cas est exactement le m\^eme : des modules
-lancent des notifications que d'autres re\c{c}oivent s'ils se sont inscrits \`a
+Le principe utilisé dans notre cas est exactement le même : des modules
+lancent des notifications que d'autres reçoivent s'ils se sont inscrits à
 celles-ci.
 
 Pour que cela fonctionne correctement, un centre de notification est
-n\'ecessaire. Ainsi, et contrairement \`a un syst\`eme d'\flqq observer\frqq,
-les modules n'ont pas \`a avoir connaissance les uns des autres puisque chacun
+nécessaire. Ainsi, et contrairement à un système d'\flqq observer\frqq,
+les modules n'ont pas à avoir connaissance les uns des autres puisque chacun
 passe par ce centre.
 
-Celui-ci est pr\'esent\'e figure~\ref{classDiagramNotif}. On retrouve le
-centre de notification \textit{CNotificationService} qui g\`ere les
-abonnements et les abonn\'es. Ce centre permet ainsi de les notifier les modules
-ayant souscrit \`a un certain type de notification. Pour utiliser ce service,
-il existe deux interfaces : \textit{ISubscriber} pour les abonn\'es et
-\textit{INotifier} pour \'emettre les notifications. Ces interfaces sont donc
-impl\'ement\'ee par les diff\'erents modules utilisant le syst\`eme de
+Celui-ci est présenté figure~\ref{classDiagramNotif}. On retrouve le
+centre de notification \textit{CNotificationService} qui gère les
+abonnements et les abonnés. Ce centre permet ainsi de les notifier les modules
+ayant souscrit à un certain type de notification. Pour utiliser ce service,
+il existe deux interfaces : \textit{ISubscriber} pour les abonnés et
+\textit{INotifier} pour émettre les notifications. Ces interfaces sont donc
+implémentée par les différents modules utilisant le système de
 notification.
 
 \begin{figure}[h!]
@@ -914,50 +914,50 @@ notification.
 \begin{figure}[h!]
   \hspace{-1.5em}
   \includegraphics[width=17cm]{softwareDesign/moduleInteraction.png}
-  \caption{\label{interactModule} Fonctionnement lors d'une premi\`ere
+  \caption{\label{interactModule} Fonctionnement lors d'une première
   sauvegarde}
 \end{figure}
 
 La figure~\ref{interactModule} montre comment le programme fonctionne dans le
-cas d'une premi\`ere sauvegarde sur le serveur. Chaque noeud \`a l'int\'erieur
-du client est un module exploitant un \textit{thread} diff\'erent. Ainsi
+cas d'une première sauvegarde sur le serveur. Chaque noeud à l'intérieur
+du client est un module exploitant un \textit{thread} différent. Ainsi
 avons-nous :
 \begin{itemize}
- \item une seule instance de \textit{Filer} est ex\'ecut\'ee. Le module
+ \item une seule instance de \textit{Filer} est exécutée. Le module
  communique avec une des instances libre du module \textit{Split}, i.e.~qui
- n'est pas d\'ej\`a en train de travailler sur un fichier
- \item \`A son tour, le module \textit{Split} communique avec n'importe quel
- \textit{thread} ex\'ecutant le module \textit{Crypto} en lui envoyant les
- donn\'ees \`a chiffrer.
- \item Enfin, celui-ci envoie les donn\'ees chiffr\'ees au module
+ n'est pas déjà en train de travailler sur un fichier
+ \item À son tour, le module \textit{Split} communique avec n'importe quel
+ \textit{thread} exécutant le module \textit{Crypto} en lui envoyant les
+ données à chiffrer.
+ \item Enfin, celui-ci envoie les données chiffrées au module
  \textit{Communication} qui va simplement s'occuper de les envoyer sur le
  serveur.
 \end{itemize}
 
-\subsection{Base de donn\'ees}
-\`A la fois du c\^ot\'e client et du c\^ot\'e serveur, l'utilisation d'une
-base de donn\'ees semblait obligatoire afin de garder les m\'eta-donn\'ees
-des fichiers sauvegard\'es mais \'egalement pouvoir garder en m\'emoire une
-trace de chaque sauvegarde effectu\'ee. Cela donnerait la possibilit\'e
+\subsection{Base de données}
+À la fois du côté client et du côté serveur, l'utilisation d'une
+base de données semblait obligatoire afin de garder les méta-données
+des fichiers sauvegardés mais également pouvoir garder en mémoire une
+trace de chaque sauvegarde effectuée. Cela donnerait la possibilité
 de restaurer n'importe quelle version d'un ou plusieurs fichier(s). De ce fait
-nous aurions donc l'ensemble des informations n\'ecessaires \`a la
-reconstruction d'une version particuli\`ere d'un fichier.
+nous aurions donc l'ensemble des informations nécessaires à la
+reconstruction d'une version particulière d'un fichier.
 
-L'utilisation d'une base de donn\'ee c\^ot\'e serveur \'etait donc \'evidente.
-Le choix d'en avoir une \'egalement sur la machine cliente s'est fait
-naturellement dans la mesure o\`u cela \'evite d'avoir \`a effectuer
-r\'eguli\`erement des connexions avec le serveur. N\'eanmoins, et contrairement
-\`a la base de donn\'ee pr\'esente sur le serveur, celle du client permettrait
-de ne stocker que les informations li\'ees \`a la derni\`ere sauvegarde. Ce
+L'utilisation d'une base de donnée côté serveur était donc évidente.
+Le choix d'en avoir une également sur la machine cliente s'est fait
+naturellement dans la mesure où cela évite d'avoir à effectuer
+régulièrement des connexions avec le serveur. Néanmoins, et contrairement
+à la base de donnée présente sur le serveur, celle du client permettrait
+de ne stocker que les informations liées à la dernière sauvegarde. Ce
 sont en effet ces informations qui sont utiles lors d'une nouvelle sauvegarde.
-On r\'eduit de ce fait le temps de traitement ainsi que la quantit\'e de
-donn\'ees transmises \`a travers le r\'eseau Internet.
+On réduit de ce fait le temps de traitement ainsi que la quantité de
+données transmises à travers le réseau Internet.
 
 \subsubsection{SQL vs NoSQL}
-La prob\'ematique fut donc de trouver quelle type(s) de base de donn\'ees
-pourrai(en)t \^etre utilis\'e(s) avec d'un c\^ot\'e les bases de donn\'ees
-relationnelle \textit{SQL} et d'un autre les bases de donn\'ees \textit{NoSQL}.
-Les principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
+La probématique fut donc de trouver quelle type(s) de base de données
+pourrai(en)t être utilisé(s) avec d'un côté les bases de données
+relationnelle \textit{SQL} et d'un autre les bases de données \textit{NoSQL}.
+Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
 
 \begin{savenotes}
 \begin{table}[h!]
@@ -969,30 +969,30 @@ Les principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
     \arrayrulecolor{gray73}\hline
     & \color{white} \textbf{\textit{SQL}} &
     \color{white} \textbf{\textit{NoSQL}}\\
-    Stockage des donn\'ees & Utilisation d'un mod\`ele relationnel avec les
-    traditionnelles lignes et colonnes contenant les diff\'erentes entr\'ee de
-    la base de donn\'ees avec l'ensemble des informations correspondantes. &
-    Il existe plusieurs mod\`ele de stockage parmi lesquels : documents,
-    cl\'e-valeur, graphe, etc.\\
+    Stockage des données & Utilisation d'un modèle relationnel avec les
+    traditionnelles lignes et colonnes contenant les différentes entrée de
+    la base de données avec l'ensemble des informations correspondantes. &
+    Il existe plusieurs modèle de stockage parmi lesquels : documents,
+    clé-valeur, graphe, etc.\\
     \hline
-    Sch\'ema et flexibilit\'e & Chaque table correspond \`a un sch\'ema
-    particulier. Les colonnes doivent donc \^etre choisie \`a l'avance, selon
-    les donn\'ees \`a rentrer dans la table. & Les sch\'ema sont dynamiques.
-    Deux entr\'ee d'une m\^eme table peuvent contenir diff\'erentes
-    informations. On peut donc en ajouter \flqq \`a la vol\'ee\frqq\\
+    Schéma et flexibilité & Chaque table correspond à un schéma
+    particulier. Les colonnes doivent donc être choisie à l'avance, selon
+    les données à rentrer dans la table. & Les schéma sont dynamiques.
+    Deux entrée d'une même table peuvent contenir différentes
+    informations. On peut donc en ajouter \flqq à la volée\frqq\\
     \hline
-    Adaptabilit\'e & L'\'evolutivit\'e est verticale. C'est-\`a-dire que plus
-    la quantit\'e de donn\'ees augmente, plus le serveur sur lequel se trouvent
-    les donn\'ees doit \^etre important. Ce qui peut engendrer d'important
-    co\^uts & L'\'evolutivit\'e est horizontale. C'est-\`a-dire que les
-    donn\'ees peuvent \^etre r\'eparties \`a travers plusieurs serveurs. Ceux-ci
-    sont beaucoup moins on\'ereux que d'investir dans un tr\`es gros serveur.\\
+    Adaptabilité & L'évolutivité est verticale. C'est-à-dire que plus
+    la quantité de données augmente, plus le serveur sur lequel se trouvent
+    les données doit être important. Ce qui peut engendrer d'important
+    coûts & L'évolutivité est horizontale. C'est-à-dire que les
+    données peuvent être réparties à travers plusieurs serveurs. Ceux-ci
+    sont beaucoup moins onéreux que d'investir dans un très gros serveur.\\
     \hline
-    Propri\'et\'es ACID\footnote{Atomicit\'e, Coh\'erence, Isolation,
-    Durabilit\'e} & La grande majorit\'e des bases de donn\'ees relationnelle
-    ont ces propri\'et\'es & D\'epend de la technologie utilis\'ee. Plusieurs
-    solution \textit{NoSQL} sacrifie certaines propri\'et\'es pour de meilleurs
-    performances et une meilleure adaptabilit\'e.\\
+    Propriétés ACID\footnote{Atomicité, Cohérence, Isolation,
+    Durabilité} & La grande majorité des bases de données relationnelle
+    ont ces propriétés & Dépend de la technologie utilisée. Plusieurs
+    solution \textit{NoSQL} sacrifie certaines propriétés pour de meilleurs
+    performances et une meilleure adaptabilité.\\
   \end{tabular}
   \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
   \textit{NoSQl}}
@@ -1001,83 +1001,83 @@ Les principales diff\'erences sont expos\'ees table~\ref{tabSQLNoSQL}.
 
 
 \subsubsection{Sur le serveur}
-Un des principaux points qui nous int\'eresse est ici l'adaptabilit\'e. En
-effet, la quantit\'e de donn\'ees pouvant augmenter tr\`es rapidement il peut
-\^etre tr\`es co\^uteux d'utiliser une base de donn\'ees relationnelle. Cela
+Un des principaux points qui nous intéresse est ici l'adaptabilité. En
+effet, la quantité de données pouvant augmenter très rapidement il peut
+être très coûteux d'utiliser une base de données relationnelle. Cela
 signifierait d'importants investissements afin de mettre en place des serveurs
-capables de contenir l'int\'egralit\'e des donn\'ees.
+capables de contenir l'intégralité des données.
 
-Le \textit{NoSQL} \'etait donc une solution \'evidente \`a ce probl\`eme de par
-son \'evolutivit\'e horizontale. De plus cette solution offre \'egalement une
-r\'eplication des donn\'ees \`a travers les diff\'erents serveurs. Celle-ci
+Le \textit{NoSQL} était donc une solution évidente à ce problème de par
+son évolutivité horizontale. De plus cette solution offre également une
+réplication des données à travers les différents serveurs. Celle-ci
 est d'ailleurs faite automatiquement sur la plupart des solutions
 \textit{NoSQL}.
 
 \subsubsection{Sur le client}
-Afin d'avoir un acc\`es rapide des informations de la derni\`ere sauvegarde
-faite, une base de donn\'ees doit \^etre install\'ee sur le poste client.
+Afin d'avoir un accès rapide des informations de la dernière sauvegarde
+faite, une base de données doit être installée sur le poste client.
 
-Nous avons dans un premier temps pens\'e au mod\`ele relationnel avec une base
-de donn\'ees \textit{SQLite} permettant de l'int\'egrer directement au
-programme. Celle-ci \'etant stock\'ee dans un fichier, et ce ind\'ependemment
-de la plate-forme utilis\'ee, elle aurait pu correspondre \`a ce que voulions.
+Nous avons dans un premier temps pensé au modèle relationnel avec une base
+de données \textit{SQLite} permettant de l'intégrer directement au
+programme. Celle-ci étant stockée dans un fichier, et ce indépendemment
+de la plate-forme utilisée, elle aurait pu correspondre à ce que voulions.
 
-N\'eanmoins la quantit\'e d'information stock\'ee ainsi que le nombre d'acc\`es,
-tant en \'ecrite qu'en lecture, est trop important d\`es lors que l'on souhaite
-sauvegarder plus de quelques fichiers. Il nous fallait une base de donn\'ees
+Néanmoins la quantité d'information stockée ainsi que le nombre d'accès,
+tant en écrite qu'en lecture, est trop important dès lors que l'on souhaite
+sauvegarder plus de quelques fichiers. Il nous fallait une base de données
 avec de meilleurs performances que celles offerte par \textit{SQLite}. De plus
-les relations entre les diff\'erentes tables \'etant minimes comme
-montr\'e figure~\ref{dbRelClient}, nous pouvions privil\'egier la performance
-du \textit{NoSQL} par rapport aux propri\'et\'es ACID qu'offrent le
+les relations entre les différentes tables étant minimes comme
+montré figure~\ref{dbRelClient}, nous pouvions privilégier la performance
+du \textit{NoSQL} par rapport aux propriétés ACID qu'offrent le
 \textit{SQL}.
 
-Nous avons donc d\'ecid\'e par la suite de nous diriger, comme pour la partie
-serveur, sur une base de donn\'ees \textit{NoSQL}.
+Nous avons donc décidé par la suite de nous diriger, comme pour la partie
+serveur, sur une base de données \textit{NoSQL}.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.69]{softwareDesign/dbRelClient.png}
-  \caption{\label{dbRelClient} Base de donn\'ees relationnelle --- client}
+  \caption{\label{dbRelClient} Base de données relationnelle --- client}
 \end{figure}
 
-La signification des diff\'erentes colonnes pr\'esentes figure~\ref{dbRelClient}
+La signification des différentes colonnes présentes figure~\ref{dbRelClient}
 se trouve en annexe~\ref{annBDR}.
 
-\subsubsection{Choix de la base de donn\'ees}
-En plus des m\'eta-donn\'ees des diff\'erents fichiers sauvegard\'es, le
-stockage des fichiers sur le serveur a influ\'e sur le choix de la base de
-donn\'ees. 
+\subsubsection{Choix de la base de données}
+En plus des méta-données des différents fichiers sauvegardés, le
+stockage des fichiers sur le serveur a influé sur le choix de la base de
+données. 
 
-Certaines bases de donn\'ees \textit{NoSQL} offrent la possibilit\'e de 
-sauvegarder les fichiers eux-m\^emes. Cela peut \^etre int\'eressant. que ce
-soit dans l'imm\'ediat ou dans une future version de l'application.
+Certaines bases de données \textit{NoSQL} offrent la possibilité de 
+sauvegarder les fichiers eux-mêmes. Cela peut être intéressant. que ce
+soit dans l'immédiat ou dans une future version de l'application.
 
-Donc bien que dans un premier temps nous ayons d\'ecid\'e d'utiliser le
-syst\`eme de fichier en place sur le serveur, nous avons pris en compte cette
-fonctionnalit\'e.
+Donc bien que dans un premier temps nous ayons décidé d'utiliser le
+système de fichier en place sur le serveur, nous avons pris en compte cette
+fonctionnalité.
 
-C'est donc sur \textit{MongoDB} que s'est arr\^et\'e notre choix. Cette base
-de donn\'ees a plusieurs avantages qui correspondait \`a ce que nous
+C'est donc sur \textit{MongoDB} que s'est arrêté notre choix. Cette base
+de données a plusieurs avantages qui correspondait à ce que nous
 recherchions :
 
 \begin{itemize}
- \item R\'eplication automatique des donn\'ees sur plusieurs serveurs
+ \item Réplication automatique des données sur plusieurs serveurs
  \item Bonne performance
- \item \textit{GridFS} pour stocker de plus grosses quantit\'es d'information
- (correspondant au fichier sauvegard\'ee dans notre cas).
+ \item \textit{GridFS} pour stocker de plus grosses quantités d'information
+ (correspondant au fichier sauvegardée dans notre cas).
 \end{itemize}
 
-C'est \'egalement une des bases de donn\'ees les plus utilis\'ees pour du
-\textit{NoSQL}. La communaut\'e, et donc les sources pour rechercher des
-informations relatives \`a son utilisation, est assez importante. N'ayant
-jamais utilis\'e \textit{MongoDB} auparavant il \'etait int\'eressant, bien que
-pas forc\'ement n\'ecessaire, de pouvoir assez facilement acc\'eder \`a une
-possible aide si un probl\`eme arrivait.
+C'est également une des bases de données les plus utilisées pour du
+\textit{NoSQL}. La communauté, et donc les sources pour rechercher des
+informations relatives à son utilisation, est assez importante. N'ayant
+jamais utilisé \textit{MongoDB} auparavant il était intéressant, bien que
+pas forcément nécessaire, de pouvoir assez facilement accéder à une
+possible aide si un problème arrivait.
 
-Le mod\`ele de stockage dans \textit{MongoDB} est de type documents. La
-table~\ref{tabMappSQLMongoTerms} pr\'esente l'\'equivalence entre les termes
-utilis\'e pour une base de donn\'ees \textit{SQL} avec ceux utilis\'es dans
-\textit{MongoDB}. Plus de pr\'ecisions sont disponible sur le site
+Le modèle de stockage dans \textit{MongoDB} est de type documents. La
+table~\ref{tabMappSQLMongoTerms} présente l'équivalence entre les termes
+utilisé pour une base de données \textit{SQL} avec ceux utilisés dans
+\textit{MongoDB}. Plus de précisions sont disponible sur le site
 \textit{MongoDB}~\cite{refMappingSQLMDB}.
 
 \begin{table}[h!]
@@ -1099,25 +1099,25 @@ utilis\'e pour une base de donn\'ees \textit{SQL} avec ceux utilis\'es dans
     \hline
     Index & Index\\
     \hline
-    Jointure entre tables & Documents int\'egr\'es et li\'es
+    Jointure entre tables & Documents intégrés et liés
   \end{tabular}
-  \caption{\label{tabMappSQLMongoTerms} \'Equivalent des termes \textit{SQL}
+  \caption{\label{tabMappSQLMongoTerms} Équivalent des termes \textit{SQL}
   avec les termes \textit{MongoDB}}
 \end{table}
 
-\subsubsection{Sch\'emas}
-Bien que quelque peu diff\'erent, les sch\'emas des bases de donn\'ees
-pr\'esentes sur le serveur et le client ressemblent \`a celui pr\'esent
+\subsubsection{Schémas}
+Bien que quelque peu différent, les schémas des bases de données
+présentes sur le serveur et le client ressemblent à celui présent
 figure~\ref{dbRelClient}.
 
-L'absence de relations entre les diff\'erentes collections a donc oblig\'e une
-modification des sch\'emas. De plus, le serveur doit prendre en compte qu'un
+L'absence de relations entre les différentes collections a donc obligé une
+modification des schémas. De plus, le serveur doit prendre en compte qu'un
 utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
-de la machine sur laquelle il est install\'e.
+de la machine sur laquelle il est installé.
 
 \paragraph{Client\\}
-Les structures suivantes repr\'esentent les collections de la base de donn\'ees
-install\'ee sur les machines clientes.
+Les structures suivantes représentent les collections de la base de données
+installée sur les machines clientes.
 
 \begin{lstlisting}[language=json]
 User :
@@ -1138,12 +1138,12 @@ User :
 }
 \end{lstlisting}
 
-On voit ici que l'ancienne table \textit{Machine} a \'et\'e int\'egr\'ee dans
+On voit ici que l'ancienne table \textit{Machine} a été intégrée dans
 la collection \textit{User}. Ce choix s'est fait puisque, sur le client
-il n'y a que la machine sur laquelle le logiciel est install\'e qui est
-pr\'esente en base de donn\'ees. De plus, l'acc\`es aux donn\'ees est \`a la
+il n'y a que la machine sur laquelle le logiciel est installé qui est
+présente en base de données. De plus, l'accès aux données est à la
 fois plus simple et plus rapide en utilisant une collection regroupant
-l'utilisateur et sa machine plut\^ot qu'en utilisant deux collections
+l'utilisateur et sa machine plutôt qu'en utilisant deux collections
 distinctes.
 
 \begin{lstlisting}[language=json]
@@ -1161,7 +1161,7 @@ File :
 \end{lstlisting}
 
 N'ayant que les informations d'un seul utilisateur et d'une seule machine,
-il n'est pas utile de lier d'une quelconque mani\`ere que ce soit la
+il n'est pas utile de lier d'une quelconque manière que ce soit la
 collection \textit{File} avec la collection \textit{User}.
 
 \begin{lstlisting}[language=json]
@@ -1180,11 +1180,11 @@ Chunk :
 \end{lstlisting}
 
 Le lien entre la collection \textit{Chunk} et la collection \textit{File} est
-repr\'esent\'e par le champ \textit{id\_file} contenant l'identifiant d'un
+représenté par le champ \textit{id\_file} contenant l'identifiant d'un
 fichier auquel appartient un morceau.
 
 \paragraph{Serveur\\}
-Bien que similaire, la base de donn\'ees est l\'eg\`erement diff\'erente sur le
+Bien que similaire, la base de données est légèrement différente sur le
 serveur par rapport au client. Les changements prennent en compte le fait qu'il
 puisse exister plusieurs machines pour un utilisateur mais aussi que plusieurs
 utilisateurs existent au sein d'une compagnie.
@@ -1220,16 +1220,16 @@ User :
     ]
 }
 \end{lstlisting}
-Un utilisateur pouvant avoir plusieurs machines, on cr\'ee simplement une
-liste  avec l'ensemble des machines qui est int\'egr\'ee dans la collection
-\textit{User}. De plus, un utilisateur pouvant \^etre un administrateur, et
-celui-ci pouvant g\'erer plusieurs utilisateurs, on ajoute un lien \`a l'aide
+Un utilisateur pouvant avoir plusieurs machines, on crée simplement une
+liste  avec l'ensemble des machines qui est intégrée dans la collection
+\textit{User}. De plus, un utilisateur pouvant être un administrateur, et
+celui-ci pouvant gérer plusieurs utilisateurs, on ajoute un lien à l'aide
 du champ \textit{id\_admin}. Ainsi si le champ n'existe pas, l'utilisateur n'a
 pas d'administrateur au-dessus de lui. Aussi \textit{is\_admin} permet de
-conna\^itre les privil\`ege d'un utilisateur. L'utilisation de ces deux champs
-permet donc de prendre compte qu'un administrateur peut lui-m\^eme avoir un
+connaître les privilège d'un utilisateur. L'utilisation de ces deux champs
+permet donc de prendre compte qu'un administrateur peut lui-même avoir un
 autre administrateur au-dessus de lui. Cas que l'on peut imaginer possible dans
-le cadre de l'utilisation du logiciel au sein d'une grosse soci\'et\'e.
+le cadre de l'utilisation du logiciel au sein d'une grosse société.
 
 \begin{lstlisting}[language=json]
 File :
@@ -1246,7 +1246,7 @@ File :
 }
 \end{lstlisting}
 Comme plusieurs machines peuvent exister pour un seul utilisateur, on ajoute
-le champ \textit{id\_machine} pour pouvoir faire correspondre un fichier \`a
+le champ \textit{id\_machine} pour pouvoir faire correspondre un fichier à
 une seule machine.
 
 \begin{lstlisting}[language=json]
@@ -1265,17 +1265,17 @@ Chunk :
 \end{lstlisting}
 
 \subsection{Stockage des fichiers}
-Comme nous l'avons vu pr\'ec\'edemment, \textit{MongoDB} combin\'e avec
-\textit{GridFS} permet de stocker des fichiers. N\'eanmoins nous avons
-d\'ecid\'e d'utiliser, au moins dans un premier temps, le syst\`eme de fichier
+Comme nous l'avons vu précédemment, \textit{MongoDB} combiné avec
+\textit{GridFS} permet de stocker des fichiers. Néanmoins nous avons
+décidé d'utiliser, au moins dans un premier temps, le système de fichier
 disponible sur le serveur : celui-ci ayant de meilleurs performances en lecture
-et \'ecriture.
+et écriture.
 
-La figure~\ref{fileSystemServer} pr\'esente comment les donn\'ees seront
-stock\'ees sur le serveur une fois sauvegard\'ees. Ainsi chaque fichier
-correspond \`a un dossier contenant un on plusieurs sous-dossier (un par
-version). La version d'un fichier correspondant \`a une sauvegarde \`a un moment
-donn\'e, un dossier contient uniquement parties modifi\'ees du fichier.
+La figure~\ref{fileSystemServer} présente comment les données seront
+stockées sur le serveur une fois sauvegardées. Ainsi chaque fichier
+correspond à un dossier contenant un on plusieurs sous-dossier (un par
+version). La version d'un fichier correspondant à une sauvegarde à un moment
+donné, un dossier contient uniquement parties modifiées du fichier.
 
 \begin{figure}[h!]
   \hspace{-4.5em}
@@ -1283,65 +1283,65 @@ donn\'e, un dossier contient uniquement parties modifi\'ees du fichier.
   \caption{\label{fileSystemServer} Stockage des fichiers sur le serveur}
 \end{figure}
 
-Dans notre exemple, pour r\'ecup\'erer le fichier \textit{MyFile0} de
+Dans notre exemple, pour récupérer le fichier \textit{MyFile0} de
 l'utilisateur \textit{toto}  dans sa version datant du 13 mai 2015, nous devons
-donc t\'el\'echarger \textit{toto\_MyFile0\_20150513.chunk2} mais aussi les
-morceaux \textit{.chunk0} et \textit{.chunk1} datant de la pr\'ec\'edente
+donc télécharger \textit{toto\_MyFile0\_20150513.chunk2} mais aussi les
+morceaux \textit{.chunk0} et \textit{.chunk1} datant de la précédente
 sauvegarde, au 06 mai 2015.
 
 \subsection{Communication client - serveur}
-Afin d'envoyer les fichiers \`a travers le r\'eseau, un protocole doit \^etre
-utilis\'e. Pour ce faire, il m'a \'et\'e demand\'e d'en cr\'eer un correspondant
-aux donn\'ees qui sont envoy\'e dans le cadre d'une sauvegarde. En l'occurrence,
-les morceaux d'un fichier avec les m\'eta-donn\'ees correspondantes.
+Afin d'envoyer les fichiers à travers le réseau, un protocole doit être
+utilisé. Pour ce faire, il m'a été demandé d'en créer un correspondant
+aux données qui sont envoyé dans le cadre d'une sauvegarde. En l'occurrence,
+les morceaux d'un fichier avec les méta-données correspondantes.
 
-Comme indiqu\'e dans la section \flqq~\nameref{secTravailRecherche} \frqq, je me
-suis servi du protocole cr\'e\'e pour \textit{syncthings} (\textit{BEP}).
-Celui-ci \'etant d\'ecrit sur le github du projet~\cite{refBEP} et
-disponible sous licence Creative Commons~\cite{refCC4.0}, il est autoris\'e de
-le copier, modifier et r\'eutiliser pour n'importe quelle utilisation, m\^eme
+Comme indiqué dans la section \flqq~\nameref{secTravailRecherche} \frqq, je me
+suis servi du protocole créé pour \textit{syncthings} (\textit{BEP}).
+Celui-ci étant décrit sur le github du projet~\cite{refBEP} et
+disponible sous licence Creative Commons~\cite{refCC4.0}, il est autorisé de
+le copier, modifier et réutiliser pour n'importe quelle utilisation, même
 commerciale. Bien que ce dernier point ne nous concerne pas puisque le projet
-sera Open Source, j'ai pu r\'ecup\'erer le protocole et l'adapter pour qu'il
-corresponde \`a nos besoins.
+sera Open Source, j'ai pu récupérer le protocole et l'adapter pour qu'il
+corresponde à nos besoins.
 
-Le protocole ainsi modifi\'e est disponible en annexe~\ref{annProtocolComm}, en
-anglais puisqu'\'egalement disponible sur le wiki du projet. Celui-ci n'est pas
-accessible \`a l'heure actuelle puisque le projet est toujours dans sa phase de
-d\'eveloppement.
+Le protocole ainsi modifié est disponible en annexe~\ref{annProtocolComm}, en
+anglais puisqu'également disponible sur le wiki du projet. Celui-ci n'est pas
+accessible à l'heure actuelle puisque le projet est toujours dans sa phase de
+développement.
 
 \subsection{Algorithme de cryptographie}
-\`A deux reprise il m'a \'et\'e demand\'e d'utiliser des algorithme de
+À deux reprise il m'a été demandé d'utiliser des algorithme de
 cryptographie. Dans un premier temps pour calculer la signature de chaque
 fichier et bloc constituant un fichier. Dans un second temps pour chiffrer
 ces blocs.
 
 Le premier cas verra l'utilisation d'un algorithme de hachage alors que dans le
-second cas, il est demand\'e d'utiliser un algorithme de chiffrement
-sym\'etrique.
+second cas, il est demandé d'utiliser un algorithme de chiffrement
+symétrique.
 
 \subsubsection{Algorithme de hachage}
-L'id\'ee est d'utiliser la signature pour pouvoir d'une part v\'erifier
-l'int\'egrit\'e d'un fichier, et d'autre part de rep\'erer le bloc d'un fichier
-d'une sauvegarde \`a l'autre.
+L'idée est d'utiliser la signature pour pouvoir d'une part vérifier
+l'intégrité d'un fichier, et d'autre part de repérer le bloc d'un fichier
+d'une sauvegarde à l'autre.
 
-C'est notamment le second cas qui nous int\'eresse puisqu'en utilisant notre
-algorithme d'identification de bloc dans un fichier, il sera souvent demand\'e
-de calculer la signature d'un bloc. Il faut donc un algorithme qui soit \`a la
-fois assez fiable pour minimiser le risque de collision, mais rapide \`a
-calculer pour optimiser au mieux notre algorithme lors de son ex\'ecution.
+C'est notamment le second cas qui nous intéresse puisqu'en utilisant notre
+algorithme d'identification de bloc dans un fichier, il sera souvent demandé
+de calculer la signature d'un bloc. Il faut donc un algorithme qui soit à la
+fois assez fiable pour minimiser le risque de collision, mais rapide à
+calculer pour optimiser au mieux notre algorithme lors de son exécution.
 
-\textit{SHA-256}\cite{refSHA256} semblait donc \^etre un bon compromis. Plus
-lent \`a calculer qu'un \textit{SHA-512}, le risque de collision est
-inf\'erieur par rapport \`a un \textit{SHA-128} ou \textit{SHA-224}. Notre
-choix s'est donc arr\^et\'e sur cet algorithme.
+\textit{SHA-256}\cite{refSHA256} semblait donc être un bon compromis. Plus
+lent à calculer qu'un \textit{SHA-512}, le risque de collision est
+inférieur par rapport à un \textit{SHA-128} ou \textit{SHA-224}. Notre
+choix s'est donc arrêté sur cet algorithme.
 
-\subsubsection{Algorithme de chiffrement sym\'etrique}
-David et Ga\"etan avaient d\'ej\`a dans l'id\'ee d'utiliser
+\subsubsection{Algorithme de chiffrement symétrique}
+David et Gaëtan avaient déjà dans l'idée d'utiliser
 \textit{AES-CBC}\footnote{AES -- Advanced Encryption Standard}\footnote{CBC --
-Cipher Block Chaining}\cite{refAES}\cite{refCBC} avec une cl\'e secr\`ete de
-256 bits. Cette cl\'e secr\`ete ne serait pr\'esente que sur la machine cliente.
-Ainsi, le serveur ne contiendrait que des donn\'ees chiffr\'ees, sans
-possibilit\'e de les d\'echiffrer.
+Cipher Block Chaining}\cite{refAES}\cite{refCBC} avec une clé secrète de
+256 bits. Cette clé secrète ne serait présente que sur la machine cliente.
+Ainsi, le serveur ne contiendrait que des données chiffrées, sans
+possibilité de les déchiffrer.
 
 \begin{figure}[h!]
   \centering
@@ -1349,273 +1349,273 @@ possibilit\'e de les d\'echiffrer.
   \caption{\label{schemaCBC} Comprendre CBC}
 \end{figure}
 
-La figure~\ref{schemaCBC} pr\'esente le fonctionnement de \textit{CBC}. L'id\'ee
-et que, pour chaque calcul d'un bloc de donn\'ee, le r\'esultat chiffr\'e est
-utilis\'e pour calculer le bloc suivant, et ainsi de suite jusqu'\`a ce que
-l'int\'egralit\'e des donn\'ees soit chiffr\'e. Un vecteur d'initialisation
-est donc utilis\'e pour chiffrer le tout premier bloc de donn\'ees.
+La figure~\ref{schemaCBC} présente le fonctionnement de \textit{CBC}. L'idée
+et que, pour chaque calcul d'un bloc de donnée, le résultat chiffré est
+utilisé pour calculer le bloc suivant, et ainsi de suite jusqu'à ce que
+l'intégralité des données soit chiffré. Un vecteur d'initialisation
+est donc utilisé pour chiffrer le tout premier bloc de données.
 
 
-\section{D\'eveloppement}
-Le client et le serveur \'etant ind\'ependant l'un de l'autre si ce n'est la
-partie communication de l'un \`a l'autre, le d\'eveloppement se fait tout
-aussi ind\'ependemment.
+\section{Développement}
+Le client et le serveur étant indépendant l'un de l'autre si ce n'est la
+partie communication de l'un à l'autre, le développement se fait tout
+aussi indépendemment.
 
-Le client \'etant la plus grosse partie du syst\`eme de backup, je me suis
-concentr\'e sur son d\'eveloppement durant mon stage. Comme il avait \'et\'e
-d\'ecoup\'e en module durant la phase de conception, le d\'eveloppement s'est
-fait de la m\^eme mani\`ere.
+Le client étant la plus grosse partie du système de backup, je me suis
+concentré sur son développement durant mon stage. Comme il avait été
+découpé en module durant la phase de conception, le développement s'est
+fait de la même manière.
 
-De plus chaque module a le droit \`a sa batterie de tests unitaires et tests de
-non r\'egression.
+De plus chaque module a le droit à sa batterie de tests unitaires et tests de
+non régression.
 
-\subsection{Outils de d\'eveloppement}
-Pour cette phase j'ai utilis\'e plusieurs outils me permettant de construire
-au mieux l'application demand\'ee. 
+\subsection{Outils de développement}
+Pour cette phase j'ai utilisé plusieurs outils me permettant de construire
+au mieux l'application demandée. 
 
-Le d\'eveloppement s'est principalement fait dans un environnement
-\textit{Unix}. J'ai utilis\'e \textit{Debian 7} pour le d\'eveloppement de
-l'application et comme outil de travail principal. Pouvant avoir acc\`es \`a un
-environnement \textit{Mac OSX} dans l'entreprise, j'ai \'egalement pu tester
+Le développement s'est principalement fait dans un environnement
+\textit{Unix}. J'ai utilisé \textit{Debian 7} pour le développement de
+l'application et comme outil de travail principal. Pouvant avoir accès à un
+environnement \textit{Mac OSX} dans l'entreprise, j'ai également pu tester
 mon programme sur celui-ci.
 
-La priorit\'e \'etant d'avoir une premi\`ere version fonctionnelle du
-programme, je n'ai pas port\'e celui-ci sur un syst\`eme \textit{Windows}
+La priorité étant d'avoir une première version fonctionnelle du
+programme, je n'ai pas porté celui-ci sur un système \textit{Windows}
 durant mon stage.
 
 \subsubsection{Environnement de travail}
 \begin{itemize}
- \item \textit{vim} comme \'editeur de texte
+ \item \textit{vim} comme éditeur de texte
  \item \textit{gcc} comme compilateur
- \item \textit{gdb} pour d\'eboguer le programme quand n\'ecessaire
- \item \textit{valgrind} pour tout ce qui touche \`a la m\'emoire (analyse,
- gestion de la m\'emoire)
+ \item \textit{gdb} pour déboguer le programme quand nécessaire
+ \item \textit{valgrind} pour tout ce qui touche à la mémoire (analyse,
+ gestion de la mémoire)
  \item \textit{gprof} pour ce qui s'agit de l'analyse de performance
- \item \textit{git} comme gestionnaire de versions d\'ecentralis\'e
+ \item \textit{git} comme gestionnaire de versions décentralisé
 \end{itemize}
 
-\subsubsection{Frameworks et biblioth\`eques externes}
-Afin de limiter les contraintes li\'es \`a l'utilisation de \textit{framework}
-et librairies externes, l'utilisation de ceux-ci \'etait limit\'e. Voici
-ceux que j'ai utilis\'e :
+\subsubsection{Frameworks et bibliothèques externes}
+Afin de limiter les contraintes liés à l'utilisation de \textit{framework}
+et librairies externes, l'utilisation de ceux-ci était limité. Voici
+ceux que j'ai utilisé :
 \begin{itemize}
  \item \textit{Boost} pour les tests
  \item \textit{OpenSSL} pour tout ce qui est cryptographie
- \item \textit{Magic} pour r\'ecup\'erer des informations sur les fichiers
+ \item \textit{Magic} pour récupérer des informations sur les fichiers
  comme le MIME type
 \end{itemize}
 
-En addition \`a cela, j'ai \'egalement utilis\'e le driver \textit{C++} de
-\textit{MongoDB} pour communiquer avec la base de donn\'ees.
+En addition à cela, j'ai également utilisé le driver \textit{C++} de
+\textit{MongoDB} pour communiquer avec la base de données.
 
 Ceux-ci sont tous disponibles pour les environnements \textit{Mac OSX},
 \textit{Windows} et \textit{GNU/Linux}.
 
-\subsection{Travail r\'ealis\'e}
-Comme il a \'et\'e initialement pens\'e, j'ai d\'evelopp\'e le syst\`eme de
-sauvegarde module par module, tous ind\'ependant les uns des autres en
-pr\'ef\'erant dans un premier temps la partie principale du programme. Cette
-partie correspond \`a la lecture des fichiers depuis le disque, le d\'ecoupage
+\subsection{Travail réalisé}
+Comme il a été initialement pensé, j'ai développé le système de
+sauvegarde module par module, tous indépendant les uns des autres en
+préférant dans un premier temps la partie principale du programme. Cette
+partie correspond à la lecture des fichiers depuis le disque, le découpage
 en morceaux ainsi que le chiffrement de ceux-ci.
 
-\subsubsection{D\'eveloppement des modules}
-J'ai donc tout d'abord cr\'e\'e le \textit{logger} qui allait m'aider, pendant
-l'ensemble du d\'eveloppement du programme, \`a d\'eceler plus facilement les
-probl\`emes pouvant exister.
+\subsubsection{Développement des modules}
+J'ai donc tout d'abord créé le \textit{logger} qui allait m'aider, pendant
+l'ensemble du développement du programme, à déceler plus facilement les
+problèmes pouvant exister.
 
-Une fois ceci fait, j'ai d\'evelopp\'e toute la partie concernant la
+Une fois ceci fait, j'ai développé toute la partie concernant la
 cryptographie. Cette partie comprend les modules \textit{hasher} et
-\textit{encryptor}. J'ai utilis\'e les m\'ethodes fournies par la biblioth\`eque
-\textit{OpenSSL} afin d'\'ecrire ces deux modules. L'utilisation de m\'ethodes
-d\'ej\`a existantes \'etant pr\'ef\'erable \`a la r\'e\'ecriture de celles-ci.
-Le risque de bogues et de failles \'etant limit\'e dans le premier cas.
+\textit{encryptor}. J'ai utilisé les méthodes fournies par la bibliothèque
+\textit{OpenSSL} afin d'écrire ces deux modules. L'utilisation de méthodes
+déjà existantes étant préférable à la réécriture de celles-ci.
+Le risque de bogues et de failles étant limité dans le premier cas.
 
-S'en est suivi le d\'eveloppement du module \textit{spconc}, permettant dans un
-sens de d\'ecouper en plusieurs morceaux un fichier, ou \`a l'inverse de
-concat\'ener ces morceaux pour retrouver le fichier d'origine.
+S'en est suivi le développement du module \textit{spconc}, permettant dans un
+sens de découper en plusieurs morceaux un fichier, ou à l'inverse de
+concaténer ces morceaux pour retrouver le fichier d'origine.
 
-Apr\`es celui-ci, ce fut autour du module \textit{information} d'\^etre
-d\'evelopp\'e afin de pouvoir cr\'eer des objets permettant de garder les
-m\'eta-donn\'ees des fichiers.
+Après celui-ci, ce fut autour du module \textit{information} d'être
+développé afin de pouvoir créer des objets permettant de garder les
+méta-données des fichiers.
 
-\`A partir de l\`a, nous avions assez de module combinables afin de lancer le
-programme dans sa toute premi\`ere phase d'essai. Pour simuler une sauvegarde,
-il manquait des prototypes pour mimer le r\^ole des modules \textit{filer},
+À partir de là, nous avions assez de module combinables afin de lancer le
+programme dans sa toute première phase d'essai. Pour simuler une sauvegarde,
+il manquait des prototypes pour mimer le rôle des modules \textit{filer},
 \textit{communication} et \textit{organizer}. En plus de cela, il nous fallait
-bien \'evidemment d\'evelopper le syst\`eme de notification pour pouvoir faire
-communiquer les diff\'erents modules.
+bien évidemment développer le système de notification pour pouvoir faire
+communiquer les différents modules.
 
-Une fois ceci fait, je pouvais cr\'eer l'\textit{organizer} afin de faire
+Une fois ceci fait, je pouvais créer l'\textit{organizer} afin de faire
 fonctionner tous ces modules ensemble.
 
 \subsubsection{Imbrication des modules}
-Cette \'etape fut longue et beaucoup d'erreurs apparurent. Bien que chaque
-module, individuellement, fonctionnait parfaitement, l'ex\'ecution sur des 
-threads s\'epar\'es, ainsi que la communication entre eux amena plusieurs
-probl\`emes.
+Cette étape fut longue et beaucoup d'erreurs apparurent. Bien que chaque
+module, individuellement, fonctionnait parfaitement, l'exécution sur des 
+threads séparés, ainsi que la communication entre eux amena plusieurs
+problèmes.
 
-\paragraph{Probl\`emes et solutions}
+\paragraph{Problèmes et solutions}
 
-\subparagraph{Chiffrement et d\'echiffrement\\}
-Un des points sur lequel j'ai pass\'e le plus de temps a \'et\'e la partie
-chiffrement et d\'echiffrement. Car si le programme n'\'emettait pas d'erreurs
-dans le cas du chiffrement, les morceaux cr\'e\'es en sortie ne correspondaient
-pas \`a ce que l'on pouvait attendre.
+\subparagraph{Chiffrement et déchiffrement\\}
+Un des points sur lequel j'ai passé le plus de temps a été la partie
+chiffrement et déchiffrement. Car si le programme n'émettait pas d'erreurs
+dans le cas du chiffrement, les morceaux créés en sortie ne correspondaient
+pas à ce que l'on pouvait attendre.
 
-Bien qu'ayant pr\'eciser dans le code du programme que je voulais \'ecrire
-sur le disque du binaire et non des caract\`eres ASCII, il semblait que
-l'utilisation des \textit{iofstream} (flux d'entr\'ee/sortie sur des fichiers)
-posait probl\`emes. En effet, un nombre al\'eatoire de caract\`ere \'etait
-\'ecrit dans les fichiers de sortis. 
+Bien qu'ayant préciser dans le code du programme que je voulais écrire
+sur le disque du binaire et non des caractères ASCII, il semblait que
+l'utilisation des \textit{iofstream} (flux d'entrée/sortie sur des fichiers)
+posait problèmes. En effet, un nombre aléatoire de caractère était
+écrit dans les fichiers de sortis. 
 
-De par ce fait, il \'etait tout simplement impossible de reconstruire les
-fichiers proprement puisqu'il \'etait impossible alors de les d\'echiffrer.
+De par ce fait, il était tout simplement impossible de reconstruire les
+fichiers proprement puisqu'il était impossible alors de les déchiffrer.
 
-La solution a \'et\'e l'utilisation des \textit{FILE}\footnote{Structure
-permettant de contenir les informations n\'ecessaire au contr\^ole d'un
+La solution a été l'utilisation des \textit{FILE}\footnote{Structure
+permettant de contenir les informations nécessaire au contrôle d'un
 flux~\cite{refFILE}} du \textit{C} pour tout ce qui est gestion de fichiers en
 lieu et place des \textit{iofstream}\footnote{Classes (
-\textit{ifstream}~\cite{refIFS} et \textit{ofstream}~\cite{refOFS}) g\'erant
-des flux en entr\'ee ou en sortie pour travailler sur des fichiers} du
+\textit{ifstream}~\cite{refIFS} et \textit{ofstream}~\cite{refOFS}) gérant
+des flux en entrée ou en sortie pour travailler sur des fichiers} du
 \textit{C++}.
 
-\subparagraph{Probl\`emes de m\'emoire\\}
-Avec l'utilisation du \textit{C++}, je devais g\'erer moi-m\^eme l'utilisation
-de la m\'emoire. J'ai donc rencontr\'e deux soucis : fuites de m\'emoire et
-lib\'eration pr\'ecipit\'ee de la m\'emoire.
+\subparagraph{Problèmes de mémoire\\}
+Avec l'utilisation du \textit{C++}, je devais gérer moi-même l'utilisation
+de la mémoire. J'ai donc rencontré deux soucis : fuites de mémoire et
+libération précipitée de la mémoire.
 
-Dans le premier cas, il suffisait simplement de lib\'erer la m\'emoire au bon
-moment. C'est-\`a-dire lorsqu'il n'est plus utile d'acc\'eder \`a la m\'emoire
-allou\'ee pr\'ec\'edemment dans le programme.
+Dans le premier cas, il suffisait simplement de libérer la mémoire au bon
+moment. C'est-à-dire lorsqu'il n'est plus utile d'accéder à la mémoire
+allouée précédemment dans le programme.
 
-En ce qui concerne le second cas, cela posait probl\`eme puisque plusieurs
-\textit{threads} tournaient en parall\`eles. Ainsi \'etait-ce au r\^ole du
-\textit{thread} ayant allou\'e la m\'emoire de la lib\'erer. N\'eanmoins,
-d'autres modules, ex\'ecut\'es sur d'autres \textit{threads}, pouvaient utiliser
-cette m\^eme m\'emoire. C'\'etait notamment le cas des objets contenant les
-m\'eta-informations des fichiers. Si le premier module lib\'erait la m\'emoire
-allou\'ee, il devenait impossible pour les suivants d'utiliser cette m\'emoire
+En ce qui concerne le second cas, cela posait problème puisque plusieurs
+\textit{threads} tournaient en parallèles. Ainsi était-ce au rôle du
+\textit{thread} ayant alloué la mémoire de la libérer. Néanmoins,
+d'autres modules, exécutés sur d'autres \textit{threads}, pouvaient utiliser
+cette même mémoire. C'était notamment le cas des objets contenant les
+méta-informations des fichiers. Si le premier module libérait la mémoire
+allouée, il devenait impossible pour les suivants d'utiliser cette mémoire
 qui ne contenait alors plus l'objet voulu.
 
-Pour r\'esoudre ce probl\`eme deux solutions s'offraient \`a moi :
+Pour résoudre ce problème deux solutions s'offraient à moi :
 \begin{itemize}
- \item La premi\`ere \'etait de lib\'erer la m\'emoire une fois que tout les
- modules l'utilisant avait finit leur ex\'ecution sur l'objet contenu dans cet
- espace m\'emoire.
- \item La seconde \'etait d'utiliser des pointeurs intelligents. Ceux-ci
- fonctionnent de la m\^eme fa\c{c} qu'un \textit{garbage collector}
- (ramasse-miettes)\footnote{ Sous-syst\`eme informatique de gestion automatique
- de la m\'emoire. Il est responsable du recyclage de la m\'emoire
- pr\'ealablement allou\'ee puis inutilis\'ee} : tant que la m\'emoire est
- utilis\'ee, elle n'est pas lib\'er\'ee ; elle est lib\'er\'ee automatiquement
- lorsqu'elle n'est plus utilis\'e, dans aucun module.
+ \item La première était de libérer la mémoire une fois que tout les
+ modules l'utilisant avait finit leur exécution sur l'objet contenu dans cet
+ espace mémoire.
+ \item La seconde était d'utiliser des pointeurs intelligents. Ceux-ci
+ fonctionnent de la même faç qu'un \textit{garbage collector}
+ (ramasse-miettes)\footnote{ Sous-système informatique de gestion automatique
+ de la mémoire. Il est responsable du recyclage de la mémoire
+ préalablement allouée puis inutilisée} : tant que la mémoire est
+ utilisée, elle n'est pas libérée ; elle est libérée automatiquement
+ lorsqu'elle n'est plus utilisé, dans aucun module.
 \end{itemize}
 
-La seconde solution \'etait bien \'evidemment pr\'ef\'erable puisqu'elle
-r\'eglait aussi les soucis de fuites de m\'emoire pouvant exister \c{c}\`a et
-l\`a dans le programme.
+La seconde solution était bien évidemment préférable puisqu'elle
+réglait aussi les soucis de fuites de mémoire pouvant exister çà et
+là dans le programme.
 
-\paragraph{Ajout des fonctionnalit\'es}
-Une fois toutes les erreurs corrig\'ees, nous avions une version fonctionnelle
+\paragraph{Ajout des fonctionnalités}
+Une fois toutes les erreurs corrigées, nous avions une version fonctionnelle
 du programme. Cette version permettait de chiffrer un fichier (que l'on
-pr\'ecisait dans un premier temps en d\'ebut d'ex\'ecution) ainsi que de le
-d\'echiffrer. Les morceaux du fichier ainsi cr\'e\'es et chiffr\'es \'etaient
-stock\'es en local sur le disque dur afin de \flqq simuler\frqq~le module
+précisait dans un premier temps en début d'exécution) ainsi que de le
+déchiffrer. Les morceaux du fichier ainsi créés et chiffrés étaient
+stockés en local sur le disque dur afin de \flqq simuler\frqq~le module
 \textit{communication}.
 
-\`A partir de l\`a il ne restait plus qu'\`a rajouter les diff\'erentes
-fonctionnalit\'es n\'ecessaire au bon fonctionnement du programme tel qu'il
-avait \'et\'e demand\'e.
+À partir de là il ne restait plus qu'à rajouter les différentes
+fonctionnalités nécessaire au bon fonctionnement du programme tel qu'il
+avait été demandé.
 
-J'ai donc tout d'abord ajout\'e la possibilit\'e de lire un dossier de
-mani\`ere r\'ecursive au lieu de lire uniquement un simple fichier. Quelques
-petites erreurs que je n'avais pas d\'etect\'e lors de la pr\'ec\'edente
+J'ai donc tout d'abord ajouté la possibilité de lire un dossier de
+manière récursive au lieu de lire uniquement un simple fichier. Quelques
+petites erreurs que je n'avais pas détecté lors de la précédente
 version du programme sont apparues. Entre autres, et principalement, tous les
-descripteurs de fichiers\footnote{Un descripteur de fichier est une cl\'e
-abstraite pour acc\'eder \`a un fichier.} ouvert n'\'etaient pas forc\'ement
-ferm\'es. Cela amenait le programme \`a planter \`a cause d'un trop grand
+descripteurs de fichiers\footnote{Un descripteur de fichier est une clé
+abstraite pour accéder à un fichier.} ouvert n'étaient pas forcément
+fermés. Cela amenait le programme à planter à cause d'un trop grand
 nombre de descripteur ouvert. J'ai donc du les fermer pour que le programme
-puisse s'ex\'ecuter sans probl\`emes.
+puisse s'exécuter sans problèmes.
 
-\`A ce moment j'ai test\'e le programme sur \textit{Mac OSX}. Une erreur de
-liaison avec les biblioth\`eques utilis\'ees emp\^echait la compilation. Une
+À ce moment j'ai testé le programme sur \textit{Mac OSX}. Une erreur de
+liaison avec les bibliothèques utilisées empêchait la compilation. Une
 simple modification du \textit{Makefile}\footnote{Fichier(s) permettant de
-compiler et lier un programme avec les biblioth\`eques utilis\'ees.} a permis
-de r\'esoudre ce l\'eger souci. Le programme pouvait ainsi tourner sur le
-syst\`eme d'exploitation d'\textit{Apple}.
+compiler et lier un programme avec les bibliothèques utilisées.} a permis
+de résoudre ce léger souci. Le programme pouvait ainsi tourner sur le
+système d'exploitation d'\textit{Apple}.
 
-\paragraph{Travail \`a venir}
+\paragraph{Travail à venir}
 
-L'\'etape suivante consistait \`a ajouter la base de donn\'ees, n\'ecessaire
-pour pouvoir int\'egrer au programme l'algorithme trouv\'e en tout d\'ebut de
+L'étape suivante consistait à ajouter la base de données, nécessaire
+pour pouvoir intégrer au programme l'algorithme trouvé en tout début de
 stage (voir section \flqq~\nameref{secTravailRecherche}~\frqq).
 
-Ne connaissant pas \textit{MongoDB}, je me suis donc form\'e pour comprendre
+Ne connaissant pas \textit{MongoDB}, je me suis donc formé pour comprendre
 comment celui-ci fonctionnait ainsi que pour l'utiliser dans un programme en
-\textit{C++}. De plus, un cours en ligne commen\c{c}ant gratuitement sur le site
+\textit{C++}. De plus, un cours en ligne commençant gratuitement sur le site
 \flqq\textit{University}\frqq~de \textit{MongoDB}\cite{refMongoDBUniversity},
 j'ai suivi ce cours montrant et expliquant comment utiliser \textit{MongoDB}
-pour un d\'eveloppeur. M\^eme si le langage utilis\'e dans le cours est
-\textit{Python}, le principe reste le m\^eme et je peux r\'eutiliser ce que
-j'apprends dans ce cours en adaptant pour le projet de syst\`eme de sauvegarde.
+pour un développeur. Même si le langage utilisé dans le cours est
+\textit{Python}, le principe reste le même et je peux réutiliser ce que
+j'apprends dans ce cours en adaptant pour le projet de système de sauvegarde.
 
-Au moment d'\'ecrire le rapport j'en suis donc \`a cette \'etape l\`a. Une fois
-la base de donn\'ees ajout\'ee ainsi que le prototype de l'algorithme
-int\'egr\'e dans le programme, il ne restera plus qu'\`a d\'etecter quels
-fichiers ont \'et\'e modifi\'e depuis la pr\'ec\'edente sauvegarde avant de
+Au moment d'écrire le rapport j'en suis donc à cette étape là. Une fois
+la base de données ajoutée ainsi que le prototype de l'algorithme
+intégré dans le programme, il ne restera plus qu'à détecter quels
+fichiers ont été modifié depuis la précédente sauvegarde avant de
 pouvoir faire tourner le programme pour ne prendre en compte que ces fichiers
-l\`a et les analyser, ainsi que les fichiers nouvellement cr\'e\'es.
+là et les analyser, ainsi que les fichiers nouvellement créés.
 
 \subsection{Tests}
-Une suite de test unitaires a \'et\'e \'ecrite pour chaque module. Ainsi est
-faite la v\'erification de chaque m\'ethode de chaque classe de chaque module
+Une suite de test unitaires a été écrite pour chaque module. Ainsi est
+faite la vérification de chaque méthode de chaque classe de chaque module
 dans la mesure du possible. En effet, et c'est notamment vrai pour ce qui touche
-aux \textit{threads}, il est parfois difficile d'\'ecrire des tests permettant
+aux \textit{threads}, il est parfois difficile d'écrire des tests permettant
 de couvrir l'ensemble des cas pouvant exister.
 
-Afin de r\'ealiser les tests, j'ai utilis\'e le framework de test
+Afin de réaliser les tests, j'ai utilisé le framework de test
 \textit{Boost}. Celui-ci m'a donc permis de valider le bon fonctionnement des
-diff\'erents \'el\'ements constituant le programme.
+différents éléments constituant le programme.
 
-Ces tests ont \'et\'e \'ecrits au fur et \`a mesure de l'avancement du projet.
-De plus, pour chaque test, une v\'erification de l'utilisation de la m\'emoire
-\'etait effectu\'ee \`a l'aide de l'outil \textit{valgrind}. Cela me permettait
-de v\'erifier la pr\'esence, ou non, de fuites de m\'emoire. Je pouvais par la
-suite et si n\'ecessaire apporter des modifications au programme.
+Ces tests ont été écrits au fur et à mesure de l'avancement du projet.
+De plus, pour chaque test, une vérification de l'utilisation de la mémoire
+était effectuée à l'aide de l'outil \textit{valgrind}. Cela me permettait
+de vérifier la présence, ou non, de fuites de mémoire. Je pouvais par la
+suite et si nécessaire apporter des modifications au programme.
 
 \chapter{Conclusion}
-Ce stage de fin d'\'etude m'a permis d'acqu\'erir de l'exp\'erience sur
-plusieurs points, que ce soit au niveau du d\'eveloppement d'un produit ou du
-d\'eveloppement et de la vie dans une startup.
+Ce stage de fin d'étude m'a permis d'acquérir de l'expérience sur
+plusieurs points, que ce soit au niveau du développement d'un produit ou du
+développement et de la vie dans une startup.
 
-En effet, j'ai d\^u, au cours de ce stage, concevoir puis d\'evelopper un
-logiciel. Ces \'etapes commencent la vie du logiciel et sont cruciales pour les
-\'etapes suivante et notamment la maintenance. J'avais ainsi toujours \`a
-l'esprit que l'importance de la documentation, de m\^eme que la qualit\'e de
-celle-ci et du code. Ceci \'etant d'autant plus vrai qu'il est pr\'evu que le
-code soit distribu\'e sous licence publique. Cela me permettra \'egalement de
-continuer \`a travailler dessus une fois le stage termin\'e.
+En effet, j'ai dû, au cours de ce stage, concevoir puis développer un
+logiciel. Ces étapes commencent la vie du logiciel et sont cruciales pour les
+étapes suivante et notamment la maintenance. J'avais ainsi toujours à
+l'esprit que l'importance de la documentation, de même que la qualité de
+celle-ci et du code. Ceci étant d'autant plus vrai qu'il est prévu que le
+code soit distribué sous licence publique. Cela me permettra également de
+continuer à travailler dessus une fois le stage terminé.
 
-J'ai donc pu mettre en pratique l'enseignement re\c{c}u durant mes cinq ann\'ees
-d'\'etude, que ce soit \`a l'IUT, \`a la facult\'e des sciences de
-l'universit\'e d'Aix-Marseille ou \`a l'universit\'e d'Uppsala.
+J'ai donc pu mettre en pratique l'enseignement reçu durant mes cinq années
+d'étude, que ce soit à l'IUT, à la faculté des sciences de
+l'université d'Aix-Marseille ou à l'université d'Uppsala.
 
-Le plan de restructuration effectu\'e au sein de l'entreprise a aussi \'et\'e
-source d'exp\'erience bien que, \'etant stagiaire, cela ne m'a pas autant
-touch\'e que les autres employ\'es de la compagnie. N\'eanmoins, il est
-repr\'esentatif de ce qu'il se passe dans de nombreuses startup mais aussi de
+Le plan de restructuration effectué au sein de l'entreprise a aussi été
+source d'expérience bien que, étant stagiaire, cela ne m'a pas autant
+touché que les autres employés de la compagnie. Néanmoins, il est
+représentatif de ce qu'il se passe dans de nombreuses startup mais aussi de
 ce qu'il peut se passer dans des entreprises de taille plus importante.
 
-De plus, ce stage a \'et\'e pour moi l'occasion de travailler avec des personnes
-de culture et pays diff\'erents. Faisant ce stage \`a l'\'etranger, j'ai donc
-r\'eguli\`erement d\^u m'adapter \`a la culture locale, que ce soit durant mes
+De plus, ce stage a été pour moi l'occasion de travailler avec des personnes
+de culture et pays différents. Faisant ce stage à l'étranger, j'ai donc
+régulièrement dû m'adapter à la culture locale, que ce soit durant mes
 heures de travail ou en dehors de celui-ci.
 
-Bien qu'un contrat en CDI \'etait originalement pr\'evu, sous r\'eserve que
-l'entreprise veuille me garder et que j'accepte de rester, celui-ci n'\'etait
-plus d'actualit\'e \`a la fin du stage suite \`a la restructuration effectu\'ee.
+Bien qu'un contrat en CDI était originalement prévu, sous réserve que
+l'entreprise veuille me garder et que j'accepte de rester, celui-ci n'était
+plus d'actualité à la fin du stage suite à la restructuration effectuée.
 
-Ce stage a donc \'et\'e une bonne exp\'erience pour moi et va m'\^etre utile par
+Ce stage a donc été une bonne expérience pour moi et va m'être utile par
 la suite autant sur le plan professionnel que personnel.
 
 \newpage
@@ -1629,7 +1629,7 @@ la suite autant sur le plan professionnel que personnel.
 \def\@seccntformat#1{Annexe~\csname the#1\endcsname:\quad}
 \makeatother
 \part{Annexes}
-\chapter{Base de donn\'ees relationnelle}
+\chapter{Base de données relationnelle}
 \thispagestyle{fancy}
 \label{annBDR}
 \thispagestyle{fancy}
@@ -1651,8 +1651,8 @@ la suite autant sur le plan professionnel que personnel.
     user\_email & Email de l'utilisateur\\
     \hline
     user\_admin\_email & Email de l'administrateur en charge de l'utilisateur.
-    Utilis\'e pour pr\'evenir automatiquement l'administrateur en cas de
-    probl\`eme de fonctionnement.
+    Utilisé pour prévenir automatiquement l'administrateur en cas de
+    problème de fonctionnement.
   \end{tabular}
   \caption{\label{tabDBRUser} Information colonnes -- User}
 \end{table}
@@ -1672,20 +1672,20 @@ la suite autant sur le plan professionnel que personnel.
     \hline
     machine\_name & Nom de la machine\\
     \hline
-    machine\_home\_directory & R\'epertoire racine des fichiers \`a
+    machine\_home\_directory & Répertoire racine des fichiers à
     sauvegarder\\
     \hline
     machine\_quota\_available & Quota disponible (total) pour la machine\\
     \hline
     machine\_quota\_left & Quota restant pour la machine\\
     \hline
-    machine\_CPU & Informations relatives au processeur utilis\'e\\
+    machine\_CPU & Informations relatives au processeur utilisé\\
     \hline
-    machine\_RAM & Quantit\'e de RAM disponible\\
+    machine\_RAM & Quantité de RAM disponible\\
     \hline
-    machine\_OS & Syst\`eme d'exploitation utilis\'e\\
+    machine\_OS & Système d'exploitation utilisé\\
     \hline
-    machine\_number\_file & Nombre de fichier sauvegard\'e
+    machine\_number\_file & Nombre de fichier sauvegardé
   \end{tabular}
   \caption{\label{tabDBRMachine} Information colonnes -- Machine}
 \end{table}
@@ -1711,11 +1711,11 @@ la suite autant sur le plan professionnel que personnel.
     \hline
     file\_size & Taille du fichier en octet\\
     \hline
-    file\_modification\_date & Date de derni\`ere modification\\
+    file\_modification\_date & Date de dernière modification\\
     \hline
-    file\_creation\_date & Date de cr\'eation\\
+    file\_creation\_date & Date de création\\
     \hline
-    file\_signature & Signature num\'erique\\
+    file\_signature & Signature numérique\\
     \hline
     file\_number\_chunk & Nombre de morceau composant le fichier
   \end{tabular}
@@ -1740,20 +1740,20 @@ la suite autant sur le plan professionnel que personnel.
     \hline
     chunk\_size & Taille du morceau en octet\\
     \hline
-    chunk\_creation\_date & Date de cr\'eation\\
+    chunk\_creation\_date & Date de création\\
     \hline
     chunk\_checksum & Checksum\\
     \hline
-    chunk\_signature & Signature num\'erique\\
+    chunk\_signature & Signature numérique\\
     \hline
     chunk\_TLSBFB\footnote{Two Last Significant Bit of First Byte} & Deux bits
-    de poids faible du premier octet du morceau. Utilis\'e pour r\'epartir le
+    de poids faible du premier octet du morceau. Utilisé pour répartir le
     travail entre plusieurs thread lors du scan d'un fichier pour trouver les
-    parties modifi\'es de celui-ci.\\
-    \hline chunk\_init\_vector & Vecteur d'initialisation utilis\'e pour
+    parties modifiés de celui-ci.\\
+    \hline chunk\_init\_vector & Vecteur d'initialisation utilisé pour
     l'algorithme de chiffrement AES\\
     \hline
-    chunk\_cipher\_length & Taille du morceau chiffr\'e en octet\\
+    chunk\_cipher\_length & Taille du morceau chiffré en octet\\
   \end{tabular}
   \caption{\label{tabDBRChunk} Information colonnes -- Chunk}
 \end{table}
