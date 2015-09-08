@@ -528,9 +528,12 @@ Ga\"etan avant mon arriv\'ee.
 Enfin, en ce qui concerne le d\'eveloppement, une des contraintes que j'avais
 \'etait d'utiliser le C++ et de d\'evelopper de mani\`ere orient\'e objet tout
 en faisant en sorte que le code puisse \^etre robuste, lisible, testable, et
-donc facilement maintenable. De plus les librairies et framework utilis\'es
-devaient \^etre sous licence libre afin d'\^etre en droit de publier l'ouvrage
-sous licence libre.
+donc facilement maintenable. De plus les librairies et \textit{framework}
+utilis\'es devaient \^etre sous licence libre afin d'\^etre en droit de publier
+l'ouvrage sous licence libre. Une derni\`ere contrainte, mais pas des moindres,
+\'etait de d\'evelopper en logiciel pour qu'il puisse tourner sur les
+plate-formes r\'epandues : \textit{Mac OSX}, \textit{Windows} et
+\textit{GNU/Linux}.
 
 Pour mener cette mission \`a bien, il avait \'et\'e d\'ecid\'e qu'une r\'eunion
 hebdomadaire devait \^etre r\'ealis\'ee afin que David et Ga\"etan puissent
@@ -573,7 +576,7 @@ Le second cas est un peu plus complexe et d\'ecrit comme suit :
  \item D\'ecouper toto en bloc
  \item Calculer la signature de chaque bloc (\(N + 1\))
  \item T\'el\'echarger la signature de chaque bloc (\(N\))
- \item Comparer les chaque signatures
+ \item Comparer chaque signatures entre elles
  \item Pour chaque signature diff\'erente, envoyer sur le serveur le bloc
  chiffr\'e correspondant accompagn\'e de sa signature (\(N + 1\))
 \end{itemize}
@@ -588,8 +591,8 @@ L'id\'ee, bien qu'int\'eressante dans un premier temps, ne peut \^etre
 appliqu\'ee que dans un cas tr\`es particulier de fonctionnement et ne peut
 donc pas \^etre utilis\'e en tant que tel :
 \begin{itemize}
- \item Si les modifications n'affecte pas la taille d'un bloc et donc
- uniquement son contenu et que l'ordre des blocs est rest\'e inchang\'e
+ \item Si les modifications n'affecte pas la taille d'un bloc et que l'ordre
+ des blocs est rest\'e inchang\'e
 \end{itemize}
 
 Pour tout les autres cas (ajout, suppression, d\'eplacement de tout ou partie
@@ -658,21 +661,21 @@ Pour chaque position de la fen\^etre, le \texttt{checksum} --- rapide \`a
 calculer mais dont le risque de collision est \'elev\'e --- est calcul\'e et
 compar\'e au \texttt{checksum} d\'ej\`a calcul\'e au pr\'ec\'edent backup de
 chaque bloc composant le fichier. Si un \textit{checksum} correspond, le
-\texttt{hash} --- plus lent \`a calculer mais un risque de collision beaucoup
-plus faible, selon l'algorithme utilis\'e --- du bloc correspondant est alors
-comparer. Si celui-ci est identique, la fen\^etre correspond \`a un bloc non
-modifi\'e du fichier.
+\texttt{hash} --- plus lent \`a calculer mais ayant un risque de collision
+beaucoup plus faible, selon l'algorithme utilis\'e --- du bloc correspondant
+est alors compar\'e. Si celui-ci est identique, la fen\^etre correspond \`a un
+bloc non modifi\'e du fichier.
 
 Ainsi, tout ce qui pr\'ec\`ede la fen\^etre, et jusqu'au pr\'ec\'edent bloc
 trouv\'e, correspondant \`a une partie du fichier modifi\'ee
 (ajout/modification/suppression) et doit donc \^etre synchronis\'e.
 
-C'est en grande partie cet algorithme qui m'a permis d'en trouver me permettant
-de r\'epondre \`a ma probl\'ematique. Probl\'ematique \`a la fois similaire au
-probl\`eme de \textit{rsync} puisqu'il fallait comparer deux fichiers distant
-pour n'envoyer les changements mais diff\'erent dans la mesure o\`u il n'est
-pas possible dans mon cas de maintenir une liste de bloc de m\^eme taille au
-del\`a du premier backup.
+C'est en grande partie cet algorithme qui m'a permis d'en trouver un me
+permettant de r\'epondre \`a ma probl\'ematique. Probl\'ematique \`a la fois
+similaire au probl\`eme de \textit{rsync} puisqu'il fallait comparer deux
+fichiers distants pour n'envoyer que les changements mais \'egalement
+diff\'erent dans la mesure o\`u il n'est pas possible dans mon cas de maintenir
+une liste de bloc de m\^eme taille au del\`a de la premi\`ere sauvegarde.
 
 \subsection{R\'eflexions}
 Une fois cette phase de documentation r\'ealis\'ee, il \'etait temps de trouver
@@ -715,13 +718,13 @@ backup.
 
 \subsubsection{rsync revisit\'e}
 \'Etant donn\'e que les fichiers doivent \^etre chiffr\'es et d\'echiffr\'es
-uniquement sur la machine h\^ote (le client), nous ne pouvons effectuer des
-op\'erations sur ceux-ci du c\^ot\'e du serveur. Il fallait trouver un
-algorithme qui permette de d'analyser un fichier en un temps fini. J'ai donc
-d\'ecid\'e de baser mon travail sur le principe de fen\^etre glissante
-utilis\'ee pour \textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de
-taille identique, il a fallu modifier l'algorithme pour prendre ceci en compte.
-Ainsi avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
+uniquement sur la machine h\^ote (le client), nous ne pouvons effectuer
+d'op\'erations sur ceux-ci du serveur. Il fallait trouver un algorithme qui
+permette de d'analyser un fichier en un temps fini. J'ai donc d\'ecid\'e de
+baser mon travail sur le principe de fen\^etre glissante utilis\'ee pour
+\textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de taille
+identique, il a fallu modifier l'algorithme pour prendre ceci en compte. Ainsi
+avoir une fen\^etre dynamique semblait \^etre l'option \`a prendre.
 
 \begin{itemize}
  \item \textbf{Fonctionnement :} L'algorithme utilise une fen\^etre dynamique,
@@ -742,7 +745,7 @@ consistant \`a \'ecrire un prototype permettant de v\'erifier la faisabilit\'e,
 notamment en ce qui concerne le temps d'ex\'ecution du programme.
 
 \subsection{Prototypage}
-La v\'erification pratique de la th\'eorie \'etait n\'ecessaire avant de
+La v\'erification, en pratique, de la th\'eorie \'etait n\'ecessaire avant de
 pouvoir penser \`a la conception du produit. Pour cela, le passage par une
 \'etape de prototypage semblait in\'evitable.
 
@@ -754,14 +757,12 @@ qu'au niveau de l'\'ecriture du code en lui-m\^eme, que j'ai effectu\'e  au
 cours de cette \'etape.
 
 Plusieurs version ont donc vu le jour au cours de cette \'etape afin d'obtenir
-un algorithme qui puisse \^etre utilisable pour le syst\`eme de backup. Dans
-le cas \'ech\'eant il aurait fallu chercher un algorithme diff\'erent pour
-atteindre notre objectif. N\'eanmoins cela n'a pas \'et\'e le cas. Le
+un algorithme qui puisse \^etre utilisable pour le syst\`eme de sauvegarde. Dans
+le cas \'ech\'eant, il aurait fallu chercher un algorithme diff\'erent pour
+atteindre notre objectif. Cela n'a n\'eanmoins pas \'et\'e le cas. Le
 prototype \'ecrit ayant permis de valider le fonctionnement de l'algorithme
 trouv\'e, j'ai pu passer \`a l'\'etape suivante et commencer ainsi la
 conception.
-Plus de d\'etails sur ces diff\'erentes versions de l'algorithme peuvent \^etre
-trouv\'es dans la partie~\nameref{rapportTechnique}.
 
 \section{Conception}
 \subsection{Un programme modulaire}
@@ -794,7 +795,7 @@ Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
   les parties qui ont \'et\'e modifi\'ees et qui doivent \^etre chiffr\'ees et
   envoy\'ees au serveur.
   \item \textbf{hasher :} ce module fournit des fonction de hachage permettant
-  de v\'erifier l'int\'egralit\'e des fichiers.
+  de v\'erifier l'int\'egrit\'e des fichiers.
   \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
   d\'echiffrement des donn\'ees.
   \item \textbf{communication :} ce module s'occupe de la communication avec
@@ -813,11 +814,11 @@ Pour celui-ci, dix modules vont \^etre utilis\'es autour d'un module central :
 \subparagraph{}
 L'utilisation de modules doit permettre une modification facile du programme,
 sans avoir \`a modifier tout le code. Par exemple, pour changer un algorithme,
-il ne doit donc \^etre n\'ecessaire que d'\'ecrire le code de celui-ci, sans
-modifier celui en place, et de ne changer que la cr\'eation d'un objet \`a
-partir du module en sp\'ecifiant un diff\'erent algorithme utilis\'e.
+il ne doit \^etre n\'ecessaire d'\'ecrire que le code de celui-ci, sans
+modifier celui d\'ej\`a en place. Par la suite, on ne devrait avoir \`a
+pr\'eciser que l'algorithme souhait\'e lors de la cr\'eation d'un objet.
 
-Un autre avantage de la programmation modulaire est la facilit\'e que cela
+Un autre avantage de la programmation modulaire est la facilit\'ee que cela
 apporte pour maintenir le code efficacement.
 
 Dans ce but, j'utiliserai et profiterai des sp\'ecificit\'es qu'offre la
@@ -828,21 +829,24 @@ programmation orient\'ee objet.
 L'utilisation de \textit{threads} pour ex\'ecuter les diff\'erents modules
 complexifie l'interaction entre ceux-ci. Plusieurs modules sont utilis\'es
 successivement pour pouvoir traiter un fichier, de la lecture depuis le disque
-jusqu'\ \`a l'envoie des blocs, chiffr\'es, le constituant (dans le cas d'une
-sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un lien
-est donc n\'ecessaire pour que deux \textit{threads} puisse s'envoyer les
+jusqu'\`a l'envoie des blocs --- chiffr\'es --- le constituant (dans le cas
+d'une sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un
+lien est donc n\'ecessaire pour que deux \textit{threads} puisse s'envoyer les
 donn\'ees li\'ees \`a un fichier.
 
 Dans un premier temps, j'avais cr\'ee un outil qui, appel\'e par un module,
-retournait le c\^ot\'e d'un tunnel (\textit{pipe}) : soit pour lire, soit pour
-\'ecrire. Un autre module pouvait ensuite utiliser ce m\^eme outil pour
-r\'ecup\'erer l'autre partie, non utilis\'ee, du tunnel. En triant les
-tunnels ainsi cr\'ees par cat\'egories, il \'etait possible de faire communiquer
-deux modules tel que, par exemple, \textit{encryptor} pouvait envoyer ou
-recevoir des donn\'ees vers ou depuis le module \textit{communication}. La
+retournait un \textit{pipe} (tunnel) soit en lecture, soit en \'ecrite. Un autre
+module pouvait ensuite utiliser ce m\^eme outil pour r\'ecup\'erer le tunnel.
+Un module ayant acc\`es au tunnel en lecture et l'autre en \'ecrite, une
+communication peut \^etre effectu\'ee dans un sens. Un second tunnel est
+n\'ecessaire pour pouvoir communiquer dans les deux sens. En triant les
+tunnels ainsi cr\'e\'es par cat\'egories, il \'etait possible de faire
+communiquer deux modules tel que, par exemple, \textit{encryptor} et
+\textit{communication}. Le premier pouvait ainsi envoyer ou recevoir des
+donn\'ees vers ou depuis le module \textit{communication}. Dans ce cas, la
 cat\'egorie du tunnel aurait alors pu s'appeler \textit{encomm}.
 
-N\'eanmoins il y avait un probl\`eme majeur \`a l'utilisation d'un tel outil.
+Il y avait n\'eanmoins un probl\`eme majeur \`a l'utilisation d'un tel outil.
 Car s'il permettait bien d'envoyer des informations entre deux modules sans
 que ceux-ci ne se connaissent, ils ne pouvaient pas envoyer d'objet
 \textit{C++}. En somme ils ne pouvaient pas s'envoyer les m\'eta-informations
@@ -855,14 +859,15 @@ de conception (\textit{design pattern}).
 \subsubsection{Design pattern}
 \paragraph{Observer\\}
 Pour faire ce lien, nous avons dans un premier temps pens\'e au
-\textit{design pattern} \textit{observer}, dont le principe est que lors du
-changement d'\'etat d'un module, les autres module l'observant sont avertis et
-peuvent, ou non, agir en cons\'equence. Cela donne \'egalement la possibilit\'e
-\`a un module d'envoyer des informations en passant dans un certain \'etat \`a
-des moments cl\'es. Dans notre cas, elles auraient correspondu aux
-m\'eta-donn\'ees d'un fichier, accompagn\'e d'un \textit{pipe} servant de
-tunnel pour faire transiter le fichier en lui-m\^eme d'un \textit{thread} \`a
-un autre.
+\textit{design pattern} \textit{observer}, dont le principe est de notifier des
+objets inconnus d'un changement d'\'etat. Dans notre cas, cel\`a aurait permis
+que, lors du changement d'\'etat d'un module, les autres modules l'observant
+soient avertis et puissent, ou non, agir en cons\'equence. Cela donne
+\'egalement la possibilit\'e \`a un module d'envoyer des informations en
+passant dans un certain \'etat \`a des moments cl\'es. Dans notre cas, elles
+auraient correspondu aux m\'eta-donn\'ees d'un fichier, accompagn\'e d'un
+\textit{pipe} servant de tunnel pour faire transiter le fichier en lui-m\^eme
+d'un \textit{thread} \`a un autre.
 
 Cette solution ne fut n\'eanmoins pas retenue puisqu'elle impliquait qu'un
 module ait connaissances de celui \`a qui envoyer les informations. Ceci
@@ -870,15 +875,16 @@ n'\'etait pas voulu afin de laisser les modules aussi ind\'ependant que
 possible.
 
 \paragraph{Event Notifier\\}
-Pour palier \`a cela, un syst\`eme de notification a donc \'et\'e
-impl\'ement\'e. Le principe de ce syst\`eme est relativement simple \`a
-comprendre. On peut d'ailleurs trouver le m\^eme syst\`eme dans la vie de
-tous les jours. Par exemple un journal publie r\'eguli\`erement des nouvelles
-ayant un certain libell\'e (\flqq alertes\frqq, \flqq national\frqq, \flqq
-sport\frqq, etc.). En face, il existe des utilisateurs qui peuvent, ou non,
-s'inscrire \`a un ou plusieurs type de nouvelle. Ainsi, quelqu'un inscrit aux
-nouvelles de type \flqq alertes\frqq~va recevoir une notification lorsqu'une
-nouvelle de ce type appara\^it.
+Afin d'\'eviter que certains modules aient connaissances de l'existence d'autres
+modules, un syst\`eme de notification a donc \'et\'e impl\'ement\'e. Le
+principe de ce syst\`eme est relativement simple \`a comprendre. On peut
+d'ailleurs trouver le m\^eme syst\`eme dans la vie de tous les jours. Par
+exemple un journal publie r\'eguli\`erement des nouvelles ayant un certain
+libell\'e (\flqq alertes\frqq, \flqq national\frqq, \flqq sport\frqq, etc.).
+En face, il existe des utilisateurs qui peuvent, ou non, s'inscrire \`a un ou
+plusieurs type de nouvelle. Ainsi, quelqu'un inscrit aux nouvelles de type
+\flqq alertes\frqq~va recevoir une notification lorsqu'une nouvelle de ce type
+appara\^it.
 
 Le principe utilis\'e dans notre cas est exactement le m\^eme : des modules
 lancent des notifications que d'autres re\c{c}oivent s'ils se sont inscrits \`a
@@ -1008,8 +1014,8 @@ est d'ailleurs faite automatiquement sur la plupart des solutions
 \textit{NoSQL}.
 
 \subsubsection{Sur le client}
-Afin d'avoir un acc\`es rapide des informations sur la derni\`ere sauvegarde
-faite, une petite base de donn\'ees doit \^etre install\'ee sur le poste client.
+Afin d'avoir un acc\`es rapide des informations de la derni\`ere sauvegarde
+faite, une base de donn\'ees doit \^etre install\'ee sur le poste client.
 
 Nous avons dans un premier temps pens\'e au mod\`ele relationnel avec une base
 de donn\'ees \textit{SQLite} permettant de l'int\'egrer directement au
@@ -1017,13 +1023,13 @@ programme. Celle-ci \'etant stock\'ee dans un fichier, et ce ind\'ependemment
 de la plate-forme utilis\'ee, elle aurait pu correspondre \`a ce que voulions.
 
 N\'eanmoins la quantit\'e d'information stock\'ee ainsi que le nombre d'acc\`es,
-tant en \'ecrite qu'en lecture, \'etant trop important d\`es lors que l'on
-souhaite sauvegarder plus de quelques fichiers de taille plus ou moins grande,
-il nous fallait une base de donn\'ees avec de meilleurs performances que celles
-offerte. De plus les relations entre les diff\'erentes tables \'etant minimes
-comme montr\'e figure~\ref{dbRelClient}, nous pouvions privil\'egier la
-performance du \textit{NoSQL} par rapport aux propri\'et\'es ACID qu'offrent
-le \textit{SQL}.
+tant en \'ecrite qu'en lecture, est trop important d\`es lors que l'on souhaite
+sauvegarder plus de quelques fichiers. Il nous fallait une base de donn\'ees
+avec de meilleurs performances que celles offerte par \textit{SQLite}. De plus
+les relations entre les diff\'erentes tables \'etant minimes comme
+montr\'e figure~\ref{dbRelClient}, nous pouvions privil\'egier la performance
+du \textit{NoSQL} par rapport aux propri\'et\'es ACID qu'offrent le
+\textit{SQL}.
 
 Nous avons donc d\'ecid\'e par la suite de nous diriger, comme pour la partie
 serveur, sur une base de donn\'ees \textit{NoSQL}.
@@ -1100,8 +1106,8 @@ utilis\'e pour une base de donn\'ees \textit{SQL} avec ceux utilis\'es dans
 \end{table}
 
 \subsubsection{Sch\'emas}
-Bien que quelque peu diff\'erent, le sch\'ema des bases de donn\'ees
-pr\'esentes sur le serveur et le client ressemble \`a celui pr\'esent
+Bien que quelque peu diff\'erent, les sch\'emas des bases de donn\'ees
+pr\'esentes sur le serveur et le client ressemblent \`a celui pr\'esent
 figure~\ref{dbRelClient}.
 
 L'absence de relations entre les diff\'erentes collections a donc oblig\'e une
@@ -1266,11 +1272,10 @@ disponible sur le serveur : celui-ci ayant de meilleurs performances en lecture
 et \'ecriture.
 
 La figure~\ref{fileSystemServer} pr\'esente comment les donn\'ees seront
-stock\'ee sur le serveur une fois sauvegard\'ees. Ainsi chaque fichier
-correspond \`a un dossier contenant un plusieurs sous-dossier : un par version.
-La version d'un fichier correspondant \`a une sauvegarde, un dossier contient
-les diff\'erents morceaux sauvegard\'es, c'est-\`a-dire les parties modifi\'ees
-du fichier.
+stock\'ees sur le serveur une fois sauvegard\'ees. Ainsi chaque fichier
+correspond \`a un dossier contenant un on plusieurs sous-dossier (un par
+version). La version d'un fichier correspondant \`a une sauvegarde \`a un moment
+donn\'e, un dossier contient uniquement parties modifi\'ees du fichier.
 
 \begin{figure}[h!]
   \hspace{-4.5em}
@@ -1292,17 +1297,63 @@ les morceaux d'un fichier avec les m\'eta-donn\'ees correspondantes.
 
 Comme indiqu\'e dans la section \flqq~\nameref{secTravailRecherche} \frqq, je me
 suis servi du protocole cr\'e\'e pour \textit{syncthings} (\textit{BEP}).
-Celui-ci \'etant d\'ecrit sur le github de projet~\cite{refBEP} et
+Celui-ci \'etant d\'ecrit sur le github du projet~\cite{refBEP} et
 disponible sous licence Creative Commons~\cite{refCC4.0}, il est autoris\'e de
 le copier, modifier et r\'eutiliser pour n'importe quelle utilisation, m\^eme
 commerciale. Bien que ce dernier point ne nous concerne pas puisque le projet
-est doit \^etre Open Source, j'ai pu r\'ecup\'erer le protocole et l'adapter
-pour correspondre \`a nos besoins.
+sera Open Source, j'ai pu r\'ecup\'erer le protocole et l'adapter pour qu'il
+corresponde \`a nos besoins.
 
 Le protocole ainsi modifi\'e est disponible en annexe~\ref{annProtocolComm}, en
-anglais puisqu'\'egalement disponible sur le wiki du projet. Celui-ci n'est
-n\'eanmoins pas accessible \`a l'heure actuelle puisque le projet est toujours
-dans sa phase de d\'eveloppement.
+anglais puisqu'\'egalement disponible sur le wiki du projet. Celui-ci n'est pas
+accessible \`a l'heure actuelle puisque le projet est toujours dans sa phase de
+d\'eveloppement.
+
+\subsection{Algorithme de cryptographie}
+\`A deux reprise il m'a \'et\'e demand\'e d'utiliser des algorithme de
+cryptographie. Dans un premier temps pour calculer la signature de chaque
+fichier et bloc constituant un fichier. Dans un second temps pour chiffrer
+ces blocs.
+
+Le premier cas verra l'utilisation d'un algorithme de hachage alors que dans le
+second cas, il est demand\'e d'utiliser un algorithme de chiffrement
+sym\'etrique.
+
+\subsubsection{Algorithme de hachage}
+L'id\'ee est d'utiliser la signature pour pouvoir d'une part v\'erifier
+l'int\'egrit\'e d'un fichier, et d'autre part de rep\'erer le bloc d'un fichier
+d'une sauvegarde \`a l'autre.
+
+C'est notamment le second cas qui nous int\'eresse puisqu'en utilisant notre
+algorithme d'identification de bloc dans un fichier, il sera souvent demand\'e
+de calculer la signature d'un bloc. Il faut donc un algorithme qui soit \`a la
+fois assez fiable pour minimiser le risque de collision, mais rapide \`a
+calculer pour optimiser au mieux notre algorithme lors de son ex\'ecution.
+
+\textit{SHA-256}\cite{refSHA256} semblait donc \^etre un bon compromis. Plus
+lent \`a calculer qu'un \textit{SHA-512}, le risque de collision est
+inf\'erieur par rapport \`a un \textit{SHA-128} ou \textit{SHA-224}. Notre
+choix s'est donc arr\^et\'e sur cet algorithme.
+
+\subsubsection{Algorithme de chiffrement sym\'etrique}
+David et Ga\"etan avaient d\'ej\`a dans l'id\'ee d'utiliser
+\textit{AES-CBC}\footnote{AES -- Advanced Encryption Standard}\footnote{CBC --
+Cipher Block Chaining}\cite{refAES}\cite{refCBC} avec une cl\'e secr\`ete de
+256 bits. Cette cl\'e secr\`ete ne serait pr\'esente que sur la machine cliente.
+Ainsi, le serveur ne contiendrait que des donn\'ees chiffr\'ees, sans
+possibilit\'e de les d\'echiffrer.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=15cm]{softwareDesign/schemaCBC.png}
+  \caption{\label{schemaCBC} Comprendre CBC}
+\end{figure}
+
+La figure~\ref{schemaCBC} pr\'esente le fonctionnement de \textit{CBC}. L'id\'ee
+et que, pour chaque calcul d'un bloc de donn\'ee, le r\'esultat chiffr\'e est
+utilis\'e pour calculer le bloc suivant, et ainsi de suite jusqu'\`a ce que
+l'int\'egralit\'e des donn\'ees soit chiffr\'e. Un vecteur d'initialisation
+est donc utilis\'e pour chiffrer le tout premier bloc de donn\'ees.
 
 
 \section{D\'eveloppement}
@@ -1315,7 +1366,8 @@ concentr\'e sur son d\'eveloppement durant mon stage. Comme il avait \'et\'e
 d\'ecoup\'e en module durant la phase de conception, le d\'eveloppement s'est
 fait de la m\^eme mani\`ere.
 
-De plus chaque module a le droit \`a sa batterie de tests de non r\'egression.
+De plus chaque module a le droit \`a sa batterie de tests unitaires et tests de
+non r\'egression.
 
 \subsection{Outils de d\'eveloppement}
 Pour cette phase j'ai utilis\'e plusieurs outils me permettant de construire
@@ -1345,7 +1397,7 @@ durant mon stage.
 \subsubsection{Frameworks et biblioth\`eques externes}
 Afin de limiter les contraintes li\'es \`a l'utilisation de \textit{framework}
 et librairies externes, l'utilisation de ceux-ci \'etait limit\'e. Voici
-ceux que j'ai utilis\'e:
+ceux que j'ai utilis\'e :
 \begin{itemize}
  \item \textit{Boost} pour les tests
  \item \textit{OpenSSL} pour tout ce qui est cryptographie
@@ -1355,6 +1407,9 @@ ceux que j'ai utilis\'e:
 
 En addition \`a cela, j'ai \'egalement utilis\'e le driver \textit{C++} de
 \textit{MongoDB} pour communiquer avec la base de donn\'ees.
+
+Ceux-ci sont tous disponibles pour les environnements \textit{Mac OSX},
+\textit{Windows} et \textit{GNU/Linux}.
 
 \subsection{Travail r\'ealis\'e}
 Comme il a \'et\'e initialement pens\'e, j'ai d\'evelopp\'e le syst\`eme de
@@ -1373,6 +1428,7 @@ cryptographie. Cette partie comprend les modules \textit{hasher} et
 \textit{encryptor}. J'ai utilis\'e les m\'ethodes fournies par la biblioth\`eque
 \textit{OpenSSL} afin d'\'ecrire ces deux modules. L'utilisation de m\'ethodes
 d\'ej\`a existantes \'etant pr\'ef\'erable \`a la r\'e\'ecriture de celles-ci.
+Le risque de bogues et de failles \'etant limit\'e dans le premier cas.
 
 S'en est suivi le d\'eveloppement du module \textit{spconc}, permettant dans un
 sens de d\'ecouper en plusieurs morceaux un fichier, ou \`a l'inverse de
@@ -1394,8 +1450,9 @@ fonctionner tous ces modules ensemble.
 
 \subsubsection{Imbrication des modules}
 Cette \'etape fut longue et beaucoup d'erreurs apparurent. Bien que chaque
-module, individuellement, fonctionnait parfaitement, les ex\'ecuter sur des
-threads s\'epar\'es, et communiquer tous ensemble amena plusieurs probl\`emes.
+module, individuellement, fonctionnait parfaitement, l'ex\'ecution sur des 
+threads s\'epar\'es, ainsi que la communication entre eux amena plusieurs
+probl\`emes.
 
 \paragraph{Probl\`emes et solutions}
 
@@ -1414,8 +1471,12 @@ posait probl\`emes. En effet, un nombre al\'eatoire de caract\`ere \'etait
 De par ce fait, il \'etait tout simplement impossible de reconstruire les
 fichiers proprement puisqu'il \'etait impossible alors de les d\'echiffrer.
 
-La solution a \'et\'e l'utilisation des \textit{FILE} du \textit{C} pour tout
-ce qui est gestion de fichiers en lieu et place des \textit{iofstream} du
+La solution a \'et\'e l'utilisation des \textit{FILE}\footnote{Structure
+permettant de contenir les informations n\'ecessaire au contr\^ole d'un
+flux~\cite{refFILE}} du \textit{C} pour tout ce qui est gestion de fichiers en
+lieu et place des \textit{iofstream}\footnote{Classes (
+\textit{ifstream}~\cite{refIFS} et \textit{ofstream}~\cite{refOFS}) g\'erant
+des flux en entr\'ee ou en sortie pour travailler sur des fichiers} du
 \textit{C++}.
 
 \subparagraph{Probl\`emes de m\'emoire\\}
@@ -1424,13 +1485,13 @@ de la m\'emoire. J'ai donc rencontr\'e deux soucis : fuites de m\'emoire et
 lib\'eration pr\'ecipit\'ee de la m\'emoire.
 
 Dans le premier cas, il suffisait simplement de lib\'erer la m\'emoire au bon
-moment. C'est-\`a-dire lorsque je n'ai plus besoin d'acc\'eder \`a la m\'emoire
+moment. C'est-\`a-dire lorsqu'il n'est plus utile d'acc\'eder \`a la m\'emoire
 allou\'ee pr\'ec\'edemment dans le programme.
 
 En ce qui concerne le second cas, cela posait probl\`eme puisque plusieurs
-\textit{threads} tournait en parall\`eles. Ainsi \'etait-ce au r\^ole du
+\textit{threads} tournaient en parall\`eles. Ainsi \'etait-ce au r\^ole du
 \textit{thread} ayant allou\'e la m\'emoire de la lib\'erer. N\'eanmoins,
-d'autres modules, ex\'ecut\'e sur d'autres \textit{threads}, pouvait utiliser
+d'autres modules, ex\'ecut\'es sur d'autres \textit{threads}, pouvaient utiliser
 cette m\^eme m\'emoire. C'\'etait notamment le cas des objets contenant les
 m\'eta-informations des fichiers. Si le premier module lib\'erait la m\'emoire
 allou\'ee, il devenait impossible pour les suivants d'utiliser cette m\'emoire
@@ -1442,12 +1503,12 @@ Pour r\'esoudre ce probl\`eme deux solutions s'offraient \`a moi :
  modules l'utilisant avait finit leur ex\'ecution sur l'objet contenu dans cet
  espace m\'emoire.
  \item La seconde \'etait d'utiliser des pointeurs intelligents. Ceux-ci
- fonctionnent comme un \textit{garbage collector} (ramasse-miettes)\footnote{
- Sous-syst\`eme informatique de gestion automatique de la m\'emoire. Il est
- responsable du recyclage de la m\'emoire pr\'ealablement allou\'ee puis
- inutilis\'ee} : tant que la m\'emoire est utilis\'ee, elle n'est pas
- lib\'er\'ee ; elle est lib\'er\'ee automatiquement lorsqu'elle n'est plus
- utilis\'e, dans aucun module.
+ fonctionnent de la m\^eme fa\c{c} qu'un \textit{garbage collector}
+ (ramasse-miettes)\footnote{ Sous-syst\`eme informatique de gestion automatique
+ de la m\'emoire. Il est responsable du recyclage de la m\'emoire
+ pr\'ealablement allou\'ee puis inutilis\'ee} : tant que la m\'emoire est
+ utilis\'ee, elle n'est pas lib\'er\'ee ; elle est lib\'er\'ee automatiquement
+ lorsqu'elle n'est plus utilis\'e, dans aucun module.
 \end{itemize}
 
 La seconde solution \'etait bien \'evidemment pr\'ef\'erable puisqu'elle
@@ -1519,8 +1580,8 @@ diff\'erents \'el\'ements constituant le programme.
 Ces tests ont \'et\'e \'ecrits au fur et \`a mesure de l'avancement du projet.
 De plus, pour chaque test, une v\'erification de l'utilisation de la m\'emoire
 \'etait effectu\'ee \`a l'aide de l'outil \textit{valgrind}. Cela me permettait
-de v\'erifier qu'il n'y avait pas de fuite de m\'emoire ainsi que le module
-fonctionnait et avait le comportement qu'on attendait de lui.
+de v\'erifier la pr\'esence, ou non, de fuites de m\'emoire. Je pouvais par la
+suite et si n\'ecessaire apporter des modifications au programme.
 
 \chapter{Conclusion}
 Ce stage de fin d'\'etude m'a permis d'acqu\'erir de l'exp\'erience sur
