@@ -17,9 +17,14 @@
 \definecolor{arkred}{rgb}{0.592, 0.145, 0.168}
 \definecolor{arkbrown}{rgb}{0.239,0.235,0.204}
 
+% template
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercolor{arkblockup}{fg=arkred, bg=arkbrown}
+\setbeamercolor{arkblocklow}{fg=white, bg=arkred}
+
 \graphicspath{{../images/}}
 
-\title{Rapport de stage \\Master 2 -- Fiabilité et Sécurité Informatique}
+\title{Rapport de stage -- Master 2 -- Fiabilité et Sécurité Informatique}
 \subtitle{Conception \&  d\'eveloppement syst\`eme de backup chiffr\'e et
 incr\'emental en C/C++}
 \author{Ludovic Lubeigt}
@@ -43,8 +48,56 @@ incr\'emental en C/C++}
 }
 
 \begin{document}
+
 \begin{frame}
- \titlepage
+  \begin{minipage}{0.49\textwidth}
+    \begin{flushleft}
+      \emph{\bfseries Auteur :}\\
+      Ludovic \textsc{Lubeigt}
+    \end{flushleft}
+  \end{minipage}
+  \begin{minipage}{0.49\textwidth}
+    \begin{flushright}
+      \includegraphics[width=3cm]{logo_sciences.png}
+    \end{flushright}
+  \end{minipage}\\[2mm]
+
+   
+  \begin{beamerboxesrounded}[lower=arkblocklow, shadow=true]{}
+    \centering\Large
+    Rapport de stage\\ Master 2 -- Fiabilité et Sécurité Informatique\\
+    Conception \& développement système de backup chiffré et incrémentale en
+    C/C++
+  \end{beamerboxesrounded}
+  
+  \begin{figure}[H]
+    \begin{minipage}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[height=1.5cm]{logo_adhara.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.49\textwidth}
+      \centering
+      \includegraphics[height=1.5cm]{logo_arksens.png}
+    \end{minipage}\\[0.15cm]
+  \end{figure}
+    
+  \begin{minipage}{0.49\textwidth}
+    \begin{flushleft}
+      \emph{\bfseries Tuteur Entreprise :}\\
+      Gaëtan \textsc{van Diemen}
+    \end{flushleft}
+  \end{minipage}
+  \begin{minipage}{0.49\textwidth}
+    \begin{flushright}
+      \emph{\bfseries Enseignant :}\\
+      Jean-Luc \textsc{Massat}
+    \end{flushright}
+  \end{minipage}\\[1mm]
+  
+  \begin{center}
+    \emph{18 septembre 2015}
+  \end{center}
+    
 \end{frame}
 
 \begin{frame}
@@ -309,9 +362,9 @@ incr\'emental en C/C++}
 \begin{frame}
  \frametitle{Conclusion}
  \begin{itemize}
+  \item Première partie du cycle de vie d'un produit
   \item Expérience professionnelle 
   \item Vie dans une startup
-  \item 
  \end{itemize}
 \end{frame}
 
