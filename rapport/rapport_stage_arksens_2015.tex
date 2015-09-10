@@ -138,7 +138,7 @@
       \begin{flushright}
         \large \emph{\bfseries Tuteur Entreprise :}\\
         Gaëtan \textsc{van Diemen}\\[0.2cm]
-        \emph{\bfseries Enseignant :}\\
+        \emph{\bfseries Enseignant Responsable:}\\
         Jean-Luc \textsc{Massat}
       \end{flushright}
     \end{minipage}\\[1.5cm]
@@ -198,7 +198,7 @@ Dans le cadre du Master professionnel \textit{Fiabilité, Sécurité et
 Intégration logicielle}, parcours \textit{Fiabilité et Sécurité
 Informatique} à l'\textit{Université d'Aix-Marseille}, un stage de fin
 d'étude doit être effectué en entreprise pour valider les acquis et
-rentrer dans le monde professionnel.
+entrer dans le monde du travail.
 
 J'ai réalisé ce stage entre le 1\up{er} avril et le 11 septembre 2015, soit
 une période de cinq mois et demi, dans l'entreprise \textit{Adhara Cyber
@@ -367,7 +367,7 @@ Initiative~\cite{refOSI}, à savoir :
 \begin{itemize}
   \item Possibilité de redistribution
   \item Accès au code source
-  \item Création de travaux déérivéés
+  \item Création de travaux dérivés
 \end{itemize}
 
 Ce choix permet notamment d'accentuer la confiance avec les clients et
@@ -556,22 +556,22 @@ de leur réflexion sur le possible fonctionnement du système de sauvegarde.
     \caption{\label{schemaInitial} Schéma initial du fonctionnement du backup}
 \end{figure}
 
-Le système a deux comportement différent lors de la sauvegarde d'un fichier.
+Le système a deux comportements différents lors de la sauvegarde d'un fichier.
 D'abord pour la première connexion, où une sauvegarde intégrale est
 nécessaire, puis lors des connexions suivantes où seulement les
 modifications doivent être envoyées.
 
 Dans le premier cas, le fichier est découpé en blocs de taille égale
-avant d'être chiffré puis envoyé accompagné des signatures calculés
+avant d'être chiffré puis envoyé accompagné des signatures calculées
 pour chaque bloc ainsi que pour le fichier en lui même. Les signatures
 permettant de vérifier l'intégrité des fichiers.
 
 Le second cas est un peu plus complexe et décrit comme suit :
 \begin{itemize}
  \item Calculer \textit{signature\_toto.txt} (\(N + 1\))
- \item Téléchager \textit{signature\_toto.txt} (\(N\))
+ \item Télécharger \textit{signature\_toto.txt} (\(N\))
  \item Comparer les deux signatures : si elles ne sont pas différentes, les
- fichiers n'ont pas à être comparé et on peut passer au fichier suivant
+ fichiers n'ont pas à être comparés et on peut passer au fichier suivant
  sinon on continue
  \item Découper toto en bloc
  \item Calculer la signature de chaque bloc (\(N + 1\))
