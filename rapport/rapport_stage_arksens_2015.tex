@@ -737,7 +737,7 @@ avoir une fenêtre dynamique semblait être l'option à prendre.
  
  \item \textbf{Inconvénient :} Temps de calcul potentiellement grand,
  dépendant de la taille des fichiers à analyser ainsi que de ressources
- disponible sur la machine client.
+ disponibles sur la machine client.
 \end{itemize}
 
 C'est donc sur cette base que j'ai commencé l'étape suivante. Étape 
@@ -750,13 +750,13 @@ pouvoir penser à la conception du produit. Pour cela, le passage par une
 étape de prototypage semblait inévitable.
 
 Dans ce cadre, j'ai écrit l'algorithme en \textit{C++} afin de vérifier
-le temps d'exécution de celui-ci. Plusieurs essais ont été fait afin de
+le temps d'exécution de celui-ci. Plusieurs essais ont été faits afin de
 réduire toujours plus la durée d'exécution de l'algorithme. C'est donc
 principalement de l'optimisation, à la fois au niveau algorithmique et
-qu'au niveau de l'écriture du code en lui-même, que j'ai effectué  au
+au niveau de l'écriture du code en lui-même, que j'ai effectué  au
 cours de cette étape.
 
-Plusieurs version ont donc vu le jour au cours de cette étape afin d'obtenir
+Plusieurs versions ont donc vu le jour au cours de cette étape afin d'obtenir
 un algorithme qui puisse être utilisable pour le système de sauvegarde. Dans
 le cas échéant, il aurait fallu chercher un algorithme différent pour
 atteindre notre objectif. Cela n'a néanmoins pas été le cas. Le
@@ -803,8 +803,8 @@ Pour celui-ci, dix modules vont être utilisés autour d'un module central :
   \item \textbf{dbcomm :} ce module contient les fonctions utilisées pour la
   communication avec la base de données
   \item \textbf{misc :} ce module contient divers outils
-  (\textit{miscellaneous}) pouvant être utile dans le programme. Entre autre
-  il contient le système de notification permettant la communication entre
+  (\textit{miscellaneous}) pouvant être utiles dans le programme. Entre autre
+  il contient le système de notifications permettant la communication entre
   les différents modules
   \item \textbf{logger :} ce module permet de garder une trace lors de
   l'exécution du programme, notamment utile lors du déboguage ou si une
@@ -876,13 +876,13 @@ possible.
 
 \paragraph{Event Notifier\\}
 Afin d'éviter que certains modules aient connaissances de l'existence d'autres
-modules, un système de notification a donc été implémenté. Le
+modules, un système de notifications a donc été implémenté. Le
 principe de ce système est relativement simple à comprendre. On peut
 d'ailleurs trouver le même système dans la vie de tous les jours. Par
 exemple un journal publie régulièrement des nouvelles ayant un certain
 libellé (\flqq alertes\frqq, \flqq national\frqq, \flqq sport\frqq, etc.).
 En face, il existe des utilisateurs qui peuvent, ou non, s'inscrire à un ou
-plusieurs type de nouvelle. Ainsi, quelqu'un inscrit aux nouvelles de type
+plusieurs type de nouvelles. Ainsi, quelqu'un inscrit aux nouvelles de type
 \flqq alertes\frqq~va recevoir une notification lorsqu'une nouvelle de ce type
 apparaît.
 
@@ -890,19 +890,19 @@ Le principe utilisé dans notre cas est exactement le même : des modules
 lancent des notifications que d'autres reçoivent s'ils se sont inscrits à
 celles-ci.
 
-Pour que cela fonctionne correctement, un centre de notification est
+Pour que cela fonctionne correctement, un centre de notifications est
 nécessaire. Ainsi, et contrairement à un système d'\flqq observer\frqq,
 les modules n'ont pas à avoir connaissance les uns des autres puisque chacun
 passe par ce centre.
 
 Celui-ci est présenté figure~\ref{classDiagramNotif}. On retrouve le
-centre de notification \textit{CNotificationService} qui gère les
+centre de notifications \textit{CNotificationService} qui gère les
 abonnements et les abonnés. Ce centre permet ainsi de les notifier les modules
 ayant souscrit à un certain type de notification. Pour utiliser ce service,
 il existe deux interfaces : \textit{ISubscriber} pour les abonnés et
 \textit{INotifier} pour émettre les notifications. Ces interfaces sont donc
 implémentée par les différents modules utilisant le système de
-notification.
+notifications.
 
 \begin{figure}[h!]
   \hspace{-4.5em}
@@ -954,9 +954,9 @@ On réduit de ce fait le temps de traitement ainsi que la quantité de
 données transmises à travers le réseau Internet.
 
 \subsubsection{SQL vs NoSQL}
-La probématique fut donc de trouver quelle type(s) de base de données
+La probématique fut donc de trouver quel(s) type(s) de base de données
 pourrai(en)t être utilisé(s) avec d'un côté les bases de données
-relationnelle \textit{SQL} et d'un autre les bases de données \textit{NoSQL}.
+relationnelles \textit{SQL} et d'un autre les bases de données \textit{NoSQL}.
 Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
 
 \begin{savenotes}
@@ -1049,7 +1049,7 @@ stockage des fichiers sur le serveur a influé sur le choix de la base de
 données. 
 
 Certaines bases de données \textit{NoSQL} offrent la possibilité de 
-sauvegarder les fichiers eux-mêmes. Cela peut être intéressant. que ce
+sauvegarder les fichiers eux-mêmes. Cela peut être intéressant que ce
 soit dans l'immédiat ou dans une future version de l'application.
 
 Donc bien que dans un premier temps nous ayons décidé d'utiliser le
@@ -1057,7 +1057,7 @@ système de fichier en place sur le serveur, nous avons pris en compte cette
 fonctionnalité.
 
 C'est donc sur \textit{MongoDB} que s'est arrêté notre choix. Cette base
-de données a plusieurs avantages qui correspondait à ce que nous
+de données a plusieurs avantages qui correspondaient à ce que nous
 recherchions :
 
 \begin{itemize}
@@ -1275,7 +1275,7 @@ La figure~\ref{fileSystemServer} présente comment les données seront
 stockées sur le serveur une fois sauvegardées. Ainsi chaque fichier
 correspond à un dossier contenant un on plusieurs sous-dossier (un par
 version). La version d'un fichier correspondant à une sauvegarde à un moment
-donné, un dossier contient uniquement parties modifiées du fichier.
+donné, un dossier contient uniquement les parties modifiées du fichier.
 
 \begin{figure}[h!]
   \hspace{-4.5em}
@@ -1292,7 +1292,7 @@ sauvegarde, au 06 mai 2015.
 \subsection{Communication client - serveur}
 Afin d'envoyer les fichiers à travers le réseau, un protocole doit être
 utilisé. Pour ce faire, il m'a été demandé d'en créer un correspondant
-aux données qui sont envoyé dans le cadre d'une sauvegarde. En l'occurrence,
+aux données qui sont envoyées dans le cadre d'une sauvegarde. En l'occurrence,
 les morceaux d'un fichier avec les méta-données correspondantes.
 
 Comme indiqué dans la section \flqq~\nameref{secTravailRecherche} \frqq, je me
@@ -1310,7 +1310,7 @@ accessible à l'heure actuelle puisque le projet est toujours dans sa phase de
 développement.
 
 \subsection{Algorithme de cryptographie}
-À deux reprise il m'a été demandé d'utiliser des algorithme de
+À deux reprises il m'a été demandé d'utiliser des algorithmes de
 cryptographie. Dans un premier temps pour calculer la signature de chaque
 fichier et bloc constituant un fichier. Dans un second temps pour chiffrer
 ces blocs.
@@ -1442,7 +1442,7 @@ méta-données des fichiers.
 programme dans sa toute première phase d'essai. Pour simuler une sauvegarde,
 il manquait des prototypes pour mimer le rôle des modules \textit{filer},
 \textit{communication} et \textit{organizer}. En plus de cela, il nous fallait
-bien évidemment développer le système de notification pour pouvoir faire
+bien évidemment développer le système de notifications pour pouvoir faire
 communiquer les différents modules.
 
 Une fois ceci fait, je pouvais créer l'\textit{organizer} afin de faire
