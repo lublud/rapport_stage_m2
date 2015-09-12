@@ -570,9 +570,9 @@ Le second cas est un peu plus complexe et décrit comme suit :
 \begin{itemize}
  \item Calculer \textit{signature\_toto.txt} (\(N + 1\))
  \item Télécharger \textit{signature\_toto.txt} (\(N\))
- \item Comparer les deux signatures : si elles ne sont pas différentes, les
- fichiers n'ont pas à être comparés et on peut passer au fichier suivant
- sinon on continue
+ \item Comparer les deux signatures : si elles sont identiques, le fichier n'a
+ pas été modifié, on passe donc à la vérification du fichier suivant. Sinon,
+ on continue
  \item Découper toto en bloc
  \item Calculer la signature de chaque bloc (\(N + 1\))
  \item Télécharger la signature de chaque bloc (\(N\))
@@ -815,7 +815,7 @@ Pour celui-ci, dix modules vont être utilisés autour d'un module central :
 L'utilisation de modules doit permettre une modification facile du programme,
 sans avoir à modifier tout le code. Par exemple, pour changer un algorithme,
 il ne doit être nécessaire d'écrire que le code de celui-ci, sans
-modifier celui déjà en place. Par la suite, on ne devrait avoir à
+modifier celui déjà en place. Par la suite, il ne devrait y avoir à
 préciser que l'algorithme souhaité lors de la création d'un objet.
 
 Un autre avantage de la programmation modulaire est la facilitée que cela
@@ -835,9 +835,9 @@ lien est donc nécessaire pour que deux \textit{threads} puisse s'envoyer les
 données liées à un fichier.
 
 Dans un premier temps, j'avais crée un outil qui, appelé par un module,
-retournait un \textit{pipe} (tunnel) soit en lecture, soit en écrite. Un autre
-module pouvait ensuite utiliser ce même outil pour récupérer le tunnel.
-Un module ayant accès au tunnel en lecture et l'autre en écrite, une
+retournait un \textit{pipe} (tunnel) soit en lecture, soit en écriture. Un
+autre module pouvait ensuite utiliser ce même outil pour récupérer le tunnel.
+Un module ayant accès au tunnel en lecture et l'autre en écriture, une
 communication peut être effectuée dans un sens. Un second tunnel est
 nécessaire pour pouvoir communiquer dans les deux sens. En triant les
 tunnels ainsi créés par catégories, il était possible de faire
@@ -877,7 +877,7 @@ possible.
 \paragraph{Event Notifier\\}
 Afin d'éviter que certains modules aient connaissances de l'existence d'autres
 modules, un système de notifications a donc été implémenté. Le
-principe de ce système est relativement simple à comprendre. On peut
+principe de ce système est relativement simple à comprendre. Nous pouvons
 d'ailleurs trouver le même système dans la vie de tous les jours. Par
 exemple un journal publie régulièrement des nouvelles ayant un certain
 libellé (\flqq alertes\frqq, \flqq national\frqq, \flqq sport\frqq, etc.).
@@ -895,14 +895,13 @@ nécessaire. Ainsi, et contrairement à un système d'\flqq observer\frqq,
 les modules n'ont pas à avoir connaissance les uns des autres puisque chacun
 passe par ce centre.
 
-Celui-ci est présenté figure~\ref{classDiagramNotif}. On retrouve le
-centre de notifications \textit{CNotificationService} qui gère les
-abonnements et les abonnés. Ce centre permet ainsi de les notifier les modules
-ayant souscrit à un certain type de notification. Pour utiliser ce service,
-il existe deux interfaces : \textit{ISubscriber} pour les abonnés et
-\textit{INotifier} pour émettre les notifications. Ces interfaces sont donc
-implémentée par les différents modules utilisant le système de
-notifications.
+Celui-ci est présenté figure~\ref{classDiagramNotif}. Il y a le centre de
+notifications \textit{CNotificationService} qui gère les abonnements et les
+abonnés. Ce centre permet ainsi de les notifier les modules ayant souscrit à
+un certain type de notification. Pour utiliser ce service, il existe deux
+interfaces : \textit{ISubscriber} pour les abonnés et \textit{INotifier} pour
+émettre les notifications. Ces interfaces sont donc implémentée par les
+différents modules utilisant le système de notifications.
 
 \begin{figure}[h!]
   \hspace{-4.5em}
@@ -950,8 +949,8 @@ régulièrement des connexions avec le serveur. Néanmoins, et contrairement
 à la base de donnée présente sur le serveur, celle du client permettrait
 de ne stocker que les informations liées à la dernière sauvegarde. Ce
 sont en effet ces informations qui sont utiles lors d'une nouvelle sauvegarde.
-On réduit de ce fait le temps de traitement ainsi que la quantité de
-données transmises à travers le réseau Internet.
+Le temps de traitement ainsi que la quantité de données transmises à travers
+le réseau Internet sont ainsi réduits.
 
 \subsubsection{SQL vs NoSQL}
 La probématique fut donc de trouver quel(s) type(s) de base de données
@@ -978,8 +977,8 @@ Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
     Schéma et flexibilité & Chaque table correspond à un schéma
     particulier. Les colonnes doivent donc être choisie à l'avance, selon
     les données à rentrer dans la table. & Les schéma sont dynamiques.
-    Deux entrée d'une même table peuvent contenir différentes
-    informations. On peut donc en ajouter \flqq à la volée\frqq\\
+    Deux entrées d'une même table peuvent contenir différentes
+    informations.\\
     \hline
     Adaptabilité & L'évolutivité est verticale. C'est-à-dire que plus
     la quantité de données augmente, plus le serveur sur lequel se trouvent
@@ -995,7 +994,7 @@ Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
     performances et une meilleure adaptabilité.\\
   \end{tabular}
   \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
-  \textit{NoSQl}}
+  \textit{NoSQL}}
 \end{table}
 \end{savenotes}
 
@@ -1023,13 +1022,12 @@ programme. Celle-ci étant stockée dans un fichier, et ce indépendemment
 de la plate-forme utilisée, elle aurait pu correspondre à ce que voulions.
 
 Néanmoins la quantité d'information stockée ainsi que le nombre d'accès,
-tant en écrite qu'en lecture, est trop important dès lors que l'on souhaite
-sauvegarder plus de quelques fichiers. Il nous fallait une base de données
-avec de meilleurs performances que celles offerte par \textit{SQLite}. De plus
-les relations entre les différentes tables étant minimes comme
-montré figure~\ref{dbRelClient}, nous pouvions privilégier la performance
-du \textit{NoSQL} par rapport aux propriétés ACID qu'offrent le
-\textit{SQL}.
+tant en écriture qu'en lecture, sont trop importants dès lors que plus de
+quelques fichiers sont sauvegardés . Il fallait donc une base de données
+avec de meilleurs performances que celles offertes par \textit{SQLite}. De
+plus les relations entre les différentes tables étant minimes comme montrées
+figure~\ref{dbRelClient}, la performance du \textit{NoSQL} pouvait être
+préférée par rapport aux propriétés ACID qu'offrent le \textit{SQL}.
 
 Nous avons donc décidé par la suite de nous diriger, comme pour la partie
 serveur, sur une base de données \textit{NoSQL}.
@@ -1138,9 +1136,9 @@ User :
 }
 \end{lstlisting}
 
-On voit ici que l'ancienne table \textit{Machine} a été intégrée dans
-la collection \textit{User}. Ce choix s'est fait puisque, sur le client
-il n'y a que la machine sur laquelle le logiciel est installé qui est
+Il peut être intéressant de noter que l'ancienne table \textit{Machine} a été
+intégrée dans la collection \textit{User}. Ce choix s'est fait puisque, sur
+le client il n'y a que la machine sur laquelle le logiciel est installé qui est
 présente en base de données. De plus, l'accès aux données est à la
 fois plus simple et plus rapide en utilisant une collection regroupant
 l'utilisateur et sa machine plutôt qu'en utilisant deux collections
@@ -1220,16 +1218,17 @@ User :
     ]
 }
 \end{lstlisting}
-Un utilisateur pouvant avoir plusieurs machines, on crée simplement une
-liste  avec l'ensemble des machines qui est intégrée dans la collection
-\textit{User}. De plus, un utilisateur pouvant être un administrateur, et
-celui-ci pouvant gérer plusieurs utilisateurs, on ajoute un lien à l'aide
-du champ \textit{id\_admin}. Ainsi si le champ n'existe pas, l'utilisateur n'a
-pas d'administrateur au-dessus de lui. Aussi \textit{is\_admin} permet de
-connaître les privilège d'un utilisateur. L'utilisation de ces deux champs
-permet donc de prendre compte qu'un administrateur peut lui-même avoir un
-autre administrateur au-dessus de lui. Cas que l'on peut imaginer possible dans
-le cadre de l'utilisation du logiciel au sein d'une grosse société.
+Un utilisateur pouvant avoir plusieurs machines, une liste est simplement
+créée, contenant l'ensemble des machines Celle-ci est intégrée dans la
+collection \textit{User}. De plus, un utilisateur pouvant être un
+administrateur, et celui-ci pouvant gérer plusieurs utilisateurs, le lien est
+ajouté à l'aide du champ \textit{id\_admin}. Ainsi si le champ n'existe pas,
+l'utilisateur n'a pas d'administrateur au-dessus de lui. Aussi
+\textit{is\_admin} permet de connaître les privilèges de chaque utilisateur.
+L'utilisation de ces deux champs permet également de prendre compte qu'un
+administrateur peut lui-même être sous la supervision d'un autre
+administrateur. Cas qui peut être imaginable dans le cadre de l'utilisation du
+logiciel au sein d'une grosse société.
 
 \begin{lstlisting}[language=json]
 File :
@@ -1245,8 +1244,8 @@ File :
   "number_chunk"
 }
 \end{lstlisting}
-Comme plusieurs machines peuvent exister pour un seul utilisateur, on ajoute
-le champ \textit{id\_machine} pour pouvoir faire correspondre un fichier à
+Un utilisateur pouvant possèder plusieurs machines, l'ajout du champ
+\textit{id\_machine} permet de pour pouvoir faire correspondre un fichier à
 une seule machine.
 
 \begin{lstlisting}[language=json]
@@ -1273,7 +1272,7 @@ et écriture.
 
 La figure~\ref{fileSystemServer} présente comment les données seront
 stockées sur le serveur une fois sauvegardées. Ainsi chaque fichier
-correspond à un dossier contenant un on plusieurs sous-dossier (un par
+correspond à un dossier contenant un ou plusieurs sous-dossier (un par
 version). La version d'un fichier correspondant à une sauvegarde à un moment
 donné, un dossier contient uniquement les parties modifiées du fichier.
 
@@ -1460,7 +1459,7 @@ problèmes.
 Un des points sur lequel j'ai passé le plus de temps a été la partie
 chiffrement et déchiffrement. Car si le programme n'émettait pas d'erreurs
 dans le cas du chiffrement, les morceaux créés en sortie ne correspondaient
-pas à ce que l'on pouvait attendre.
+pas à ce qui pouvait être attendu.
 
 Bien qu'ayant préciser dans le code du programme que je voulais écrire
 sur le disque du binaire et non des caractères ASCII, il semblait que
@@ -1567,21 +1566,26 @@ pouvoir faire tourner le programme pour ne prendre en compte que ces fichiers
 là et les analyser, ainsi que les fichiers nouvellement créés.
 
 \subsection{Tests}
-Une suite de test unitaires a été écrite pour chaque module. Ainsi est
-faite la vérification de chaque méthode de chaque classe de chaque module
-dans la mesure du possible. En effet, et c'est notamment vrai pour ce qui touche
-aux \textit{threads}, il est parfois difficile d'écrire des tests permettant
-de couvrir l'ensemble des cas pouvant exister.
+Une suite de test unitaires et de non régression ont été écrites pour chaque
+module. Ainsi est faite la vérification de chaque méthode de chaque classe de
+chaque module, dans la mesure du possible. En effet, et c'est notamment vrai
+pour ce qui touche aux \textit{threads}, il est parfois difficile d'écrire des
+tests permettant de couvrir l'ensemble des cas pouvant exister.
 
-Afin de réaliser les tests, j'ai utilisé le framework de test
-\textit{Boost}. Celui-ci m'a donc permis de valider le bon fonctionnement des
-différents éléments constituant le programme.
+Afin de réaliser ces tests, j'ai utilisé le framework de test \textit{Boost}.
+Celui-ci m'a de ce fait permis de valider le bon fonctionnement des différents
+éléments constituant le programme.
 
 Ces tests ont été écrits au fur et à mesure de l'avancement du projet.
 De plus, pour chaque test, une vérification de l'utilisation de la mémoire
 était effectuée à l'aide de l'outil \textit{valgrind}. Cela me permettait
 de vérifier la présence, ou non, de fuites de mémoire. Je pouvais par la
 suite et si nécessaire apporter des modifications au programme.
+
+Un module ainsi écrit devait passer l'ensemble des tests écrits pour celui-ci
+avant que je puisse passer à l'écriture du module suivant. Ainsi, lorsque
+j'écrivais un module, je savais que l'ensemble des modules déjà créés
+fonctionnaient tels qu'ils avaient été conçus et ce, sans fuites de mémoire.
 
 \chapter{Conclusion}
 Ce stage de fin d'étude m'a permis d'acquérir de l'expérience sur
