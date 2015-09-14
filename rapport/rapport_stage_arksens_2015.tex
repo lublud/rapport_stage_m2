@@ -138,7 +138,7 @@
       \begin{flushright}
         \large \emph{\bfseries Tuteur Entreprise :}\\
         Gaëtan \textsc{van Diemen}\\[0.2cm]
-        \emph{\bfseries Enseignant Responsable:}\\
+        \emph{\bfseries Enseignant :}\\
         Jean-Luc \textsc{Massat}
       \end{flushright}
     \end{minipage}\\[1.5cm]
@@ -151,17 +151,30 @@
 
 \begin{abstract}
 
-Ce document présente le travail réalisé lors du stage de fin d'étude
-à Arksens Ltd. à l'île Maurice entre le 1\up{er} avril 2015 et le 11
-septembre 2015 dans le cadre du Master 2 Fiabilité et Sécurité
-Informatique à l'Université d'Aix-Marseille.
+Ce document expose le travail réalisé lors du stage de Master 2 Fiabilité
+et Sécurité Informatique à l'Université d'Aix-Marseille. Celui-ci s'est
+déroulé à Arksens Ltd. à l'île Maurice entre le 1\up{er} avril et le 11
+septembre 2015.
 
-Le rapport est découpé en deux parties. Une première servant de rapport
-de synthèse et présentant l'entreprise, le sujet de stage, le
-travail effectué de même que l'environnement de travail et les éventuelles
-difficultés rencontrées.
-La seconde partie apporte un aspect technique au rapport et permet de 
-présenter le travail réalisé plus en détail.
+Le sujet de stage était de créer la nouvelle génération de système de
+sauvegarde de l'entreprise. Celui-ci devait être un système sécurisé,
+robuste et multi-plate-forme. Ainsi les données seraient chiffrées sur
+la machine client avant d'être envoyées vers un serveur. Il ne serait
+alors pas possible pour une quelconque personne ayant accès au serveur de
+lire ces données.
+
+Dans un premier temps un travail de recherche et de réflexion a été mené
+pour aider à la conception de cette application.
+
+Une fois celle-ci réalisée, le développement a pu commencer. À la fin de
+ce stage, le développement était bien avancé même si non terminé faute
+de temps.
+
+\bigskip
+\noindent \textbf{Mots-clés :} sauvegarde incrémentale, sécurisé, \textit{C++},
+base de données, multi-plate-forme, conception, développement, cryptographie,
+chiffrement, multi-thread, Open Source, client/serveur
+
 \end{abstract}
 
 \chapter*{Remerciements}
@@ -176,9 +189,9 @@ van Diemen qui m'ont accueilli à l'île Maurice et suivi au jour le jour
 durant ces six mois, mais également Michaël Colaone et le reste de
 l'équipe pour l'accueil et la bonne ambiance au sein de l'entreprise.
 
-Enfin je remercie toutes les personnes que je peux oublier mais qui m'ont
-aidé, dans l'écriture de ce rapport, dans le cadre du stage ou qui m'ont
-tout simplement fait découvrir l'île Maurice.
+Enfin je remercie toutes les personnes qui m'ont aidé dans le cadre du stage,
+dans l'écriture de ce rapport ou qui m'ont tout simplement fait découvrir
+l'île Maurice.
 
 Je tiens tout particulièrement à remercier Sir Daniel Brands of House Brands,
 the first of His Name, King of the Dutch, King of the flatlands and the first
@@ -206,12 +219,12 @@ Security}, renommée \textit{Arksens} au 1\up{er} juillet.
 
 Ce stage fut donc l'occasion pour moi de mettre en pratique mes connaissances,
 acquises tout au long de mon parcours universitaire, dans un environnement
-professionnel. Ma mission, durant ce stage, a été de concevoir et
-dévélopper un système de sauvegarde incrémentale et sécurisé, offrant
-une encryption en local des données des utilisateurs. J'ai ainsi procédé
-à la rédaction du plan de développement puis à l'implémentation de
-celui-ci. j'ai ainsi participé au processus de création, jusqu'à un
-stade avancé, de ce qui peut être qualifié de gros projet.
+professionnel. Ma mission durant ce stage a été de concevoir et dévélopper un
+système de sauvegarde incrémentale et sécurisé, offrant un chiffrement en local
+des données des utilisateurs. J'ai procédé à la rédaction du plan de
+développement puis à l'implémentation de celui-ci. J'ai ainsi participé au
+processus de création, jusqu'à un stade avancé, de ce qui peut être qualifié
+de gros projet.
 
 Ce rapport présente le déroulement du stage ainsi que le travail accompli
 au sein de l'entreprise durant ces six mois.
@@ -290,7 +303,7 @@ table~\ref{tabProduits} :
   \caption{\label{tabProduits} Produits et solutions par \textit{Arksens}}
 \end{table}
 
-L'ensemble des produits et solutions proposés par l'entreprise sont décrit
+L'ensemble des produits et solutions proposés par l'entreprise sont décrits
 de manière plus complète sur leur site web~\cite{refArksens}.
 
 \subsection{Les offres de cloud}
@@ -384,7 +397,7 @@ suivants :
   développés par \textit{Arksens} pour \textit{Arksens} ;
   \item Communauté : l'accès facile aux produits permet de créer une
   communauté d'utilisateurs capable sur le long terme de proposer un
-  support sur les produit développés, des améliorations, mais aussi
+  support sur les produits développés, des améliorations, mais aussi
   permet de déceler des bogues ;
   \item Code source accessible : tout le monde a accès au code source,
   rien n'est caché, la crédibilité et la qualité des produits est ainsi
@@ -437,14 +450,14 @@ l'ensemble des personnes de l'équipe, l'utilisation de l'anglais au quotidien
 L'intégration dans l'équipe s'est donc faite assez facilement et rapidement.
 C'est ainsi dans une ambiance généralement bonne que s'est
 déroulé ce stage de fin d'étude, bien que quelque peu
-compliquée sur la fin dûe à la restructuration de l'entreprise s'est
+compliquée sur la fin dûe à la restructuration de l'entreprise.
 
 \chapter{Sujet de stage}
 \thispagestyle{fancy}
 \section{Contexte}
 
 L'entreprise étant encore jeune et de petite taille, plusieurs des services
-existant étaient basés sur des produits Open Source et avaient été
+existants étaient basés sur des produits Open Source et avaient été
 intégrés au \textit{manager} (voir figure~\ref{managerFront}).
 
 Ce \textit{manager} est un environnement web développé et maintenu par
@@ -458,7 +471,7 @@ faciliter l'utilisation de ces derniers.
   \caption{\label{managerFront} Page d'accueil du \textit{manager}}
 \end{figure}
 
-L'objectif de ce recrutement important était pour l'entreprise de petit à
+L'objectif du recrutement important était pour l'entreprise de petit à
 petit développer ses propres solutions afin de proposer aux utilisateurs des
 produits adaptés et répondant à leurs besoins tout en minimisant
 l'utilisation de logiciels tiers.
@@ -485,39 +498,39 @@ de créer la prochaine génération de backup pour \textit{Arksens}.
 \section{Le sujet}
 
 Ma mission pour ce stage était donc de faire la conception et le
-développement d'un système de backup incrémental et dont les données
+développement d'un système de sauvegarde incrémentale. Les données
 sauvegardées sont chiffrées en local, sur la machine client, avant d'être
-envoyées sur des serveurs distant. Il me fallait donc développer un
+envoyées sur des serveurs distants. Il me fallait donc développer un
 client/serveur multi-plate-forme, robuste et sécurisé répondant à
 la problématique suivante : combiner le chiffrement local avec la sauvegarde
 incrémentale.
 
 De plus le programme devra être \textit{multi-threadé} pour pouvoir
-optimiser la sauvegarde des données. Entre autre, cela permettra de chiffrer
-des blocs, constituant les fichiers, tout en envoyant au serveur ceux déjà
+optimiser la sauvegarde des données. Entre autres, cela permettra de chiffrer
+des blocs constituants les fichiers tout en envoyant au serveur ceux déjà
 chiffrés.
 
-Par ailleurs, comme ce service allait être proposé aux entreprises, il doit être
-pris en compte qu'un administrateur puisse gérer les différentes
-sauvegardes ou être informé si un problème survenait sur le poste d'un
-employé lors de l'utilisation du logiciel.
+Par ailleurs, comme ce service allait être proposé aux entreprises, il devait
+être pris en compte qu'un administrateur puisse gérer les différentes
+sauvegardes ou être informé si un problème survenait sur le poste d'un employé
+lors de l'utilisation du logiciel.
 
-Enfin, un système de quota devait être mis en place. Ce système permettant
+Enfin, un système de quota devait être mis en place. Ce système permettrait
 aux entreprises de demander un plus ou moins grand quota selon la quantité de
-données à sauvegarder. Celle-ci pouvant varier selon la taille ou la
-fonction de l'entreprise, un quota permet une certaine flexibilité.
+données à sauvegarder. En effet celle-ci pouvant varier selon la taille ou la
+fonction de l'entreprise, un quota permettrait une certaine flexibilité.
 
-Ce backup permettrait donc, au premier lancement, de sauvegarder l'ensemble
-d'un ou plusieurs dossier. À partir de la seconde sauvegarde, il ne faudrait
-néanmoins sauvegarder que les changements sur les fichiers.
+Cette application permettrait donc, au premier lancement, de sauvegarder
+l'ensemble d'un ou plusieurs dossiers. À partir de la seconde sauvegarde, seules
+les modifications apportées aux fichiers seraient sauvegardées.
 
-À mon arrivée, David et Gaëtan avait déjà émis des idées sur la
+À mon arrivée, David et Gaëtan avaient déjà émis des idées sur la
 manière de réaliser ce système de sauvegarde, idées que nous verrons
-plus loin dans ce rapport. Et c'est à partir de celles-ci que j'ai pu
+plus loin dans ce rapport. C'est à partir de celles-ci que j'ai pu
 démarrer mon travail, qui sera alors divisé en trois grandes phases :
 
 \begin{itemize}
- \item Phase de documentation et de réflexions sur la problématique ;
+ \item Phase de documentation et de réflexion sur la problématique ;
  \item Conception logicielle ;
  \item Développement.
 \end{itemize}
@@ -527,28 +540,27 @@ rechercher différentes solutions déjà existantes et potentiellement
 exploitables avant de procéder à toute phase de conception.
 
 La conception s'est faite en prenant en compte les contraintes existantes
-et en se basant sur un travail de réflexions déjà effectué par David et
+et en se basant sur un travail de réflexion déjà effectué par David et
 Gaëtan avant mon arrivée.
 
-Enfin, en ce qui concerne le développement, une des contraintes que j'avais
-était d'utiliser le C++ et de développer de manière orienté objet tout
+Enfin, en ce qui concerne le développement, une des contraintes que j'avais,
+était d'utiliser le \textit{C++} et de développer de manière orientée objet tout
 en faisant en sorte que le code puisse être robuste, lisible, testable, et
 donc facilement maintenable. De plus les librairies et \textit{framework}
 utilisés devaient être sous licence libre afin d'être en droit de publier
 l'ouvrage sous licence libre. Une dernière contrainte, mais pas des moindres,
-était de développer en logiciel pouvant tourner sur les
+était de développer un logiciel pouvant tourner sur les
 plate-formes répandues : \textit{Mac OSX}, \textit{Windows} et
 \textit{GNU/Linux}.
 
 Pour mener cette mission à bien, il avait été décidé qu'une réunion
-hebdomadaire ait lieu afin que David et Gaëtan puissent
-suivre l'avancement du projet mais aussi pour voir le travail effectué la
-semaine précédente, essayer de résoudre tout problème qui aurait pu
-survenir et planifier la semaine suivante.
-C'est en tout cas dans cette optique là que nous avions commencé. Dans les
-fait, le retour des clients de l'entreprise lors de mises à jour des produits
+hebdomadaire ait lieu avec David et Gaëtan. Celle-ci pour qu'ils puissent
+suivre l'avancement du projet, voir le travail effectué la semaine précédente,
+m'aider à résoudre les éventuels problèmes et planifier la semaine à venir.
+C'est en tout cas dans cette optique que nous avions commencé. Dans les
+faits, le retour des clients de l'entreprise lors de mises à jour des produits
 ou des réunions avec de potentiels futurs clients pouvaient prendre la
-priorité et ainsi retarder ou annuler les réunions hebdomadaire.
+priorité et ainsi retarder ou annuler les réunions hebdomadaires.
 
 \chapter{Déroulement du stage}
 \thispagestyle{fancy}
@@ -561,27 +573,29 @@ de leur réflexion sur le possible fonctionnement du système de sauvegarde.
     \caption{\label{schemaInitial} Schéma initial du fonctionnement du backup}
 \end{figure}
 
-Le système possède deux comportement différent lors de la sauvegarde d'un fichier.
+Le système possède deux comportements différents lors de la sauvegarde d'un
+fichier.
 
 \bigskip
 
-D'abord à la première connexion, où une sauvegarde intégrale est
-nécessaire, puis lors des connexions suivantes où seulement les
-modifications doivent être envoyées.
+D'abord à la première connexion, où une sauvegarde intégrale est nécessaire,
+puis lors des connexions suivantes où seulement les modifications doivent
+être envoyées.
 
-Dans le premier cas, le fichier est découpé en blocs de taille égale
-avant d'être chiffré puis envoyé accompagné des signatures calculées
-pour chaque bloc ainsi que pour le fichier en lui même. Les signatures
-permettant de vérifier l'intégrité des fichiers.
+Dans le premier cas, le fichier est découpé en blocs de taille égale avant
+d'être chiffré puis envoyé accompagné des signatures calculées pour chaque
+bloc ainsi que pour le fichier en lui même. Les signatures permettant de
+vérifier l'intégrité des fichiers. 
 
-Le second cas est un peu plus complexe et décrit comme suit :
+Le second cas est un peu plus complexe et est décrit comme suit :
+
 \begin{itemize}
  \item Calculer \textit{signature\_toto.txt} (\(N + 1\)) ;
  \item Télécharger \textit{signature\_toto.txt} (\(N\)) ;
  \item Comparer les deux signatures : si elles sont identiques, le fichier n'a
  pas été modifié, on passe donc à la vérification du fichier suivant. Sinon,
  on continue ;
- \item Découper toto en bloc ;
+ \item Découper \textit{toto.txt} en bloc ;
  \item Calculer la signature de chaque bloc (\(N + 1\)) ;
  \item Télécharger la signature de chaque bloc (\(N\)) ;
  \item Comparer chaque signatures entre elles ;
@@ -590,18 +604,14 @@ Le second cas est un peu plus complexe et décrit comme suit :
 \end{itemize}
 
 Dans le cas de la figure~\ref{schemaInitial}, le bloc 1 étant modifié, sa
-signature, à \(N + 1\), ne correspond pas à la signature précédemment
-calculée (\(N\)). Le bloc est donc chiffré avant d'être envoyé sur le
-serveur avec sa signature \textit{signature\_bloc1.txt}.
+signature, à \(N + 1\), ne correspond pas à la signature précédemment calculée
+(\(N\)). Le bloc est donc chiffré avant d'être envoyé sur le serveur avec sa
+signature \textit{signature\_bloc1.txt}.
 
 \subparagraph{}
-L'idée, bien qu'intéressante dans un premier temps, ne peut être
-appliquée que dans un cas très particulier de fonctionnement et ne peut
-donc pas être utilisé en tant que tel :
-\begin{itemize}
- \item[] Si les modifications n'affectent pas la taille d'un bloc et que l'ordre
- des blocs est resté inchangé.
-\end{itemize}
+L'idée bien qu'intéressante ne peut être appliquée que dans un cas très
+particulier de fonctionnement, lorsque les modifications n'affectent pas la
+taille d'un bloc et que l'ordre des blocs est resté inchangé.
 
 Pour tout les autres cas (ajout, suppression, déplacement de tout ou partie
 d'un bloc, etc.), l'algorithme ne pourrait pas fonctionner. Pour palier à
@@ -613,7 +623,7 @@ et fonctionnant dans tous les cas imaginables.
 \subsection{Documentation}
 
 Mon travail de recherche s'est fait à partir d'une liste de mots-clés qui
-m'a été donné afin que l'on parle tous le même langage. Entre autre,
+m'a été donné afin que l'on parle tous le même langage. Entre autres,
 certaines définitions liées au backup et au chiffrement :
 \begin{itemize}
  \item Backup incrémental\footnote{Sauvegarde de fichiers dont le principe est
@@ -642,7 +652,7 @@ Les données n'étant jamais stockées sur un serveur tiers, uniquement les
 différents ordinateurs utilisés y ont donc accès.
 
 L'aspect intéressant de \textit{Syncthing} est pour nous le protocole de
-communication, qui a été crée à l'occasion : Block Exchange Protocol
+communication, qui a été créé à l'occasion : Block Exchange Protocol
 (BEP)~\cite{refBEP}. Ce protocole sous Creative Commons~\cite{refCC4.0}, est
 donc une bonne source d'inspiration pour faire la liaison entre notre client
 et le serveur.
@@ -652,7 +662,7 @@ et le serveur.
 \textit{rsync} est un programme de transfert de fichiers pour les systèmes
 Unix. Le c\oe ur du programme est son algorithme, schématisé
 figure~\ref{rsyncAlgo} :
-\textit{\flqq rsync algorithm \frqq}~\cite{refRsyncAlgo}.
+\textit{\flqq~rsync algorithm~\frqq}~\cite{refRsyncAlgo}.
 
 \begin{figure}[h!]
     \centering
@@ -681,14 +691,14 @@ Ainsi, tout ce qui précède la fenêtre, et jusqu'au précédent bloc
 trouvé, correspondant à une partie du fichier modifiée
 (ajout/modification/suppression) et doit donc être synchronisé.
 
-C'est en grande partie cet algorithme qui m'a permis d'en trouver un qui me
-permette de répondre à ma problématique. Problématique à la fois
-similaire au problème de \textit{rsync} puisqu'il fallait comparer deux
-fichiers distants pour n'envoyer que les changements mais également
-différent dans la mesure où il n'est pas possible dans mon cas de maintenir
-une liste de bloc de même taille au delà de la première sauvegarde.
+C'est en grande partie cet algorithme qui m'a permis d'en trouver un répondant
+à ma problématique. Problématique à la fois similaire au problème de
+\textit{rsync} puisqu'il fallait comparer deux fichiers distants pour n'envoyer
+que les changements mais également différent dans la mesure où il n'est pas
+possible dans mon cas de maintenir une liste de bloc de même taille au delà de
+la première sauvegarde.
 
-\subsection{Réflexions}
+\subsection{Réflexion}
 
 Une fois cette phase de documentation réalisée, il était temps de trouver
 un algorithme permettant d'identifier les parties d'un fichier ayant été
@@ -707,98 +717,88 @@ sans avoir à connaître le contenu d'un fichier.
 \begin{itemize}
  \item \textbf{Fonctionnement :}
  
- Dans notre cas, il nous aurait permis de
- concatener sur le serveur l'ensemble des morceaux d'un fichier avant de le
- re-découper en bloc de taille égale puis de calculer pour chacun le
- \texttt{checksum} ainsi que le \texttt{hash}. Ceci aurait permis d'utiliser
- directement l'algorithme \textit{rsync} pour identifier les modifications
- faites sur un fichier ;
+ Dans notre cas, il nous aurait permis de concatener sur le serveur l'ensemble
+ des morceaux d'un fichier avant de le re-découper en bloc de taille égale
+ puis de calculer pour chacun le \texttt{checksum} ainsi que le
+ \texttt{hash}. Ceci aurait permis d'utiliser directement l'algorithme
+ \textit{rsync} pour identifier les modifications faites sur un fichier ;
 
  \item \textbf{Avantage :}
  
- Consommation de ressource et temps de calcul
- réduit sur la machine client ;
+ Consommation de ressource et temps de calcul réduit sur la machine client ;
  
  \item \textbf{Inconvénient :}
  
- En utilisant le chiffrement homomorphe, le
- plus gros du calcul se fait sur le serveur entre deux backup, et ceux pour
- chaque fichier de chaque utilisateur. Ce type de chiffrement est donc trop
- demandeur de ressources du côté du serveur pour que le programme fonctionne
- correctement ;
+ En utilisant le chiffrement homomorphe, le plus gros du calcul se fait sur le
+ serveur entre deux backup, et ceux pour chaque fichier de chaque utilisateur.
+ Ce type de chiffrement est donc trop demandeur de ressources du côté du
+ serveur pour que le programme fonctionne correctement ;
 
  \item \textbf{Problème :}
  
- Le chiffrement homomorphe est un domaine de
- recherche très prometteur mais pas encore assez avancé pour pouvoir
- être utilisé en production. De plus le temps de calcul est extrêmement
- élevé. Cette solution ne peut donc pas être utilisée aujourd'hui mais
- pourra peut-être un jour être envisagée dans une prochaine version du
- backup.
+ Le chiffrement homomorphe est un domaine de recherche très prometteur mais
+ pas encore assez avancé pour pouvoir être utilisé en production. De plus le
+ temps de calcul est extrêmement élevé. Cette solution ne peut donc pas être
+ utilisée aujourd'hui mais pourra peut-être un jour être envisagée dans une
+ prochaine version du backup.
 \end{itemize}
 
 \subsubsection{rsync revisité}
 
-Étant donné que les fichiers doivent être chiffrés et déchiffrés
-uniquement sur la machine hôte (le client), nous ne pouvons effectuer
-d'opérations sur ceux du serveur. Il fallait trouver un algorithme qui
-permette de d'analyser un fichier en un temps fini. J'ai donc décidé de
-baser mon travail sur le principe de fenêtre glissante utilisée par
-\textit{rsync}. Ne pouvant pas avoir des morceaux de fichier de taille
-identique, il a fallu modifier l'algorithme pour prendre ceci en compte. Ainsi
-avoir une fenêtre dynamique semblait être l'option à prendre.
+Étant donné que les fichiers doivent être chiffrés et déchiffrés uniquement sur
+la machine hôte (le client), nous ne pouvons effectuer d'opérations sur ceux du
+serveur. Il fallait trouver un algorithme qui permette d'analyser un fichier en
+un temps fini. J'ai donc décidé de baser mon travail sur le principe de fenêtre
+glissante utilisée par \textit{rsync}. Ne pouvant pas avoir des morceaux de
+fichier de taille identique, il a fallu modifier l'algorithme pour prendre ceci
+en compte. Ainsi avoir une fenêtre dynamique semblait être l'option à prendre.
 
 \begin{itemize}
  \item \textbf{Fonctionnement :}
  
- L'algorithme utilise une fenêtre dynamique,
- parcourant l'intégralité du fichier et adaptant sa taille en fonction
- des longueurs des morceaux de fichier que nous avons ;
+ L'algorithme utilise une fenêtre dynamique, parcourant l'intégralité du
+ fichier et adaptant sa taille en fonction des longueurs des morceaux de
+ fichier que nous avons ;
  
  \item \textbf{Avantage :}
  
- Fait côté client, il n'y a pas une
- sur-utilisation des ressources serveurs qui est alors utilisé uniquement
- pour stocker les données une fois chiffrées ;
+ Fait côté client, il n'y a pas une sur-utilisation des ressources serveurs
+ qui est alors utilisé uniquement pour stocker les données une fois
+ chiffrées ;
  
  \item \textbf{Inconvénient :}
  
- Temps de calcul potentiellement grand,
- dépendant de la taille des fichiers à analyser ainsi que de ressources
- disponible sur la machine client.
+ Temps de calcul potentiellement long, dépendant de la taille des fichiers à
+ analyser ainsi que des ressources disponibles sur la machine client.
 \end{itemize}
 
-C'est donc sur cette base que j'ai commencé l'étape suivante. Étape 
-consistant à écrire un prototype permettant de vérifier la faisabilité,
-notamment en ce qui concerne le temps d'exécution du programme.
+C'est donc sur cette base que j'ai commencé l'étape suivante. Étape consistant
+à écrire un prototype permettant de vérifier la faisabilité, notamment en ce
+qui concerne le temps d'exécution du programme.
 
 \subsection{Prototypage}
 
-La vérification, en pratique, de la théorie était nécessaire avant de
-pouvoir penser à la conception du produit. Pour cela, le passage par une
-étape de prototypage était inévitable.
+La vérification, en pratique, de la théorie était nécessaire avant de pouvoir
+penser à la conception du produit. Pour cela, le passage par une étape de
+prototypage était inévitable.
 
-Dans ce cadre, j'ai écrit l'algorithme en \textit{C++} afin de vérifier
-le temps d'exécution de celui-ci. Plusieurs essais ont été faits afin de
-réduire toujours plus la durée d'exécution de l'algorithme. C'est donc
-principalement de l'optimisation, à la fois au niveau algorithmique et
-au niveau de l'écriture du code en lui-même, que j'ai effectué  au
-cours de cette étape.
+Dans ce cadre, j'ai écrit l'algorithme en \textit{C++} afin de vérifier le
+temps d'exécution de celui-ci. Plusieurs essais ont été faits afin de réduire
+toujours plus la durée d'exécution de l'algorithme. C'est donc principalement
+de l'optimisation, à la fois au niveau algorithmique et au niveau de l'écriture
+du code en lui-même, que j'ai effectuée au cours de cette étape.
 
 Plusieurs versions ont donc vu le jour au cours de cette étape afin d'obtenir
-un algorithme qui puisse être utilisable pour le système de sauvegarde. Dans
-le cas contraire, il aurait fallu chercher un algorithme différent pour
-atteindre notre objectif. Cela n'a néanmoins pas été le cas. Le
+un algorithme qui puisse être utilisable pour le système de sauvegarde. Le
 prototype écrit ayant permis de valider le fonctionnement de l'algorithme
-conçu, j'ai pu passer à l'étape suivante et commencer ainsi la
-conception.
+conçu, j'ai pu passer à l'étape suivante et commencer ainsi la conception.
 
 \section{Conception}
 \subsection{Un programme modulaire}
 
-La conception a commencé avec le découpage du projet en différents
-modules. Avant de penser à la partie serveur, c'est le client qui, dans un
-premier temps, va être la priorité.
+La conception a commencé avec le découpage du projet en différents modules.
+Avant de penser à la partie serveur, c'est le client qui, dans un premier
+temps, a été la priorité.
 
 \begin{figure}[h!]
   \centering
@@ -810,44 +810,42 @@ Pour celui-ci, dix modules vont être utilisés autour d'un module central :
 
 \begin{itemize}
   \item \textbf{organizer :} module central qui va créer un certain nombre de
-  \textit{thread} et lancer les différents modules nécessaires à la
-  sauvegarde ou à la récupération des données ;
-  \item \textbf{information :} ce module contient les informations
-  (méta-informations) nécessaires sur les morceaux de fichiers ainsi que
-  sur les fichiers en eux-même ;
-  \item \textbf{filer :} ce module récupère la liste des fichiers à
-  partir du répertoire d'entrée. Il crée les objets correspondants
-  (module information) et les transmets au module suivant ;
-  \item \textbf{spconc :} ce module coupe (\textit{split}) ou concatène ce
-  qui lui est envoyé selon qu'il s'agisse d'une sauvegarde ou d'une
-  récupération de données ;
-  \item \textbf{scanFile :} dans le cas où un fichier ait déjà été
-  sauvegardé, ce module va scanner l'intégralité du fichier pour trouver
-  les parties qui ont été modifiées et qui doivent être chiffrées et
-  envoyées au serveur ;
-  \item \textbf{hasher :} ce module fournit des fonction de hachage permettant
+  \textit{thread} et lancer les différents modules nécessaires à la sauvegarde
+  ou à la récupération des données ; \item \textbf{information :} ce module
+  contient les informations (méta-informations) nécessaires sur les morceaux
+  de fichiers ainsi que sur les fichiers eux-même ;
+  \item \textbf{filer :} ce module récupère la liste des fichiers à partir du
+  répertoire d'entrée. Il crée les objets correspondants (module information)
+  et les transmet au module suivant ; \item \textbf{spconc :} ce module coupe
+  (\textit{split}) ou concatène ce qui lui est envoyé selon qu'il s'agisse
+  d'une sauvegarde ou d'une récupération de données ;
+  \item \textbf{scanFile :} dans le cas où un fichier aurait déjà été
+  sauvegardé, ce module scannera l'intégralité du fichier pour trouver les
+  parties qui ont été modifiées et qui doivent être chiffrées et envoyées au
+  serveur ;
+  \item \textbf{hasher :} ce module fournit des fonctions de hachage permettant
   de vérifier l'intégrité des fichiers ;
   \item \textbf{encryptor :} ce module s'occupe du chiffrement et du
   déchiffrement des données ;
-  \item \textbf{communication :} ce module s'occupe de la communication avec
-  le serveur ;
+  \item \textbf{communication :} ce module s'occupe de la communication avec le
+  serveur ;
   \item \textbf{dbcomm :} ce module contient les fonctions utilisées pour la
   communication avec la base de données ;
   \item \textbf{misc :} ce module contient divers outils
-  (\textit{miscellaneous}) pouvant être utiles dans le programme. Entre autre
-  il contient le système de notifications réalisant la communication entre
-  les différents modules ;
+  (\textit{miscellaneous}) pouvant être utiles dans le programme. Entre autres
+  il contient le système de notifications réalisant la communication entre les
+  différents modules ;
   \item \textbf{logger :} ce module permet de garder une trace lors de
-  l'exécution du programme, notamment utile lors du déboguage ou si une
-  erreur provoque l'arrêt prématuré du programme.
+  l'exécution du programme, notamment utile lors du déboguage ou si une erreur
+  provoque l'arrêt prématuré du programme.
 \end{itemize}
 
 \subparagraph{}
 L'utilisation de modules doit permettre une modification aisée du programme,
 sans avoir à modifier tout le code. Par exemple, pour changer un algorithme,
-il sera seulement nécessaire d'écrire que le code de celui-ci sans
-modifier celui déjà en place. Par la suite, il ne devrait y avoir à
-préciser que l'algorithme souhaité lors de la création d'un objet.
+il sera seulement nécessaire d'écrire le code de celui-ci sans modifier celui
+déjà en place. Par la suite, il ne devrait y avoir à préciser que l'algorithme
+souhaité lors de la création d'un objet.
 
 Un autre avantage de la programmation modulaire est la facilitée que cela
 apporte pour maintenir le code efficacement.
@@ -860,29 +858,29 @@ programmation orientée objet.
 L'utilisation de \textit{threads} pour exécuter les différents modules
 complique l'interaction entre ceux-ci. Plusieurs modules sont utilisés
 successivement pour pouvoir traiter un fichier, de la lecture depuis le disque
-jusqu'à l'envoie des blocs --- chiffrés --- le constituant (dans le cas
-d'une sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un
-lien est donc nécessaire pour que deux \textit{threads} puisse s'envoyer les
+jusqu'à l'envoie des blocs --- chiffrés --- le constituant (dans le cas d'une
+sauvegarde). Dans ce sens, les modules doivent communiquer entre eux. Un lien
+est donc nécessaire pour que deux \textit{threads} puissent s'envoyer les
 données liées à un fichier.
 
-Dans un premier temps, j'avais crée un outil qui, appelé par un module,
+Dans un premier temps, j'avais créé un outil qui, appelé par un module,
 retournait un \textit{pipe} (tunnel) soit en lecture, soit en écriture. Un
 autre module pouvait ensuite utiliser ce même outil pour récupérer le tunnel.
 Un module ayant accès au tunnel en lecture et l'autre en écriture, une
-communication peut être effectuée dans un sens. Un second tunnel est
-nécessaire pour pouvoir communiquer dans les deux sens. En triant les
-tunnels ainsi créés par catégories, il était possible de faire
-communiquer deux modules tel que, par exemple, \textit{encryptor} et
-\textit{communication}. Le premier pouvait ainsi envoyer ou recevoir des
-données vers ou depuis le module \textit{communication}. Dans ce cas, la
-catégorie du tunnel aurait alors pu s'appeler \textit{encomm}.
+communication peut être effectuée dans un sens. Un second tunnel est nécessaire
+pour pouvoir communiquer dans les deux sens. En triant les tunnels ainsi créés
+par catégories, il était possible de faire communiquer deux modules tels que,
+par exemple, \textit{encryptor} et \textit{communication}. Le premier pouvait
+ainsi envoyer ou recevoir des données vers ou depuis le module
+\textit{communication}. Dans ce cas, la catégorie du tunnel aurait alors pu
+s'appeler \textit{encomm}.
 
 Il y avait néanmoins un problème majeur à l'utilisation d'un tel outil.
 S'il permettait bien d'envoyer des informations entre deux modules sans
 que ceux-ci ne se connaissent, il ne pouvait pas envoyer d'objet
-\textit{C++}. En somme les modules ne pouvaient pas s'envoyer les méta-informations
-du fichier sur lequel ils étaient en train de travailler. Ils n'avaient
-donc que les octets du fichiers.
+\textit{C++}. En somme les modules ne pouvaient pas s'envoyer les
+méta-informations du fichier sur lequel ils étaient en train de travailler.
+Ils n'avaient donc que le contenu (octets) du fichiers.
 
 Pour palier à ce problème, nous nous sommes donc dirigés vers les patrons
 de conception (\textit{design pattern}).
@@ -895,47 +893,43 @@ de conception (\textit{design pattern}).
 Pour faire ce lien, nous avons dans un premier temps pensé au
 \textit{design pattern} \textit{observer} dont le principe est de notifier des
 objets inconnus lors d'un changement d'état. Dans notre cas, cela aurait permis
-que les autres modules l'observant
-soient avertis et puissent agir en conséquence. Cela donne
-également la possibilité à un module d'envoyer des informations en
-passant dans un certain état à des moments clés. Ces informations
-correspondraient aux méta-données d'un fichier, accompagné d'un
+que les autres modules l'observant soient avertis et puissent agir en
+conséquence. Cela donne également la possibilité à un module d'envoyer des
+informations en passant dans un certain état à des moments clés. Ces
+informations correspondraient aux méta-données d'un fichier, accompagnées d'un
 \textit{pipe} servant de tunnel pour faire transiter le fichier en lui-même
 d'un \textit{thread} à un autre.
 
-Cette solution ne fut pas retenue car elle impliquait qu'un
-module ait connaissance de celui à qui envoyer les informations. Ceci
-n'était pas voulu afin de laisser les modules aussi indépendant que
-possible.
+Cette solution ne fut pas retenue car elle impliquait qu'un module ait
+connaissance de celui à qui envoyer les informations. Ceci n'était pas voulu
+afin de laisser les modules aussi indépendants que possible.
 
 \paragraph{Event Notifier}
 
 \bigskip
 
 Afin d'éviter que certains modules aient connaissance de l'existence d'autres
-modules, un système de notifications a donc été implémenté. Le
-principe de ce système est relativement simple à comprendre. Nous pouvons
-d'ailleurs trouver le même système dans la vie de tous les jours. Par
-exemple un journal publie régulièrement des nouvelles ayant un certain
-libellé (\flqq alertes\frqq, \flqq national\frqq, \flqq sport\frqq, etc.).
-En face, il existe des utilisateurs qui peuvent, ou non, s'inscrire à un ou
-plusieurs type de nouvelles. Ainsi, quelqu'un inscrit aux nouvelles de type
-\flqq alertes\frqq~va recevoir une notification lorsqu'une nouvelle de ce type
-apparaît.
+modules, un système de notifications a donc été implémenté. Le principe de ce
+système est relativement simple à comprendre. Nous pouvons d'ailleurs trouver
+le même système dans la vie de tous les jours. Par exemple un journal publie
+régulièrement des nouvelles ayant un certain libellé (\flqq~alertes~\frqq,
+\flqq~national~\frqq, \flqq~sport~\frqq, etc.). En face, il existe des
+utilisateurs qui peuvent, ou non, s'inscrire à un ou plusieurs type de
+nouvelles. Ainsi, quelqu'un inscrit aux nouvelles de type \flqq~alertes~\frqq~va
+recevoir une notification lorsqu'une nouvelle de ce type apparaît.
 
-Le principe utilisé dans notre cas est exactement le même : des modules
-lancent des notifications que d'autres reçoivent s'ils sont inscrits à
-celles-ci.
+Le principe utilisé dans notre cas est exactement le même : des modules lancent
+des notifications que d'autres reçoivent s'ils sont inscrits à celles-ci.
 
 Pour que cela fonctionne correctement, un centre de notifications est
-nécessaire. Ainsi, et contrairement à un système d'\flqq observer\frqq,
+nécessaire. Ainsi, et contrairement à un système d'\flqq~\textit{observer}~\frqq,
 les modules n'ont pas à avoir connaissance les uns des autres puisque chacun
 passe par ce centre.
 
 Celui-ci est présenté figure~\ref{classDiagramNotif}. Il y a le centre de
 notifications \textit{CNotificationService} qui gère les abonnements et les
-abonnés. Ce centre permet ainsi de les notifier les modules ayant souscrit à
-un certain type de notification. Pour utiliser ce service, il existe deux
+abonnés. Ce centre permet ainsi de notifier les modules ayant souscrit à un
+certain type de notification. Pour utiliser ce service, il existe deux
 interfaces : \textit{ISubscriber} pour les abonnés et \textit{INotifier} pour
 émettre les notifications. Ces interfaces sont donc implémentées par les
 différents modules utilisant le système de notifications.
@@ -955,13 +949,13 @@ différents modules utilisant le système de notifications.
 \end{figure}
 
 La figure~\ref{interactModule} montre comment le programme fonctionne dans le
-cas d'une première sauvegarde sur le serveur. Chaque noeud à l'intérieur
-du client est un module exploitant un \textit{thread} différent. Ainsi
+cas d'une première sauvegarde sur le serveur. Chaque noeud à l'intérieur du
+client est un module exploitant un \textit{thread} différent. Ainsi
 avons-nous :
 
 \begin{itemize}
- \item une seule instance de \textit{Filer} est exécutée. Le module
- communique avec une des instances libre du module \textit{Split}, i.e.~qui
+ \item Une seule instance de \textit{Filer} est exécutée. Le module
+ communique avec une des instances libres du module \textit{Split}, i.e.~qui
  n'est pas déjà en train de travailler sur un fichier ;
  \item À son tour, le module \textit{Split} communique avec n'importe quel
  \textit{thread} exécutant le module \textit{Crypto} en lui envoyant les
@@ -973,31 +967,29 @@ avons-nous :
 
 \subsection{Base de données}
 
-L'utilisation d'une
-base de données semblait obligatoire à la fois du côté client et du côté serveur
-afin de garder les méta-données
-des fichiers sauvegardés mais également pouvoir garder en mémoire une
-trace de chaque sauvegarde effectuée. Cela donnerait la possibilité
-de restaurer n'importe quelle version d'un ou plusieurs fichier(s). De ce fait
-nous aurions donc l'ensemble des informations nécessaires à la
-reconstruction d'une version particulière d'un fichier.
+L'utilisation d'une base de données semblait obligatoire à la fois du côté
+client et du côté serveur afin de garder les méta-données des fichiers
+sauvegardés mais également pouvoir garder en mémoire une trace de chaque
+sauvegarde effectuée. Cela donnerait la possibilité de restaurer n'importe
+quelle version d'un ou plusieurs fichier(s). De ce fait nous aurions donc
+l'ensemble des informations nécessaires à la reconstruction d'une version
+particulière d'un fichier.
 
-L'utilisation d'une base de donnée côté serveur était donc évidente.
-Le choix d'en avoir une également sur la machine cliente s'est fait
-naturellement dans la mesure où cela évite d'avoir à effectuer
-régulièrement des connexions avec le serveur. Contrairement
-à la base de donnée présente sur le serveur, celle du client permettrait
-de ne stocker que les informations liées à la dernière sauvegarde. Ce
-sont en effet ces informations qui sont utiles lors d'une nouvelle sauvegarde.
-Le temps de traitement ainsi que la quantité de données transmises à travers
-le réseau Internet sont ainsi réduits.
+L'utilisation d'une base de donnée côté serveur était donc évidente. Le choix
+d'en avoir une également sur la machine cliente s'est fait naturellement dans
+la mesure où cela évite d'avoir à effectuer régulièrement des connexions avec
+le serveur. Contrairement à la base de donnée présente sur le serveur, celle
+du client permettrait de ne stocker que les informations liées à la dernière
+sauvegarde. Ce sont en effet ces informations qui sont utiles lors d'une
+nouvelle sauvegarde. Le temps de traitement ainsi que la quantité de données
+transmises à travers le réseau Internet sont ainsi réduits.
 
 \subsubsection{SQL vs NoSQL}
 
-La probématique fut donc de trouver quelle(s) type(s) de base de données
-pourrai(en)t être utilisé(s) avec d'un côté les bases de données
-relationnelles \textit{SQL} et d'un autre les bases de données \textit{NoSQL}.
-Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
+La probématique fut donc de trouver quel(s) type(s) de base de données
+pourrai(en)t être utilisé(s) avec d'un côté les bases de données relationnelles
+\textit{SQL} et d'un autre les bases de données \textit{NoSQL}. Les principales
+différences sont exposées table~\ref{tabSQLNoSQL}.
 
 \begin{savenotes}
 \begin{table}[h!]
@@ -1031,7 +1023,7 @@ Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
     Propriétés ACID\footnote{Atomicité, Cohérence, Isolation,
     Durabilité} & La grande majorité des bases de données relationnelles
     ont ces propriétés & Dépend de la technologie utilisée. Plusieurs
-    solution \textit{NoSQL} sacrifient certaines propriétés pour de meilleurs
+    solution \textit{NoSQL} sacrifient certaines propriétés pour de meilleures
     performances et une meilleure adaptabilité.\\
   \end{tabular}
   \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
@@ -1042,17 +1034,16 @@ Les principales différences sont exposées table~\ref{tabSQLNoSQL}.
 
 \subsubsection{Sur le serveur}
 
-Un des principaux points qui nous intéresse est ici l'adaptabilité. En
-effet, la quantité de données pouvant augmenter très rapidement, il peut
-être très coûteux d'utiliser une base de données relationnelle. Cela
-signifierait d'importants investissements afin de mettre en place des serveurs
-capables de contenir l'intégralité des données.
+Un des principaux points qui nous intéresse est ici l'adaptabilité. En effet,
+la quantité de données pouvant augmenter très rapidement, il peut être très
+coûteux d'utiliser une base de données relationnelle. Cela signifierait
+d'importants investissements afin de mettre en place des serveurs capables de
+contenir l'intégralité des données.
 
-Le \textit{NoSQL} était donc une solution évidente à ce problème de par
-son évolutivité horizontale. De plus cette solution offre également une
-réplication des données à travers les différents serveurs. Celle-ci
-est d'ailleurs faite automatiquement sur la plupart des solutions
-\textit{NoSQL}.
+Le \textit{NoSQL} était donc une solution évidente à ce problème grâce son
+évolutivité horizontale. De plus cette solution offre également une réplication
+des données à travers les différents serveurs. Celle-ci est d'ailleurs faite
+automatiquement sur la plupart des solutions \textit{NoSQL}.
 
 \subsubsection{Sur le client}
 
@@ -1060,15 +1051,15 @@ Afin d'avoir un accès rapide aux informations de la dernière sauvegarde
 réalisée, une base de données doit être installée sur le poste client.
 
 Nous avons dans un premier temps pensé au modèle relationnel avec une base
-de données \textit{SQLite} permettant de l'intégrer directement au
-programme. Celle-ci étant stockée dans un fichier, et ce indépendemment
-de la plate-forme utilisée, elle aurait pu correspondre à ce que voulions.
+de données \textit{SQLite} permettant de l'intégrer directement au programme.
+Celle-ci étant stockée dans un fichier, et ce indépendemment de la plate-forme
+utilisée, elle aurait pu correspondre à ce que voulions.
 
-Néanmoins la quantité d'information stockée ainsi que le nombre d'accès,
-tant en écriture qu'en lecture, sont trop importants dès lors que plus de
-quelques fichiers sont sauvegardés. Il fallait donc une base de données
-avec de meilleurs performances que celles offertes par \textit{SQLite}. De
-plus les relations entre les différentes tables étant minimes comme montrées
+Néanmoins la quantité d'information stockée ainsi que le nombre d'accès, tant
+en écriture qu'en lecture, sont trop importants dès lors que plus de quelques
+fichiers sont sauvegardés. Il fallait donc une base de données avec de
+meilleurs performances que celles offertes par \textit{SQLite}. De plus les
+relations entre les différentes tables étant minimes comme montrées
 figure~\ref{dbRelClient}, la performance du \textit{NoSQL} pouvait être
 préférée par rapport aux propriétés ACID qu'offrent le \textit{SQL}.
 
@@ -1086,21 +1077,19 @@ se trouve en annexe~\ref{annBDR}.
 
 \subsubsection{Choix de la base de données}
 
-En plus des méta-données des différents fichiers sauvegardés, le
-stockage des fichiers sur le serveur a influencé sur le choix de la base de
-données. 
+En plus des méta-données des différents fichiers sauvegardés, le stockage des
+fichiers sur le serveur a influencé sur le choix de la base de données. 
 
-Certaines bases de données \textit{NoSQL} offrent la possibilité de 
-sauvegarder les fichiers eux-mêmes. Cela peut être intéressant que ce
-soit dans l'immédiat ou dans une future version de l'application.
+Certaines bases de données \textit{NoSQL} offrent la possibilité de sauvegarder
+les fichiers eux-mêmes. Cela peut être intéressant que ce soit dans l'immédiat
+ou dans une future version de l'application.
 
-Bien que dans un premier temps nous ayons décidé d'utiliser le
-système de fichier en place sur le serveur, nous avons pris en compte cette
+Bien que dans un premier temps nous ayons décidé d'utiliser le système de
+fichier en place sur le serveur, nous avons pris en compte cette
 fonctionnalité.
 
-C'est donc sur \textit{MongoDB} que s'est arrêté notre choix. Cette base
-de données a plusieurs avantages qui correspondait à ce que nous
-recherchions :
+C'est donc sur \textit{MongoDB} que s'est arrêté notre choix. Cette base de
+données a plusieurs avantages qui correspondaient à ce que nous recherchions :
 
 \begin{itemize}
  \item Réplication automatique des données sur plusieurs serveurs ;
@@ -1111,10 +1100,9 @@ recherchions :
 
 C'est également une des bases de données les plus utilisées pour du
 \textit{NoSQL}. La communauté, et donc les sources pour rechercher des
-informations relatives à son utilisation, est assez importante. N'ayant
-jamais utilisé \textit{MongoDB} auparavant il était intéressant
-de pouvoir assez facilement accéder à une
-possible aide si un problème arrivait.
+informations relatives à son utilisation, est assez importante. N'ayant jamais
+utilisé \textit{MongoDB} auparavant il était intéressant de pouvoir assez
+facilement accéder à une possible aide si un problème arrivait.
 
 Le modèle de stockage dans \textit{MongoDB} est de type documents. La
 table~\ref{tabMappSQLMongoTerms} présente l'équivalence entre les termes
@@ -1149,14 +1137,14 @@ utilisés pour une base de données \textit{SQL} avec ceux utilisés dans
 
 \subsubsection{Schémas}
 
-Bien que quelque peu différents, les schémas des bases de données
-présentes sur le serveur et le client ressemblent à celui présent
+Bien que quelque peu différents, les schémas des bases de données présentes
+sur le serveur et le client ressemblent à celui présent
 figure~\ref{dbRelClient}.
 
 L'absence de relations entre les différentes collections a donc obligé une
-modification des schémas. De plus le serveur doit tenir compte qu'un
-utilisateur peut avoir plusieurs machines alors que le client ne s'occupe que
-de la machine sur laquelle il est installé.
+modification des schémas. De plus le serveur doit tenir compte qu'un utilisateur
+peut avoir plusieurs machines alors que le client ne s'occupe que de la machine
+sur laquelle il est installé.
 
 \paragraph{Client}
 
@@ -1187,10 +1175,9 @@ User :
 Il peut être intéressant de noter que l'ancienne table \textit{Machine} a été
 intégrée dans la collection \textit{User}. Ce choix s'est fait puisque, sur
 le client il n'y a que la machine sur laquelle le logiciel est installé qui est
-présente en base de données. De plus, l'accès aux données est à la
-fois plus simple et plus rapide en utilisant une collection regroupant
-l'utilisateur et sa machine plutôt qu'en utilisant deux collections
-distinctes.
+présente en base de données. De plus, l'accès aux données est à la fois plus
+simple et plus rapide en utilisant une collection regroupant l'utilisateur et
+sa machine plutôt qu'en utilisant deux collections distinctes.
 
 \begin{lstlisting}[language=json]
 File :
@@ -1206,9 +1193,9 @@ File :
 }
 \end{lstlisting}
 
-N'ayant que les informations d'un seul utilisateur et d'une seule machine,
-il n'est pas utile de lier d'une quelconque manière que ce soit la
-collection \textit{File} avec la collection \textit{User}.
+N'ayant que les informations d'un seul utilisateur et d'une seule machine, il
+n'est pas utile de lier d'une quelconque manière que ce soit la collection
+\textit{File} avec la collection \textit{User}.
 
 \begin{lstlisting}[language=json]
 Chunk :
@@ -1226,16 +1213,15 @@ Chunk :
 \end{lstlisting}
 
 Le lien entre la collection \textit{Chunk} et la collection \textit{File} est
-représenté par le champ \textit{id\_file} contenant l'identifiant d'un
-fichier auquel appartient un morceau.
+représenté par le champ \textit{id\_file} contenant l'identifiant d'un fichier
+auquel appartient un morceau.
 
 \paragraph{Serveur}
 
 \bigskip
 
-Bien que similaire, la base de données est légèrement différente sur le
-serveur par rapport celle du client. Les changements prennent en compte le fait
-qu'il
+Bien que similaire, la base de données est légèrement différente sur le serveur
+par rapport celle du client. Les changements prennent en compte le fait qu'il
 puisse exister plusieurs machines pour un utilisateur mais aussi que plusieurs
 utilisateurs existent au sein d'une compagnie.
 
@@ -1276,12 +1262,12 @@ créée, contenant l'ensemble des machines Celle-ci est intégrée dans la
 collection \textit{User}. De plus, un utilisateur pouvant être un
 administrateur, et celui-ci pouvant gérer plusieurs utilisateurs, le lien est
 ajouté à l'aide du champ \textit{id\_admin}. Ainsi si le champ n'existe pas,
-l'utilisateur n'a pas d'administrateur au-dessus de lui. Aussi
-\textit{is\_admin} permet de connaître les privilèges de chaque utilisateur.
-L'utilisation de ces deux champs permet également de prendre compte qu'un
-administrateur peut lui-même être sous la supervision d'un autre
-administrateur. Cas qui peut être imaginable dans le cadre de l'utilisation du
-logiciel au sein d'une grosse société.
+l'utilisateur n'a pas d'administrateur au-dessus de lui. \textit{is\_admin}
+permet de connaître les privilèges de chaque utilisateur. L'utilisation de ces
+deux champs permet également de prendre compte qu'un administrateur peut
+lui-même être sous la supervision d'un autre administrateur. Cas qui peut
+être imaginable dans le cadre de l'utilisation du logiciel au sein d'une grosse
+société.
 
 \begin{lstlisting}[language=json]
 File :
@@ -1324,11 +1310,11 @@ décidé d'utiliser, au moins dans un premier temps, le système de fichier
 disponible sur le serveur : celui-ci ayant de meilleurs performances en lecture
 et écriture.
 
-La figure~\ref{fileSystemServer} présente comment les données seront
-stockées sur le serveur une fois sauvegardées. Ainsi chaque fichier
-correspond à un dossier contenant un ou plusieurs sous-dossier (un par
-version). La version d'un fichier correspondant à une sauvegarde à un moment
-donné, un dossier contient uniquement les parties modifiées du fichier.
+La figure~\ref{fileSystemServer} présente comment les données seront stockées
+sur le serveur une fois sauvegardées. Ainsi chaque fichier correspond à un
+dossier contenant un ou plusieurs sous-dossier (un par version). La version
+d'un fichier correspondant à une sauvegarde à un moment donné, un dossier
+contient uniquement les parties modifiées du fichier.
 
 \begin{figure}[h!]
   \hspace{-4.5em}
@@ -1349,14 +1335,13 @@ utilisé. Pour ce faire, il m'a été demandé d'en créer un correspondant
 aux données qui sont envoyées dans le cadre d'une sauvegarde. En l'occurrence,
 les morceaux d'un fichier avec les méta-données correspondantes.
 
-Comme indiqué dans la section \flqq~\nameref{secTravailRecherche} \frqq, je me
-suis servi du protocole créé pour \textit{syncthings} (\textit{BEP}).
-Celui-ci étant décrit sur le github du projet~\cite{refBEP} et
-disponible sous licence Creative Commons~\cite{refCC4.0}, il est autorisé de
-le copier, modifier et réutiliser pour n'importe quelle utilisation, même
-commerciale. Bien que ce dernier point ne nous concerne pas puisque le projet
-sera Open Source, j'ai pu récupérer le protocole et l'adapter pour qu'il
-corresponde à nos besoins.
+Comme indiqué dans la section \flqq~\nameref{secTravailRecherche}~\frqq, je me
+suis servi du protocole créé pour \textit{syncthings} (\textit{BEP}). Celui-ci
+étant décrit sur le github du projet~\cite{refBEP} et disponible sous licence
+Creative Commons~\cite{refCC4.0}, il est autorisé de le copier, modifier et
+réutiliser pour n'importe quelle utilisation, même commerciale. Bien que ce
+dernier point ne nous concerne pas puisque le projet sera Open Source, j'ai pu
+récupérer le protocole et l'adapter pour qu'il corresponde à nos besoins.
 
 Le protocole ainsi modifié est disponible en annexe~\ref{annProtocolComm}, en
 anglais puisqu'également disponible sur le wiki du projet. Celui-ci n'est pas
@@ -1365,10 +1350,9 @@ développement.
 
 \subsection{Algorithme de cryptographie}
 
-À deux reprises il m'a été demandé d'utiliser des algorithmes de
-cryptographie. Dans un premier temps pour calculer la signature de chaque
-fichier et bloc constituant un fichier. Dans un second temps pour chiffrer
-ces blocs.
+À deux reprises il m'a été demandé d'utiliser des algorithmes de cryptographie.
+Dans un premier temps pour calculer la signature de chaque fichier et bloc
+constituant un fichier. Dans un second temps pour chiffrer ces blocs.
 
 Le premier cas concerne l'utilisation d'un algorithme de hachage alors que dans
 le second cas, il est demandé d'utiliser un algorithme de chiffrement
@@ -1376,29 +1360,29 @@ symétrique.
 
 \subsubsection{Algorithme de hachage}
 
-L'idée est d'utiliser la signature pour pouvoir d'une part vérifier
-l'intégrité d'un fichier, et d'autre part de repérer un bloc particulier d'un
-fichier d'une sauvegarde à l'autre.
+L'idée est d'utiliser la signature pour pouvoir d'une part vérifier l'intégrité
+d'un fichier, et d'autre part de repérer un bloc particulier d'un fichier d'une
+sauvegarde à l'autre.
 
-C'est le second cas qui nous intéresse puisqu'en utilisant notre
-algorithme d'identification de bloc dans un fichier, il sera souvent demandé
-de calculer la signature d'un bloc. Il faut donc un algorithme qui soit à la
-fois assez fiable pour minimiser le risque de collision, mais rapide à
-calculer pour optimiser au mieux notre algorithme lors de son exécution.
+C'est le second cas qui nous intéresse puisqu'en utilisant notre algorithme
+d'identification de bloc dans un fichier, il sera souvent demandé de calculer
+la signature d'un bloc. Il faut donc un algorithme qui soit à la fois assez
+fiable pour minimiser le risque de collision, mais rapide à calculer pour
+optimiser au mieux notre algorithme lors de son exécution.
 
-\textit{SHA-256}\cite{refSHA256} semblait donc être un bon compromis. Plus
-lent à calculer qu'un \textit{SHA-512}, le risque de collision est
-inférieur par rapport à un \textit{SHA-128} ou \textit{SHA-224}. Notre
-choix s'est donc arrêté sur cet algorithme.
+\textit{SHA-256}\cite{refSHA256} semblait donc être un bon compromis. Plus lent
+à calculer qu'un \textit{SHA-512}, le risque de collision est inférieur par
+rapport à un \textit{SHA-128} ou \textit{SHA-224}. Notre choix s'est donc arrêté
+sur cet algorithme.
 
 \subsubsection{Algorithme de chiffrement symétrique}
 
 David et Gaëtan avaient déjà dans l'idée d'utiliser
 \textit{AES-CBC}\footnote{AES -- Advanced Encryption Standard}\footnote{CBC --
-Cipher Block Chaining}\cite{refAES}\cite{refCBC} avec une clé secrète de
-256 bits. Cette clé secrète ne serait présente que sur la machine cliente.
-Ainsi, le serveur ne contiendrait que des données chiffrées, sans
-possibilité de les déchiffrer.
+Cipher Block Chaining}\cite{refAES}\cite{refCBC} avec une clé secrète de 256
+bits. Cette clé secrète ne serait présente que sur la machine cliente. Ainsi,
+le serveur ne contiendrait que des données chiffrées, sans possibilité de les
+déchiffrer.
 
 \begin{figure}[h!]
   \centering
@@ -1407,62 +1391,59 @@ possibilité de les déchiffrer.
 \end{figure}
 
 La figure~\ref{schemaCBC} présente le fonctionnement de \textit{CBC}. L'idée
-est que pour chaque calcul d'un bloc de donnée le résultat chiffré soit
-utilisé pour calculer le bloc suivant et ainsi de suite jusqu'à ce que
-l'intégralité des données soit chiffrée. Un vecteur d'initialisation
-est donc utilisé pour chiffrer le tout premier bloc de données.
-
+est que pour chaque calcul d'un bloc de donnée le résultat chiffré soit utilisé
+pour calculer le bloc suivant et ainsi de suite jusqu'à ce que l'intégralité
+des données soit chiffrée. Un vecteur d'initialisation est donc utilisé pour
+chiffrer le tout premier bloc de données.
 
 \section{Développement}
 
-Le client et le serveur étant indépendant l'un de l'autre si ce n'est la
-partie communication de l'un à l'autre, le développement se fait tout
-aussi indépendemment.
+Le client et le serveur étant indépendant l'un de l'autre si ce n'est la partie
+communication de l'un à l'autre, le développement se fait tout aussi
+indépendemment.
 
-Le client étant la plus grosse partie du système de backup, je me suis
-concentré sur son développement durant mon stage. Comme il avait été
-découpé en modules durant la phase de conception, le développement s'est
-fait de la même manière.
+Le client étant la plus grosse partie du système de backup, je me suis concentré
+sur son développement durant mon stage. Comme il avait été découpé en modules
+durant la phase de conception, le développement s'est fait de la même manière.
 
 De plus chaque module a le droit à sa batterie de tests unitaires et de tests de
 non régression.
 
 \subsection{Outils de développement}
 
-Pour cette phase j'ai utilisé plusieurs outils me permettant de construire
-au mieux l'application demandée. 
+Pour cette phase j'ai utilisé plusieurs outils me permettant de construire au
+mieux l'application demandée. 
 
-Le développement s'est principalement fait dans un environnement
-\textit{Unix}. J'ai utilisé \textit{Debian 7} pour le développement de
-l'application et comme outil de travail principal. Pouvant avoir accès à un
-environnement \textit{Mac OS~X} dans l'entreprise, j'ai également pu tester
-mon programme sur celui-ci.
+Le développement s'est principalement fait dans un environnement \textit{Unix}.
+J'ai utilisé \textit{Debian 7} pour le développement de l'application et comme
+outil de travail principal. Pouvant avoir accès à un environnement
+\textit{Mac OS~X} dans l'entreprise, j'ai également pu tester mon programme sur
+celui-ci.
 
-La priorité étant d'avoir une première version fonctionnelle du
-programme, je n'ai pas porté celui-ci sur un système \textit{Windows}
-durant mon stage.
+La priorité étant d'avoir une première version fonctionnelle du programme, je
+n'ai pas porté celui-ci sur un système \textit{Windows} durant mon stage.
 
 \subsubsection{Environnement de travail}
 \begin{itemize}
  \item \textit{vim} comme éditeur de texte ;
  \item \textit{gcc} comme compilateur ;
  \item \textit{gdb} pour déboguer le programme quand nécessaire ;
- \item \textit{valgrind} pour tout ce qui touche à la mémoire (analyse,
- gestion de la mémoire) ;
+ \item \textit{valgrind} pour tout ce qui touche à la mémoire (analyse, gestion
+ de la mémoire) ;
  \item \textit{gprof} pour ce qui s'agit de l'analyse de performance ;
- \item \textit{git} comme gestionnaire de versions décentralisé.
+ \item \textit{git} comme gestionnaire de versions décentralisées.
 \end{itemize}
 
 \subsubsection{Frameworks et bibliothèques externes}
 
-Afin de limiter les contraintes liés à l'utilisation du \textit{framework}
-et des librairies externes, l'utilisation de ceux-ci était limité. Voici
-ceux que j'ai utilisé :
+Afin de limiter les contraintes liées à l'utilisation du \textit{framework} et
+des librairies externes, l'utilisation de ceux-ci était limité. Voici ceux que
+j'ai utilisé :
 \begin{itemize}
  \item \textit{Boost} pour les tests ;
  \item \textit{OpenSSL} pour tout ce qui est cryptographie ;
- \item \textit{Magic} pour récupérer des informations sur les fichiers
- comme le MIME type.
+ \item \textit{Magic} pour récupérer des informations sur les fichiers comme le
+ MIME type.
 \end{itemize}
 
 En addition à cela, j'ai également utilisé la librairie \textit{C++} de
@@ -1473,11 +1454,11 @@ Ceux-ci sont tous disponibles pour les environnements \textit{Mac OSX},
 
 \subsection{Travail réalisé}
 
-Comme il a été initialement envisagé, j'ai développé le système de
-sauvegarde module par module, tous indépendants les uns des autres en
-préférant dans un premier temps la partie principale du programme. Cette
-partie correspond à la lecture des fichiers depuis le disque, le découpage
-en morceaux ainsi que le chiffrement de ceux-ci.
+Comme il a été initialement envisagé, j'ai développé le système de sauvegarde
+module par module, tous indépendants les uns des autres en préférant dans un
+premier temps la partie principale du programme. Cette partie correspond à la
+lecture des fichiers depuis le disque, le découpage en morceaux ainsi que le
+chiffrement de ceux-ci.
 
 \subsubsection{Développement des modules}
 
@@ -1485,20 +1466,18 @@ J'ai donc tout d'abord créé le \textit{logger} qui allait m'aider, pendant
 l'ensemble du développement du programme, à déceler plus facilement les
 problèmes pouvant exister.
 
-Ensuite, j'ai développé toute la partie concernant la
-cryptographie. Elle comprend les modules \textit{hasher} et
-\textit{encryptor}. J'ai utilisé les méthodes fournies par la bibliothèque
-\textit{OpenSSL} afin d'écrire ces deux modules. L'utilisation de méthodes
-déjà existantes étant préférable à la réécriture de celles-ci.
-Le risque de bogues et de failles étant alos limité.
+Ensuite, j'ai développé toute la partie concernant la cryptographie. Elle
+comprend les modules \textit{hasher} et \textit{encryptor}. J'ai utilisé les
+méthodes fournies par la bibliothèque \textit{OpenSSL} afin d'écrire ces deux
+modules. L'utilisation de méthodes déjà existantes étant préférable à la
+réécriture de celles-ci. Le risque de bogues et de failles étant alors limité.
 
-S'en est suivi le développement du module \textit{spconc}, permettant 
-de découper en plusieurs morceaux un fichier, ou à l'inverse de
-concaténer ces morceaux pour retrouver le fichier d'origine.
+S'en est suivi le développement du module \textit{spconc}, permettant de
+découper en plusieurs morceaux un fichier, ou à l'inverse de concaténer ces
+morceaux pour retrouver le fichier d'origine.
 
-Ce fut ensuite au tour du module \textit{information} d'être
-développé afin de pouvoir créer des objets permettant de garder les
-méta-données des fichiers.
+Ce fut ensuite au tour du module \textit{information} d'être développé afin de
+pouvoir créer des objets permettant de garder les méta-données des fichiers.
 
 À partir de là, nous avions assez de modules combinables afin de lancer le
 programme dans sa toute première phase d'essai. Pour simuler une sauvegarde,
@@ -1512,10 +1491,9 @@ fonctionner tous ces modules ensemble.
 
 \subsubsection{Imbrication des modules}
 
-Cette étape fut longue et beaucoup d'erreurs apparurent. Bien que chaque
-module fonctionnait individuellement parfaitement, l'exécution sur des 
-threads séparés ainsi que la communication entre eux amena plusieurs
-problèmes.
+Cette étape fut longue et beaucoup d'erreurs apparurent. Bien que chaque module
+fonctionnait individuellement parfaitement, l'exécution sur des threads séparés
+ainsi que la communication entre eux amena plusieurs problèmes.
 
 \paragraph{Problèmes et solutions}
 
@@ -1528,119 +1506,114 @@ chiffrement et déchiffrement. Car si le programme n'émettait pas d'erreurs
 dans le cas du chiffrement, les morceaux créés en sortie ne correspondaient
 pas à ce qui pouvait être attendu.
 
-Bien qu'ayant précisé dans le code du programme que je voulais écrire
-sur le disque du binaire et non des caractères ASCII, il semblait que
-l'utilisation des \textit{iofstream} (flux d'entrée/sortie sur des fichiers)
-posait problème. En effet, un nombre aléatoire de caractères était
-écrit dans les fichiers de sortie. 
+Bien qu'ayant précisé dans le code du programme que je voulais écrire sur le
+disque du binaire et non des caractères ASCII, il semblait que l'utilisation
+des \textit{iofstream} (flux d'entrée/sortie sur des fichiers) posait problème.
+En effet, un nombre aléatoire de caractères était écrit dans les fichiers de
+sortie. 
 
-Il était donc tout simplement impossible de reconstruire les
-fichiers proprement puisqu'il était impossible alors de les déchiffrer.
+Il était donc tout simplement impossible de reconstruire les fichiers proprement
+puisqu'il était impossible alors de les déchiffrer.
 
-La solution a été l'utilisation des \textit{FILE}\footnote{Structure
-permettant de contenir les informations nécessaires au contrôle d'un
-flux~\cite{refFILE}} du \textit{C} pour tout ce qui est gestion de fichiers en
-lieu et place des \textit{iofstream}\footnote{Classes (
-\textit{ifstream}~\cite{refIFS} et \textit{ofstream}~\cite{refOFS}) gérant
-des flux en entrée ou en sortie pour travailler sur des fichiers} du
-\textit{C++}.
+La solution a été l'utilisation des \textit{FILE}\footnote{Structure permettant
+de contenir les informations nécessaires au contrôle d'un flux~\cite{refFILE}}
+du \textit{C} pour tout ce qui est gestion de fichiers en lieu et place des
+\textit{iofstream}\footnote{Classes ( \textit{ifstream}~\cite{refIFS} et
+\textit{ofstream}~\cite{refOFS}) gérant des flux en entrée ou en sortie pour
+travailler sur des fichiers} du \textit{C++}.
 
 \subparagraph{Problèmes de mémoire}
 
 \bigskip
 
-Avec l'utilisation du \textit{C++}, je devais gérer moi-même l'utilisation
-de la mémoire. J'ai donc rencontré deux soucis : fuites de mémoire et
-libérations précipitées de la mémoire.
+Avec l'utilisation du \textit{C++}, je devais gérer moi-même l'utilisation de
+la mémoire. J'ai donc rencontré deux soucis : fuites de mémoire et libérations
+précipitées de la mémoire.
 
 Dans le premier cas, il suffisait simplement de libérer la mémoire au bon
-moment. C'est-à-dire lorsqu'il n'est plus utile d'accéder à la mémoire
-allouée précédemment dans le programme.
+moment. C'est-à-dire lorsqu'il n'est plus utile d'accéder à la mémoire allouée
+précédemment dans le programme.
 
-En ce qui concerne le second cas, les libérations prévipitées de la mémoire
-posait problème puisque plusieurs
-\textit{threads} tournaient en parallèles. C'était alors au
-\textit{thread} ayant alloué la mémoire de la libérer. Néanmoins,
-d'autres modules, exécutés sur d'autres \textit{threads}, pouvaient utiliser
-cette même mémoire. C'était notamment le cas des objets contenant les
+En ce qui concerne le second cas, les libérations précipitées de la mémoire
+posaient problème puisque plusieurs \textit{threads} tournaient en parallèles.
+C'était alors au \textit{thread} ayant alloué la mémoire de la libérer.
+Néanmoins, d'autres modules, exécutés sur d'autres \textit{threads}, pouvaient
+utiliser cette même mémoire. C'était notamment le cas des objets contenant les
 méta-informations des fichiers. Si le premier module libérait la mémoire
-allouée, il devenait impossible pour les suivants d'utiliser cette mémoire
-qui ne contenait alors plus l'objet voulu.
+allouée, il devenait impossible pour les suivants d'utiliser cette mémoire qui
+ne contenait alors plus l'objet voulu.
 
 Pour résoudre ce problème deux solutions s'offraient à moi :
 
 \begin{itemize}
- \item La première était de libérer la mémoire une fois que tout les
- modules l'utilisant avait finit leur exécution sur l'objet contenu dans cet
- espace mémoire ;
+ \item La première était de libérer la mémoire une fois que tous les modules
+ l'utilisant avaient fini leur exécution sur l'objet contenu dans cet espace
+ mémoire ;
  \item La seconde était d'utiliser des pointeurs intelligents. Ceux-ci
  fonctionnent de la même façon qu'un \textit{garbage collector}
  (ramasse-miettes)\footnote{Sous-système informatique de gestion automatique
- de la mémoire. Il est responsable du recyclage de la mémoire
- préalablement allouée puis inutilisée.} : tant que la mémoire est
- utilisée, elle n'est pas libérée ; elle est libérée automatiquement
- lorsqu'elle n'est plus utilisée dans aucun module.
+ de la mémoire. Il est responsable du recyclage de la mémoire préalablement
+ allouée puis inutilisée.} : tant que la mémoire est utilisée, elle n'est pas
+ libérée ; elle est libérée automatiquement lorsqu'elle n'est plus utilisée
+ dans aucun module.
 \end{itemize}
 
 \textbf{La seconde solution était bien évidemment préférable puisqu'elle
-réglait aussi les soucis de fuites de mémoire pouvant exister çà et
-là dans le programme.}
+réglait aussi les soucis de fuites de mémoire pouvant exister çà et là dans
+le programme.}
 
 \paragraph{Ajout des fonctionnalités}
 
 \bigskip
 
-Une fois toutes les erreurs corrigées, nous avions une version fonctionnelle
-du programme. Cette version permettait de chiffrer un fichier (que l'on
-précisait dans un premier temps en début d'exécution) ainsi que de le
-déchiffrer. Les morceaux du fichier ainsi créés et chiffrés étaient
-stockés en local sur le disque dur afin de \flqq simuler\frqq~le module
-\textit{communication}.
+Une fois toutes les erreurs corrigées, nous avions une version fonctionnelle du
+programme. Cette version permettait de chiffrer un fichier (que l'on précisait
+dans un premier temps en début d'exécution) ainsi que de le déchiffrer. Les
+morceaux du fichier ainsi créés et chiffrés étaient stockés en local sur le
+disque dur afin de \flqq~simuler~\frqq~le module \textit{communication}.
 
-À partir de là il ne restait plus qu'à rajouter les différentes
-fonctionnalités nécessaires au bon fonctionnement du programme tel qu'il
-avait été demandé.
+À partir de là il ne restait plus qu'à rajouter les différentes fonctionnalités
+nécessaires au bon fonctionnement du programme tel qu'il avait été demandé.
 
-J'ai donc tout d'abord ajouté la possibilité de lire un dossier de
-manière récursive au lieu de lire uniquement un simple fichier. Quelques
-petites erreurs que je n'avais pas détecté lors de la précédente
-version du programme sont apparues. Entre autres, et principalement, tous les
-descripteurs de fichiers\footnote{Un descripteur de fichier est une clé
-abstraite pour accéder à un fichier.} ouvert n'étaient pas forcément
-fermés. Cela amenait le programme à planter à cause d'un trop grand
-nombre de descripteurs ouverts. J'ai donc du les fermer pour que le programme
-puisse s'exécuter sans problèmes.
+J'ai donc tout d'abord ajouté la possibilité de lire un dossier de manière
+récursive au lieu de lire uniquement un simple fichier. Quelques petites
+erreurs que je n'avais pas détecté lors de la précédente version du programme
+sont apparues. Entre autres, et principalement, tous les descripteurs de
+fichiers\footnote{Un descripteur de fichier est une clé abstraite pour accéder
+à un fichier.} ouvert n'étaient pas forcément fermés. Cela amenait le programme
+à planter à cause d'un trop grand nombre de descripteurs ouverts. J'ai donc du
+les fermer pour que le programme puisse s'exécuter sans problèmes.
 
-À ce moment j'ai testé le programme sur \textit{Mac OSX}. Une erreur de
-liaison avec les bibliothèques utilisées empêchait la compilation. Une
-simple modification du \textit{Makefile}\footnote{Fichier(s) permettant de
-compiler et lier un programme avec les bibliothèques utilisées.} a permis
-de résoudre ce léger souci. Le programme pouvait ainsi tourner sur le
-système d'exploitation d'\textit{Apple}.
+À ce moment j'ai testé le programme sur \textit{Mac OSX}. Une erreur de liaison
+avec les bibliothèques utilisées empêchait la compilation. Une simple
+modification du \textit{Makefile}\footnote{Fichier(s) permettant de compiler
+et lier un programme avec les bibliothèques utilisées.} a permis de résoudre
+ce léger souci. Le programme pouvait ainsi tourner sur le système d'exploitation
+d'\textit{Apple}.
 
 \paragraph{Travail à venir}
 
 \bigskip
 
-L'étape suivante consistait à ajouter la base de données, nécessaire
-pour pouvoir intégrer au programme l'algorithme trouvé en tout début de
-stage (voir section \flqq~\nameref{secTravailRecherche}~\frqq).
+L'étape suivante consistait à ajouter la base de données, nécessaire pour
+pouvoir intégrer au programme l'algorithme trouvé en tout début de stage
+(voir section \flqq~\nameref{secTravailRecherche}~\frqq).
 
 Ne connaissant pas \textit{MongoDB}, je me suis donc formé pour comprendre
 comment celui-ci fonctionnait ainsi que pour l'utiliser dans un programme en
-\textit{C++}. De plus, un cours en ligne commençant gratuitement sur le site
-\flqq\textit{University}\frqq~de \textit{MongoDB}\cite{refMongoDBUniversity},
-j'ai suivi ce cours montrant et expliquant comment utiliser \textit{MongoDB}
+\textit{C++}. De plus, un cours en ligne commençait gratuitement sur le site
+\flqq~\textit{University}~\frqq~de \textit{MongoDB}\cite{refMongoDBUniversity}.
+J'ai suivi ce cours qui montrait et expliquait comment utiliser \textit{MongoDB}
 pour un développeur. Même si le langage utilisé dans le cours était
-\textit{Python}, le principe reste le même et j'ai pu réutiliser ce que
+\textit{Python}, le principe restait le même et j'ai pu réutiliser ce que
 j'apprenais dans ce cours en adaptant pour le projet de système de sauvegarde.
 
-Au moment de rédiger le rapport j'en était donc à cette étape là. Une fois
-la base de données ajoutée ainsi que le prototype de l'algorithme
-intégré dans le programme, il ne restera plus qu'à détecter quels
-fichiers ont été modifié depuis la précédente sauvegarde avant de
-pouvoir faire tourner le programme pour ne prendre en compte que ces fichiers
-là et les analyser, ainsi que les fichiers nouvellement créés.
+Au moment de rédiger le rapport j'en étais donc à cette étape là. Une fois la
+base de données ajoutée ainsi que le prototype de l'algorithme intégré dans le
+programme, il ne restera plus qu'à détecter quels fichiers ont été modifiés
+depuis la précédente sauvegarde avant de pouvoir faire tourner le programme
+pour ne prendre en compte que ces fichiers là et les analyser, ainsi que les
+fichiers nouvellement créés.
 
 \subsection{Tests}
 
@@ -1654,11 +1627,11 @@ Afin de réaliser ces tests, j'ai utilisé le framework de test \textit{Boost}.
 Celui-ci m'a de ce fait permis de valider le bon fonctionnement des différents
 éléments constituant le programme.
 
-Ces tests ont été écrits au fur et à mesure de l'avancement du projet.
-De plus, pour chaque test, une vérification de l'utilisation de la mémoire
-était effectuée à l'aide de l'outil \textit{valgrind}. Cela me permettait
-de vérifier la présence ou non de fuites de mémoire. Je pouvais par la
-suite et apporter les modifications nécessaires au programme.
+Ces tests ont été écrits au fur et à mesure de l'avancement du projet. De plus,
+pour chaque test, une vérification de l'utilisation de la mémoire était
+effectuée à l'aide de l'outil \textit{valgrind}. Cela me permettait de vérifier
+l'éventuelle présence de fuites de mémoire. Je pouvais par la suite apporter les
+modifications nécessaires au programme.
 
 Un module ainsi écrit devait passer l'ensemble des tests écrits pour celui-ci
 avant que je puisse passer à l'écriture du module suivant. Ainsi, lorsque
@@ -1667,25 +1640,13 @@ fonctionnaient tels qu'ils avaient été conçus et ce, sans fuites de mémoire.
 
 \chapter{Conclusion}
 
-Ce stage de fin d'étude m'a permis d'acquérir de l'expérience sur
-plusieurs points tant au niveau du développement d'un produit que sur celui de
-la vie dans une startup.
+Durant mon stage j'ai pu mettre en pratique l'enseignement reçu durant mes cinq
+années d'étude, que ce soit à l'IUT d'Aix-en-Provence, à la faculté des sciences
+de l'université d'Aix-Marseille ou à l'université d'Uppsala.
 
-En effet, j'ai dû, au cours de ce stage concevoir puis développer un
-logiciel. Ces étapes de la vie du logiciel sont cruciales pour les
-étapes suivante, notamment la maintenance. J'avais ainsi toujours à
-l'esprit l'importance de la documentation, de même que la qualité de
-celle-ci et du code. Ceci étant d'autant plus vrai qu'il est prévu que le
-code soit distribué sous licence publique. Cela me permettra également de
-continuer à travailler dessus une fois le stage terminé.
-
-J'ai donc pu mettre en pratique l'enseignement reçu durant mes cinq années
-d'étude, que ce soit à l'IUT d'Aix-en-Provence, à la faculté des sciences de
-l'université d'Aix-Marseille ou à l'université d'Uppsala.
-
-Le plan de restructuration effectué au sein de l'entreprise a aussi été
+Le plan de restructuration effectué au sein de l'entreprise a été
 source d'expérience même si, étant stagiaire, cela ne m'a pas autant
-touché que les autres employés de la compagnie. Néanmoins, il est
+affecté que les autres employés de la compagnie. Néanmoins, il est
 représentatif de ce qu'il se passe dans de nombreuses startup mais aussi de
 ce qu'il peut se passer dans des entreprises de taille plus importante.
 
@@ -1698,8 +1659,8 @@ Bien qu'un contrat en CDI était originalement prévu, sous réserve que
 l'entreprise veuille me garder et que j'accepte de rester, celui-ci n'était
 plus d'actualité à la fin du stage suite à la restructuration effectuée.
 
-Ce stage a donc été une bonne expérience pour moi et va m'être utile par
-la suite autant sur le plan professionnel que personnel.
+Ce stage de fin d'étude m'a donc permis d'acquérir de l'expérience tant au
+niveau du développement d'un produit que sur celui de la vie d'une startup.
 
 \newpage
 \listoffigures
