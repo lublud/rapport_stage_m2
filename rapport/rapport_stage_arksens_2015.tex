@@ -36,7 +36,7 @@
 
 % footer
 \fancyfoot[C]{Rapport de stage --- Master 2 FSIL\\Ludovic Lubeigt}
-\fancyfoot[RO, LE] {\thepage}
+\fancyfoot[R] {\thepage}
 
 % colors
 \definecolor{gray73}{gray}{0.73}
@@ -1639,6 +1639,7 @@ j'écrivais un module, je savais que l'ensemble des modules déjà créés
 fonctionnaient tels qu'ils avaient été conçus et ce, sans fuites de mémoire.
 
 \chapter{Conclusion}
+\thispagestyle{fancy}
 
 Durant mon stage j'ai pu mettre en pratique l'enseignement reçu durant mes cinq
 années d'étude, que ce soit à l'IUT d'Aix-en-Provence, à la faculté des sciences
@@ -1663,10 +1664,10 @@ Ce stage de fin d'étude m'a donc permis d'acquérir de l'expérience tant au
 niveau du développement d'un produit que sur celui de la vie d'une startup.
 
 \newpage
-\listoffigures
-\listoftables
+\listoffigures \thispagestyle{fancy}
+\listoftables \thispagestyle{fancy}
 \bibliographystyle{abbrv-fr}
-\bibliography{rapport_stage_arksens_2015}
+\bibliography{rapport_stage_arksens_2015} \thispagestyle{fancy}
 
 \appendix
 \makeatletter
