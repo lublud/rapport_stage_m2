@@ -25,10 +25,10 @@
 \graphicspath{{../images/}}
 
 \title{Rapport de stage -- Master 2 -- Fiabilité et Sécurité Informatique}
-\subtitle{Conception \&  d\'eveloppement syst\`eme de backup chiffr\'e et
-incr\'emental en C/C++}
+\subtitle{Conception \&  développement système de backup chiffré et
+incrémental en C/C++}
 \author{Ludovic Lubeigt}
-\institute{Aix-Marseille Universit\'e}
+\institute{Aix-Marseille Université}
 \date{18 septembre 2015}
 
 \AtBeginSubsection[]
@@ -66,7 +66,7 @@ incr\'emental en C/C++}
   \begin{beamerboxesrounded}[lower=arkblocklow, shadow=true]{}
     \centering\Large
     Rapport de stage\\ Master 2 -- Fiabilité et Sécurité Informatique\\
-    Conception \& développement système de backup chiffré et incrémentale en
+    Conception \& développement système de backup chiffré et incrémental en
     C/C++
   \end{beamerboxesrounded}
   
@@ -106,13 +106,13 @@ incr\'emental en C/C++}
 \end{frame}
 
 \section{Arksens}
-\subsection{Pr\'esentation de l'entreprise}
+\subsection{Présentation de l'entreprise}
 \begin{frame}
  \frametitle{Arksens}
- \framesubtitle{Pr\'esentation de l'entreprise}
+ \framesubtitle{Présentation de l'entreprise}
  \begin{minipage}{0.49\textwidth}
   \begin{itemize}
-    \item Une pr\'esence sur 3 continents
+    \item Une présence sur 3 continents
     \item 6 produits
     \item 3 offres clouds
   \end{itemize}
@@ -121,13 +121,13 @@ incr\'emental en C/C++}
   \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.13]{map_arksens.png}
-    \caption{O\`u trouver Arksens ?}
+    \caption{Où trouver Arksens ?}
   \end{figure}
  \end{minipage}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Pr\'esentation de l'entreprise}
+  \frametitle{Présentation de l'entreprise}
   \framesubtitle{Les produits et Services}
   \begin{table}[h!]
     \centering
@@ -145,18 +145,18 @@ incr\'emental en C/C++}
       \includegraphics[width=3cm, fbox]{produits/endpoint.png} &
       \includegraphics[width=3cm, fbox]{produits/nomad.png}\\
     \end{tabular}
-    \caption{Produits et solutions par \textit{Arksens}}
+    \caption{Produits et solutions par \textit{Arksens}.}
   \end{table}
 \end{frame}
 
-\subsection{\^Ile Maurice}
+\subsection{Île Maurice}
 \begin{frame}
-  \frametitle{Pr\'esentation de l'entreprise}
-  \framesubtitle{\^Ile Maurice}
+  \frametitle{Présentation de l'entreprise}
+  \framesubtitle{Île Maurice}
   \begin{minipage}{0.49\linewidth}
     \begin{itemize}
-     \item Recherche et d\'eveloppement
-     \item Jusqu'\`a 8 employ\'es + des commerciaux et le PDG
+     \item Recherche et développement
+     \item Jusqu'à 8 employés + des commerciaux et le PDG
      \item Importante restructuration
     \end{itemize}
   \end{minipage}
@@ -164,7 +164,7 @@ incr\'emental en C/C++}
     \begin{figure}[h!]
       \centering
       \includegraphics[scale=0.23]{beau_plan_soir.jpg}
-      \caption{Beau Plan Business Park}
+      \caption{Beau Plan Business Park.}
     \end{figure}
   \end{minipage}
 \end{frame}
@@ -173,41 +173,41 @@ incr\'emental en C/C++}
 \begin{frame}
  \frametitle{Sujet de stage}
  \begin{itemize}
-  \item Conception et d\'eveloppement d'un syst\`eme de sauvegarde 
-  chiffr\'e et incr\'emental
+  \item Conception et développement d'un système de sauvegarde 
+  chiffré et incrémental
   \item Chiffrement local
   \item Multi-plate-forme
  \end{itemize}
 \end{frame}
 
-\section{D\'eroulement du stage}
+\section{Déroulement du stage}
 \begin{frame}
- \frametitle{D\'eroulement du stage}
-  \begin{minipage}{0.4\textwidth}
+ \frametitle{Déroulement du stage}
+  \begin{minipage}{0.49\textwidth}
     Trois grandes phases
     \begin{itemize}
       \item Recherche
       \item Conception
-      \item D\'eveloppement
+      \item Développement
     \end{itemize}
   \end{minipage}
-  \begin{minipage}{0.4\textwidth}
+  \begin{minipage}{0.49\textwidth}
     \begin{figure}[h!]
       \centering
       \includegraphics[scale=0.23]{presentation/designAndDevelopment.jpeg}
-      \caption{Développement}
+      \caption{Développement.}
     \end{figure}
   \end{minipage}
 \end{frame}
 
-\subsection{Recherche et r\'eflexions}
+\subsection{Recherche et réflexion}
 \begin{frame}
- \frametitle{Recherche et r\'eflexions}
+ \frametitle{Recherche et réflexion}
  \framesubtitle{Recherche}
- Des d\'efinitions...
+ Des définitions...
  \begin{itemize}
-  \item Backup incr\'emental
-  \item Backup diff\'erentiel
+  \item Backup incrémental
+  \item Backup différentiel
   \item Transchiffrement\\[0.51cm]
  \end{itemize}
  
@@ -219,18 +219,18 @@ incr\'emental en C/C++}
 \end{frame}
 
 \begin{frame}
- \frametitle{Recherche et r\'eflexions}
- \framesubtitle{R\'eflexions}
+ \frametitle{Recherche et réflexion}
+ \framesubtitle{Réflexion}
  \begin{itemize}
   \item Chiffrement homomorphique
   \begin{itemize}
    \item Domaine de recherche
    \item Pas utilisable dans des applications aujourd'hui
   \end{itemize}
-  \item rsync revisit\'e
+  \item rsync revisité
   \begin{itemize}
-   \item Une base commune avec une fen\^etre parcourant le fichier...
-   \item ... mais une importante diff\'erence avec la taille de la fen\^etre
+   \item Une base commune avec une fenêtre parcourant le fichier...
+   \item ... mais une importante différence avec la taille de la fenêtre
    variant
    \item Un prototype pour valider l'algorithme
   \end{itemize}
@@ -244,21 +244,32 @@ incr\'emental en C/C++}
   \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.42]{softwareDesign/overviewModule.png}
-    \caption{Vue d'ensemble des modules}
+    \caption{Vue d'ensemble des modules.}
   \end{figure}
 \end{frame}
 
 \begin{frame}
  \frametitle{Conception}
  \framesubtitle{Interaction entre modules}
- \begin{itemize}
-  \item Solution faite \flqq maison\frqq
-  \item Design pattern
+ \begin{minipage}{0.49\textwidth}
   \begin{itemize}
-   \item Observer
-   \item Event notifier
+    \item Solution faite maison
+    \item Design pattern
+    \begin{itemize}
+    \item Observer
+    \item Event notifier
+    \end{itemize}
   \end{itemize}
- \end{itemize}
+ \end{minipage}
+ \begin{minipage}{0.49\textwidth}
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.31]{presentation/new_invention.jpeg}
+    \caption{Réinventer la roue\footnotemark.}
+  \end{figure}
+ \end{minipage}
+ \footnotetext{Source : \url{http://www.gymmomentum.com/weekly-momentum/
+ reinventing-the-wheel-in-gymnastics/}}
 \end{frame}
 
 \begin{frame}
@@ -267,41 +278,41 @@ incr\'emental en C/C++}
   \begin{figure}
     \centering
     \includegraphics[width=10cm]{softwareDesign/classDiagramNotif.png}
-    \caption{Diagramme de classe --- notifications}
+    \caption{Diagramme de classe --- Notifications.}
   \end{figure}
 \end{frame}
 
 \begin{frame}
  \frametitle{Interaction entre modules}
- \framesubtitle{Premi\`ere sauvegarde}
+ \framesubtitle{Première sauvegarde}
   \begin{figure}
     \centering
     \includegraphics[width=10cm]{softwareDesign/moduleInteraction.png}
-    \caption{Fonctionnement lors d'une premi\`ere sauvegarde}
+    \caption{Fonctionnement lors d'une première sauvegarde.}
   \end{figure}
 \end{frame}
 
 \begin{frame}
  \frametitle{Conception}
- \framesubtitle{Base de donn\'ees}
+ \framesubtitle{Base de données}
  \begin{itemize}
-  \item Sauvegarder les m\'eta-donn\'ees de tous les fichiers
+  \item Sauvegarder les méta-données de tous les fichiers
   \item Sur le serveur
   \begin{itemize}
-   \item Garder une trace de toute les sauvegardes
-   \item Restaurer un fichier \`a partir de n'importe quelle sauvegarde
+   \item Garder une trace de toutes les sauvegardes
+   \item Restaurer un fichier à partir de n'importe quelle sauvegarde
   \end{itemize}
   \item Sur le client
   \begin{itemize}
-   \item Garder une trace de la derni\`ere sauvegarde
-   \item Gagner de temps
-   \item \'Economiser de la bande passante
+   \item Garder une trace de la dernière sauvegarde
+   \item Gain de temps
+   \item Économiser de la bande passante
   \end{itemize}
  \end{itemize}
 \end{frame}
 
 \begin{frame}
- \frametitle{Base de donn\'ees}
+ \frametitle{Base de données}
  \framesubtitle{SQL vs NoSQL}
  \begin{table}[h!]
   \def\arraystretch{1.5}
@@ -312,59 +323,78 @@ incr\'emental en C/C++}
     \arrayrulecolor{gray73}\hline
     & \color{white} \textbf{\textit{SQL}} &
     \color{white} \textbf{\textit{NoSQL}}\\
-    Stockage des donn\'ees & Mod\`ele relationnel & Variable : documents,
-    cl\'e-valeur, graphe, etc.\\
+    Stockage des données & Modèle relationnel & Variable : documents,
+    clé-valeur, graphe, etc.\\
     \hline
-    Sch\'ema et flexibilit\'e & Sch\'ema fixe & Sch\'ema dynamiques\\
+    Schéma et flexibilité & Schéma fixe & Schémas dynamiques\\
     \hline
-    Adaptabilit\'e & \'Evolutivit\'e verticale & \'Evolutivit\'e horizontale\\
+    Adaptabilité & Évolutivité verticale & Évolutivité horizontale\\
     \hline
-    Propri\'et\'es ACID\footnote{Atomicit\'e, Coh\'erence, Isolation,
-    Durabilit\'e} & Oui & Pas n\'ecessairement\\
+    Propriétés ACID\footnote{Atomicité, Cohérence, Isolation,
+    Durabilité} & Oui & Pas nécessairement\\
   \end{tabular}
   \caption{\label{tabSQLNoSQL} Tableau comparatif \textit{SQL} et
-  \textit{NoSQl}}
+  \textit{NoSQl}.}
 \end{table}
 \end{frame}
 
 \begin{frame}
  \frametitle{Conception}
- \framesubtitle{Stockage des donn\'ees}
+ \framesubtitle{Stockage des données}
   \begin{figure}
     \centering
     \includegraphics[width=10cm]{softwareDesign/fileSystemServer.png}
-    \caption{Stockage des fichiers sur le serveur}
+    \caption{Stockage des fichiers sur le serveur.}
   \end{figure}
 \end{frame}
 
-\subsection{D\'eveloppement}
+\subsection{Développement}
 \begin{frame}
- \frametitle{D\'eveloppement}
+ \frametitle{Développement}
+ \begin{minipage}{0.49\textwidth}
+  \begin{itemize}
+    \item Utilisation de logiciels, librairies et autres outils de développement
+    libres
+    \item Module par module
+  \end{itemize}
+ \end{minipage}
+ \begin{minipage}{0.49\textwidth}
+   \begin{figure}[h!]
+     \centering
+     \includegraphics[scale=0.31]{presentation/logo_opensource.png}
+     \caption{Open Source Initiative.}
+   \end{figure}
+ \end{minipage}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Développement}
+ \framesubtitle{Travail réalisé}
  \begin{itemize}
-  \item Utilisation de logiciel, librairies et autres outils de d\'eveloppement
-  libres
-  \item Module par module
+  \item Développement du client
+  \item Modules permettant l'exécution d'une première sauvegarde
+  (complète)
+  \item Tests unitaires pour chaque module
  \end{itemize}
 \end{frame}
 
 \begin{frame}
- \frametitle{D\'eveloppement}
- \framesubtitle{Travail r\'ealis\'e}
- \begin{itemize}
-  \item D\'eveloppement du client
-  \item Modules permettant l'ex\'ecution d'une premi\`ere sauvegarde
-  (compl\`ete)
-  \item Tests unitaire pour chaque module
- \end{itemize}
-\end{frame}
-
-\begin{frame}
- \frametitle{D\'eveloppement}
- \framesubtitle{Probl\`emes rencontr\'es}
- \begin{itemize}
-  \item Chiffrement et d\'echiffrement
-  \item Gestion de la m\'emoire
- \end{itemize}
+ \frametitle{Développement}
+ \framesubtitle{Problèmes rencontrés}
+ \begin{minipage}{0.49\textwidth}
+  \begin{itemize}
+    \item Chiffrement et déchiffrement
+    \item Gestion de la mémoire
+  \end{itemize}
+ \end{minipage}
+ \begin{minipage}{0.49\textwidth}
+   \begin{figure}[h!]
+     \centering
+     \includegraphics[scale=0.31]{presentation/xkcd_security.png}
+     \caption{Sécurité\footnotemark.}
+   \end{figure}
+ \end{minipage}
+ \footnotetext{Source : \url{https://xkcd.com/538/}}
 \end{frame}
 
 \section{Conclusion}
@@ -381,7 +411,17 @@ incr\'emental en C/C++}
 \section*{Questions}
 \begin{frame}
 \frametitle{Questions}
-Questions ?
+ \begin{minipage}{0.4\textwidth}
+  \begin{center}
+    Questions ?
+  \end{center}
+ \end{minipage}
+ \begin{minipage}{0.4\textwidth}
+   \begin{figure}[h!]
+     \centering
+     \includegraphics[scale=0.37]{presentation/questionmark_cat.jpg}
+   \end{figure}
+ \end{minipage}
 \end{frame}
 
 \section*{Remerciements}

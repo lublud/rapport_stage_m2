@@ -8,8 +8,6 @@
 \usepackage{footnote}
 \usepackage{etoolbox}
 
-% \usepackage[left,modulo]{lineno}
-
 \usepackage[export]{adjustbox}
 \usepackage{array}
 \usepackage{color, colortbl}
@@ -21,6 +19,8 @@
 \usepackage{fancyvrb}
 \usepackage{graphicx}
 \usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
+
+\usepackage{afterpage}
 
 \usepackage[hidelinks]{hyperref}
 
@@ -36,7 +36,7 @@
 
 % footer
 \fancyfoot[C]{Rapport de stage --- Master 2 FSIL\\Ludovic Lubeigt}
-\fancyfoot[R] {\thepage}
+\fancyfoot[RE, LO] {\thepage}
 
 % colors
 \definecolor{gray73}{gray}{0.73}
@@ -58,6 +58,18 @@
 
 \patchcmd{\part}{\thispagestyle{plain}}{\thispagestyle{fancy}}
   {}{\errmessage{Cannot patch \string\part}}
+  
+\newcommand\blankpage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{-1}
+    \newpage}
+    
+\newcommand\blankpagenum{
+    \null
+    \thispagestyle{empty}
+    \newpage}
+
 
 \graphicspath{{../images/}}
 
@@ -148,6 +160,7 @@
 
   \end{center}
 \end{titlepage}
+\blankpage
 
 \begin{abstract}
 
@@ -176,6 +189,7 @@ base de données, multi-plate-forme, conception, développement, cryptographie,
 chiffrement, multi-thread, Open Source, client/serveur
 
 \end{abstract}
+\blankpage
 
 \chapter*{Remerciements}
 \thispagestyle{fancy}
@@ -201,8 +215,8 @@ Men, Breaker of Cars and Father of the Bikers.
 \pagestyle{fancy}
 \tableofcontents
 \clearpage
+\blankpagenum
 
-% \linenumbers
 \part{Rapport}
 \thispagestyle{empty}
 \chapter{Introduction}
@@ -1446,7 +1460,7 @@ j'ai utilisé :
  MIME type.
 \end{itemize}
 
-En addition à cela, j'ai également utilisé la librairie \textit{C++} de
+En addition à cela, j'ai également utilisé le driver \textit{C++} de
 \textit{MongoDB} pour communiquer avec la base de données.
 
 Ceux-ci sont tous disponibles pour les environnements \textit{Mac OSX},
