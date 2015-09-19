@@ -2,7 +2,8 @@
 
 Rapport et présentation du stage de fin d'étude réalisé à Arksens,
 Maurice, entre le 1er avril et le 11 septembre 2015. Celui-ci a été
-fait dans le cadre du master 2 Fiabilité et Sécurité Informatique.
+fait dans le cadre du master 2 Fiabilité et Sécurité Informatique à
+l'Université Aix-Marseille.
 
 Sujet du stage : 
 Conception et développement d'un système de backup sécurisé etincrémental
