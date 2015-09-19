@@ -1,7 +1,8 @@
 # Rapport de stage - Master 2
 
 Rapport et présentation du stage de fin d'étude réalisé à Arksens,
-Maurice, entre le 1er avril et le 11 septembre 2015.
+Maurice, entre le 1er avril et le 11 septembre 2015. Celui-ci a été
+fait dans le cadre du master 2 Fiabilité et Sécurité Informatique.
 
 Sujet du stage : 
 Conception et développement d'un système de backup sécurisé etincrémental
